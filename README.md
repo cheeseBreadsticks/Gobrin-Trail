@@ -6,3 +6,5 @@ Flat light,
 snowstorm, 
 crevasse, 
 bad map? (buy map at start, chance to be bad = need to backtrack after a disaster)
+Frostbite
+Avalanche (in mountains)
