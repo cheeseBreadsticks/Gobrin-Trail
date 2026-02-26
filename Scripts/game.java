@@ -10,7 +10,8 @@ public class Game {
   }
 
   public static void pickRandDisaster() {
-    double random = Math.random();
+    double rand = Math.random();
+
   }
 
   public static void main(String[] args) {
