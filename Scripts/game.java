@@ -9,13 +9,12 @@ public class Game {
     System.out.println("Good luck on the ice!");
   }
 
-  public static void pickRandDisaster() {
+  public static void pickRandDisaster(double disasterMult) {
     double rand = Math.random();
-
+    // return disaster;
   }
 
   public static void main(String[] args) {
     start();
-    
   }
 }
