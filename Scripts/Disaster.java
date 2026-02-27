@@ -8,14 +8,6 @@ public class Disaster {
         weight = w;
         distMod = dm;
         duration = d;
-        compoundChance = cc;
         active = false;
-    }
-    public void tick() {
-        active = false;
-        double e = Math.random();
-        if (e < weight) {
-
-        }
     }
 }
