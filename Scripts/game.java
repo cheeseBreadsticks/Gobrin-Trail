@@ -24,13 +24,29 @@ public class game {
   //orsh, gitchy-mitchy, kadik-germ, dried breadapple, red sugar, sleeping bags, clothes, skis, sledge, qualities for each equipment (good, avg, poor)
   //in storry Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
-  public static void shop() {
+  public static void displayShop() {
     System.out.println(" ______________  __________");
     System.out.println("| Stove: 1800₾ || Tent: ");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ‾‾‾‾‾‾‾‾‾‾");
     System.out.println();
     System.out.println();
+  }
 
+  public static void purchaseItem(String item, String quality, int quantity) {
+    int q;
+    if (quantity <= 0) {
+      quantity = 1;
+    }
+    quality = quality.toLowerCase(); // makes it so caps don't matter
+    if (quality == "good") {
+      q = 2;
+    } else if (quality == "avg") {
+      q = 1;
+    } else if (quality == "poor" || quality == "bad") {
+      q = 0;
+    } else {
+      q = 1;
+    }
   }
 
   public static double changeDistMult(double disasterMult, int mapQuality) {
