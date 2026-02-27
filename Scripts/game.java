@@ -15,6 +15,15 @@ public class game {
     System.out.println("Good luck on the ice!");
   }
 
+  public static void shop() {
+    System.out.println( __________ );
+    System.out.println("|Stove: ");
+    System.out.println();
+    System.out.println();
+    System.out.println();
+
+  }
+
   public static void pickRandDisaster(double disasterMult) {
     double rand = Math.random();
     // return disaster;
