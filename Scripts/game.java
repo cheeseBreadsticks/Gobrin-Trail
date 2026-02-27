@@ -3,6 +3,7 @@ import Disasters.*;
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 public class game {
+  private static double dtrav = 12.0;
   private static double distance = 840.0;
   private static double distanceleft = 840.0;
   private static String biome;
@@ -19,7 +20,7 @@ public class game {
     // return disaster;
   }
 
-  public double void terrain() {
+  public static double terrain() {
     double e = Math.random();
     if (biome.equals("o")) { //orgoreyn
       if (e < (1/3)) {
@@ -63,6 +64,6 @@ public class game {
   }
 
   public static void forward(String t) { //game forward
-    double dtrav = 12;
+    dtrav = 12;
     dtrav += terrain();
   }
