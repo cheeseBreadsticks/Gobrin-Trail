@@ -8,18 +8,22 @@ public class game {
   private static double distance = 840.0;
   private static double distanceleft = 840.0;
   private static String biome;
+  private static String b = "U+1F514";
   public static void start() {
     System.out.println("Welcome to the Gobrin Trail!");
     System.out.println("Your goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away!");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
+    System.out.println("You start with 2x Backpacks.");
+    storage b1 = new storage("Backpack", 100);
+    storage b2 = new storage("Backpack", 100); //backpacks
     System.out.println("Along the way, you will encounter various obstacles and disasters");
     System.out.println("Good luck on the ice!");
   }
 
   public static void shop() {
-    System.out.println("__________");
-    System.out.println("|Stove: ");
-    System.out.println();
+    System.out.println(" ______________  __________");
+    System.out.println("| Stove: 1800₾ || Tent: ");
+    System.out.println( "‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ‾‾‾‾‾‾‾‾‾‾");
     System.out.println();
     System.out.println();
 
@@ -77,3 +81,4 @@ public class game {
     dtrav = 12;
     dtrav += terrain();
   }
+}
