@@ -15,8 +15,34 @@ public class game {
     System.out.println("Good luck on the ice!");
   }
 
-  public static void pickRandDisaster(double disasterMult) {
-    double rand = Math.random();
+  public static void pickRandDisaster(double disasterMult, int mapQuality) {
+    double rand = Math.round(Math.random() * 100)/100.0;
+    if (biome.equals("o")) { //orgoreyn
+      if ()
+      if (rand < 0.1) {
+        //crevasse
+      }
+      else if (rand < 0.2) {
+        //flat light
+      }
+      else if (rand < 0.3) {
+        //snow storm
+      }
+      else if (rand < 0.4) {
+        //bad map
+      }
+      else if (rand < 0.5) {
+      }
+      else if (rand < 0.6) {
+        //frostbite
+      }
+
+      // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm
+    } else if (biome.equals("i") ) { //ice
+
+    } else if (biome.equals("b")) { //bay of Guthen
+
+    }
     // return disaster;
   }
 
