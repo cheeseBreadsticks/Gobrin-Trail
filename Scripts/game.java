@@ -27,7 +27,8 @@ public class game {
   public static void pickRandDisaster(double disasterMult, int mapQuality) {
     double rand = Math.round(Math.random() * 100)/100.0;
     if (biome.equals("o")) { //orgoreyn
-      if ()
+      if (mapQuality != 0) {
+      }
       if (rand < 0.1) {
         //crevasse
       }
