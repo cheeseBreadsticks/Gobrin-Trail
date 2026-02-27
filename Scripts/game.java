@@ -16,16 +16,7 @@ public class game {
   }
 
   public static void shop() {
-    System.out.println( __________ );
-    System.out.println("|Stove: ");
-    System.out.println();
-    System.out.println();
-    System.out.println();
-
-  }
-
-  public static void shop() {
-    System.out.println( __________ );
+    System.out.println( "__________" );
     System.out.println("|Stove: ");
     System.out.println();
     System.out.println();
@@ -54,7 +45,6 @@ public class game {
       else if (rand < 0.6) {
         //frostbite
       }
-
       // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm
     } else if (biome.equals("i") ) { //ice
 
