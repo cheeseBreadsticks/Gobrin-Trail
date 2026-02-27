@@ -15,6 +15,24 @@ public class game {
     System.out.println("Good luck on the ice!");
   }
 
+  public static void shop() {
+    System.out.println( __________ );
+    System.out.println("|Stove: ");
+    System.out.println();
+    System.out.println();
+    System.out.println();
+
+  }
+
+  public static void shop() {
+    System.out.println( __________ );
+    System.out.println("|Stove: ");
+    System.out.println();
+    System.out.println();
+    System.out.println();
+
+  }
+
   public static void pickRandDisaster(double disasterMult, int mapQuality) {
     double rand = Math.round(Math.random() * 100)/100.0;
     if (biome.equals("o")) { //orgoreyn
