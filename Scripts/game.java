@@ -1,4 +1,4 @@
-import Disasters.*;
+// import Scripts/Disaster.java;
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
@@ -24,22 +24,37 @@ public class game {
 
   }
 
-  public static void pickRandDisaster(double disasterMult, int mapQuality) {
+  public static double changeDistMult(double disasterMult, int mapQuality) {
+    double mult = 1.0;
+    double compoundChance = disasterMult;
     double rand = Math.round(Math.random() * 100)/100.0;
-    if (biome.equals("o")) { //orgoreyn
-      if (mapQuality != 0) {
+    if (mapQuality == 0) {
+      //bad map
+      if (rand< 0.7) {
+        mult *= 0.9;
       }
+    } else if (mapQuality == 1)  {
+      //average map
+      if (rand < 0.25) {
+        mult *= 0.9;
+      }
+    }
+    if (biome.equals("o")) { //orgoreyn
       if (rand < 0.1) {
-        //crevasse
+        //flat light
+        mult *= 0.8;
+        compoundChance *= 0.1;
       }
       else if (rand < 0.2) {
-        //flat light
+        //snow storm
+        mult *= 0.7;
+        compoundChance *= 0.1;
       }
       else if (rand < 0.3) {
-        //snow storm
+        
       }
       else if (rand < 0.4) {
-        //bad map
+        
       }
       else if (rand < 0.5) {
       }
@@ -52,46 +67,47 @@ public class game {
     } else if (biome.equals("b")) { //bay of Guthen
 
     }
-    // return disaster;
+    return mult;
   }
 
   public static double terrain() {
     double e = Math.random();
     if (biome.equals("o")) { //orgoreyn
       if (e < (1/3)) {
-        return 8; //good terrain
+        return 8.0; //good terrain
       }
       else if (e < (2/3)) {
-        return 3; //neutral
+        return 3.0; //neutral
       }
       else {
-        return -3; //bad terrain
+        return -3.0; //bad terrain
       }
     }
     else if (biome.equals("i")) //ice 
     {
       if (e < (1/6)) {
-        return 6; //good terrain
+        return 6.0; //good terrain
       }
       else if (e < (5/6)) {
         return -1.5; //neutral
       }
       else {
-        return -4; //bad terrain
+        return -4.0; //bad terrain
       }
     }
     else if (biome.equals("b")) //bay of Guthen
     {
       if (e < (5/12)) {
-        return 4; //good terrain
+        return 4.0; //good terrain
       }
       else if (e < (1/2)) {
-        return 0; //neutral
+        return 0.0; //neutral
       }
       else {
-        return -2; //bad terrain
+        return -2.0; //bad terrain
       }
     }
+    return 0.0;
   }
 
   public static void main(String[] args) {
@@ -102,3 +118,4 @@ public class game {
     dtrav = 12;
     dtrav += terrain();
   }
+}
