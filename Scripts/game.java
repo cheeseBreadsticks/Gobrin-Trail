@@ -1,4 +1,5 @@
 import Disasters.*;
+import wingdings.ttf;
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
@@ -16,7 +17,7 @@ public class game {
   }
 
   public static void shop() {
-    System.out.println( "__________" );
+    System.out.println("__________");
     System.out.println("|Stove: ");
     System.out.println();
     System.out.println();
@@ -24,34 +25,8 @@ public class game {
 
   }
 
-  public static void pickRandDisaster(double disasterMult, int mapQuality) {
-    double rand = Math.round(Math.random() * 100)/100.0;
-    if (biome.equals("o")) { //orgoreyn
-      if (mapQuality != 0) {
-      }
-      if (rand < 0.1) {
-        //crevasse
-      }
-      else if (rand < 0.2) {
-        //flat light
-      }
-      else if (rand < 0.3) {
-        //snow storm
-      }
-      else if (rand < 0.4) {
-        //bad map
-      }
-      else if (rand < 0.5) {
-      }
-      else if (rand < 0.6) {
-        //frostbite
-      }
-      // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm
-    } else if (biome.equals("i") ) { //ice
-
-    } else if (biome.equals("b")) { //bay of Guthen
-
-    }
+  public static void pickRandDisaster(double disasterMult) {
+    double rand = Math.random();
     // return disaster;
   }
 
