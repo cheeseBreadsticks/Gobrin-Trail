@@ -1,13 +1,12 @@
-import Disasters.*;
-import wingdings.ttf;
+// import Scripts.*;
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 public class game {
   private static double dtrav = 12.0;
-  private static double distance = 840.0;
+  private final static double distance = 840.0;
   private static double distanceleft = 840.0;
-  private static String biome;
+  private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static String b = "U+1F514";
   private static String[] activeDisasters;
   public static void start() {
@@ -21,10 +20,14 @@ public class game {
     System.out.println("Good luck on the ice!");
   }
 
+  //list of supplies a few pages into chapter 15
+  //orsh, gitchy-mitchy, kadik-germ, dried breadapple, red sugar, sleeping bags, clothes, skis, sledge, qualities for each equipment (good, avg, poor)
+  //in storry Estraven bought good qual everything & stole food
+  //gichy-michy req 1lb/day
   public static void shop() {
     System.out.println(" ______________  __________");
     System.out.println("| Stove: 1800₾ || Tent: ");
-    System.out.println( "‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ‾‾‾‾‾‾‾‾‾‾");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ‾‾‾‾‾‾‾‾‾‾");
     System.out.println();
     System.out.println();
 
