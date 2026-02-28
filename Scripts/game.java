@@ -31,11 +31,15 @@ public class game {
   //in storry Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
   public static void displayShop() {
-    System.out.println(" ______________  __________");
-    System.out.println("| Stove: 1800₾ || Tent: ");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ‾‾‾‾‾‾‾‾‾‾");
-    System.out.println();
-    System.out.println();
+    System.out.println(" ____________ _______ ______ _______________ ______");
+    System.out.println("| Specialty: | Stove | Tent | Sleeping Bags | Skis |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ");
+    System.out.println(" ____________ _____________ ____________ ____________ _______");
+    System.out.println("|    Food:   | Gichy-michy | Kadik-germ | Breadapple | Sugar |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾");
+    System.out.println(" ____________");
+    System.out.println("|    Other:  |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾");
   }
 
   public static void purchaseItem(String item, String quality, int quantity) {
