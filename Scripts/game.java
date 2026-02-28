@@ -15,6 +15,7 @@ public class game {
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
     System.out.println("You start with 2x Backpacks.");
     //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
+    //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
     storage b1 = new storage("Backpack", 30);
     storage b2 = new storage("Backpack", 30); //backpacks
     System.out.println("Along the way, you will encounter various obstacles and disasters");
@@ -87,7 +88,10 @@ public class game {
         activeDisasters[1] = "Snowstorm";
       }
       else if (rand < 0.3) {
-        
+        //eruption (volacno)
+        mult *= 0.5;
+        compoundChance *= 0.1;
+        activeDisasters[1] = "Volcano";
       }
       else if (rand < 0.4) {
         
