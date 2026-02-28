@@ -14,8 +14,9 @@ public class game {
     System.out.println("Your goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away!");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
     System.out.println("You start with 2x Backpacks.");
-    storage b1 = new storage("Backpack", 100);
-    storage b2 = new storage("Backpack", 100); //backpacks
+    //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
+    storage b1 = new storage("Backpack", 30);
+    storage b2 = new storage("Backpack", 30); //backpacks
     System.out.println("Along the way, you will encounter various obstacles and disasters");
     System.out.println("Good luck on the ice!");
   }
@@ -37,7 +38,7 @@ public class game {
     if (quantity <= 0) {
       quantity = 1;
     }
-    quality = quality.toLowerCase(); // makes it so caps don't matter
+    quality = quality.toLowerCase(); // makes it so caps don't matter if we have them input their quality wanted.
     if (quality == "good") {
       q = 2;
     } else if (quality == "avg") {
@@ -67,6 +68,10 @@ public class game {
         mult *= 0.9;
         activeDisasters[0] = "Lost";
       }
+    } else {
+      //good map
+      mult *= 1.01;
+      activeDisasters[0] = "On Track";
     }
     if (biome.equals("o")) { //orgoreyn
       if (rand < 0.1) {
