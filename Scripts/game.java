@@ -2,11 +2,28 @@
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
-
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class game {
+  //making items so its easier to print stuff out and such just a bunch of variables
+  private static item stove = new item(1800, "Chabe Stove", false);
+  private static item tent = new item(1000, "Polyskin Tent", false);
+  private static item sbags = new item(500, "Sleeping Bags", false); //boolean is stackable or not
+  private static item skis = new item(250, "Skis", false); //i think bags and skis you just auto buy for both
+  private static item gm = new item(25, "Gichy-michy", true); //25 per pound, 80 days, 2000 money for all the food you need
+  private static item kgerm = new item(35, "Kadik-germ", true);
+  private static item bapple = new item(75, "Dried breadapple", true); //maybe more expensive but this makes them happy or smth
+  private static item sugar = new item(50, "Sugar", true);
+  private static item fakit = new item(400, "First Aid Kit", true); //maybe add stack limit?
+  private static item map = new item(650, "Map", false);
+  private static item backpack = new item(850, "Backpack", true);
+  private static item orsh = new item(100, "Orsh", true); //seems to have like healing properties, so maybe more expensive?
+
+  //THIS IS IMPORTANT
+  private static Scanner scan = new Scanner(System.in);
+
   private static double dtrav = 12.0;
   private final static double distance = 840.0;
   private static double distanceleft = 840.0;
@@ -28,21 +45,96 @@ public class game {
 
   //list of supplies a few pages into chapter 15
   //orsh, gitchy-mitchy, kadik-germ, dried breadapple, red sugar, sleeping bags, clothes, skis, sledge, qualities for each equipment (good, avg, poor)
-  //in storry Estraven bought good qual everything & stole food
+  //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
   public static void displayShop() {
-    System.out.println(" ____________ _______ ______ _______________ ______");
-    System.out.println("| Specialty: | Stove | Tent | Sleeping Bags | Skis |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ");
-    System.out.println(" ____________ _____________ ____________ ____________ _______");
-    System.out.println("|    Food:   | Gichy-michy | Kadik-germ | Breadapple | Sugar |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾");
-    System.out.println(" ____________");
-    System.out.println("|    Other:  |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾");
+    System.out.println(" ____________ _____________ ____________ _______________ _______)");
+    System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Skis  |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾ ");
+    System.out.println(" ____________ _____________ ____________ _______________ ________");
+    System.out.println("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |  Sugar |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾");
+    System.out.println(" ____________ _____________ ____________ _______________ ________");
+    System.out.println("|    Other:  |  First Aid  |     Map    |    Backpack   |  Orsh  |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾");
+
+    String buy = scan.nextLine();
   }
 
-  public static void purchaseItem(String item, String quality, int quantity) {
+public static void findProduct(String p) {
+  p.toLowerCase();
+  if (p.equals("stove")) {
+    dispPrice(stove.getc());
+  }
+  else if (p.equals("tent")) {
+    dispPrice(tent.getc());
+  }
+  else if (p.equals("sleeping bags")) {
+    dispPrice(sbags.getc());
+  }
+  else if (p.equals("skis")) {
+    dispPrice(skis.getc());
+  }
+  else if (p.equals("gichy michy") || p.equals("gichy-michy")) {
+    dispPrice(gm.getc());
+  }
+  else if (p.equals("kadik germ") || p.equals("kadik-germ")) {
+    dispPrice(kgerm.getc());
+  }
+  else if (p.equals("breadapple") || p.equals("bread apple")) {
+    dispPrice(bapple.getc());
+  }
+  else if (p.equals("sugar")) {
+    dispPrice(sugar.getc());
+  }
+  else if (p.equals("first aid kit")) {
+    dispPrice(fakit.getc());
+  }
+  else if (p.equals("map")) {
+    dispPrice(map.getc());
+  }
+  else if (p.equals("backpack")) {
+    dispPrice(backpack.getc());
+  }
+  else if (p.equals("orsh")) {
+    dispPrice(orsh.getc());
+  }
+  else {
+    displayShop();
+  }
+}
+
+  public static void dispPrice(int price) {
+    int bapr = (price * 3)/4;
+    int gopr = (int)(price * 1.25);
+    int pric = price; //I need it to be 4 dig or lower cuz the tables gonna look weird
+    if (Integer.toString(price).length() == 4) {
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.println("|  Price:  |     "+bapr+"     |     "+pric+"     |     "+gopr+"     |"); //it looks messed up but it should be fine
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+    }
+    else if (Integer.toString(price).length == 3) {
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.println("| Quality: |      Bad    |      Okay    |      Good    |");
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"     |      "+gopr+"     |");
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+    }
+    else if (Integer.toString(price).length == 2) {
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.println("| Quality: |     Bad     |      Okay    |      Good    |");
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.println("|  Price:  |      "+bapr+"      |       "+pric+"     |       "+gopr+"     |"); //it looks messed up but it should be fine I can't test
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+    }
+  }
+
+  public static void purchaseItem(item i, String quality, int quantity) {
     int q;
     if (quantity <= 0) {
       quantity = 1;
