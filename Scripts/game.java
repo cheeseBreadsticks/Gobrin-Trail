@@ -2,13 +2,17 @@
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class game {
   private static double dtrav = 12.0;
   private final static double distance = 840.0;
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static String b = "U+1F514";
-  private static String[] activeDisasters;
+  private static ArrayList<String> activeDisasters = new ArrayList<String>();
   public static void start() {
     System.out.println("Welcome to the Gobrin Trail!");
     System.out.println("Your goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away!");
@@ -56,50 +60,63 @@ public class game {
 
     double mult = 1.0;
     double compoundChance = disasterMult;
-    double rand = Math.round(Math.random() * 100)/100.0;
+    //might want to not round decimals (at least ccRoll)
+    double rand = Math.round(Math.random() * 10000)/10000.0; //random number between 0 and 1, rounded to 4 decimal places
+    double ccRoll = Math.round(Math.random() * 10000)/10000.0; //see above, but used for compound chance roll
     if (mapQuality == 0) {
       //bad map
       if (rand< 0.7) {
         mult *= 0.9;
-        activeDisasters[0] = "Lost";
+        activeDisasters.add("Lost");
       }
     } else if (mapQuality == 1)  {
       //average map
       if (rand < 0.25) {
         mult *= 0.9;
-        activeDisasters[0] = "Lost";
+        activeDisasters.add("Lost");
       }
     } else {
       //good map
       mult *= 1.01;
-      activeDisasters[0] = "On Track";
+      activeDisasters.add("On Track");
     }
     if (biome.equals("o")) { //orgoreyn
-      if (rand < 0.1) {
-        //flat light
-        mult *= 0.8;
-        compoundChance *= 0.1;
-        activeDisasters[1] = "Flat Light";
-      }
-      else if (rand < 0.2) {
-        //snow storm
-        mult *= 0.7;
-        compoundChance *= 0.1;
-        activeDisasters[1] = "Snowstorm";
-      }
-      else if (rand < 0.3) {
-        //eruption (volacno)
-        mult *= 0.5;
-        compoundChance *= 0.1;
-        activeDisasters[1] = "Volcano";
-      }
-      else if (rand < 0.4) {
-        
-      }
-      else if (rand < 0.5) {
-      }
-      else if (rand < 0.6) {
-        //frostbite
+      if (ccRoll < compoundChance) { //ccroll btwn 0 & 1, but starts at 1 so always passes 1st time
+        if (rand < 0.05) {
+          //flat light
+          if (!activeDisasters.contains("Flat Light")) {
+            mult *= 0.8;
+            compoundChance *= 0.1;
+            activeDisasters.add("Flat Light");
+          }
+        }
+        else if (rand < 0.15) {
+          //snow storm
+          if (!activeDisasters.contains("Snowstorm")) {
+            mult *= 0.7;
+            compoundChance *= 0.1;
+            activeDisasters.add("Snowstorm");
+          }
+        }
+        else if (rand < 0.175) {
+          //eruption (volacno)
+          if (!activeDisasters.contains("Volcano")) {
+            mult *= 0.5;
+            compoundChance *= 0.1;
+            activeDisasters.add("Volcano");
+          }
+        }
+        else if (rand < 0.25 && !activeDisasters.contains("Flat Light")) {
+          // trips = day ends early (duration 1)
+          activeDisasters.add("Tripped ");
+        }
+        else if (rand < 0.5 && activeDisasters.contains("Flat Light")) {
+          // increased chance w/ flat light
+          activeDisasters.add("Tripped");
+        }
+        else if (rand < 0.6) {
+          //frostbite
+        }
       }
       // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm
     } else if (biome.equals("i") ) { //ice
