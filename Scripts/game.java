@@ -149,6 +149,7 @@ public static void findProduct(String p) {
     double compoundChance = disasterMult;
     //might want to not round decimals (at least ccRoll)
     double rand = Math.round(Math.random() * 10000)/10000.0; //random number between 0 and 1, rounded to 4 decimal places
+    double rand2 = Math.round(Math.random() * 10000)/10000.0; //used for secondary roll for higher chance on some secondary effects
     double ccRoll = Math.round(Math.random() * 10000)/10000.0; //see above, but used for compound chance roll
     if (mapQuality == 0) {
       //bad map
@@ -199,13 +200,25 @@ public static void findProduct(String p) {
           flatDist = Math.round(Math.random() * 10 * mult);
           mult *= 0;
           compoundChance *= 0;
+          if (rand2 < 0.5) {
+            //50% chance of frostbite
+            activeDisasters.add("Frostbite");
+            flatDist *= 0.5;
+          }
         }
         else if (rand < 0.2 && activeDisasters.contains("Flat Light")) {
           // increased chance w/ flat light
           activeDisasters.add("Tripped");
+          if (rand2 < 0.3) {
+            //30% chance of frostbite, less b/c already has flat light
+            activeDisasters.add("Frostbite");
+            flatDist *= 0.5;
+          }
         }
-        else if (rand < 0.6) {
+        else if (rand < 0.6 && (activeDisasters.contains("Snowstorm") || activeDisasters.contains("Tripped"))) {
           //frostbite
+          activeDisasters.add("Frostbite");
+          mult *= 0.3;
         }
       }
       // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm

@@ -11,10 +11,10 @@ public class Storage {
 		capacityleft = c;
 	}
 	//might need an item class?
-	public void store(int s) {
-		if (capacityleft - s > 0) {
-			capacityleft -= s;
-			System.out.println("New capacity = " + capacityleft);
+	public void store(int quantity) {
+		if (capacityleft - quantity > 0) {
+			capacityleft -= quantity;
+			System.out.println("You can store " + capacityleft + " more units.");
 		}
 		else {
 			System.out.println("You cannot store that much!");
