@@ -7,18 +7,19 @@ import java.util.ArrayList;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
-  private static Item stove = new Item(1800, "Chabe Stove", false);
-  private static Item tent = new Item(1000, "Polyskin Tent", false);
-  private static Item sbags = new Item(500, "Sleeping Bags", false); //boolean is stackable or not
-  private static Item skis = new Item(250, "Skis", false); //i think bags and skis you just auto buy for both
-  private static Item gm = new Item(25, "Gichy-michy", true); //25 per pound, 80 days, 2000 money for all the food you need
-  private static Item kgerm = new Item(35, "Kadik-germ", true);
-  private static Item bapple = new Item(75, "Dried breadapple", true); //maybe more expensive but this makes them happy or smth
-  private static Item sugar = new Item(50, "Sugar", true);
-  private static Item fakit = new Item(400, "First Aid Kit", true); //maybe add stack limit?
-  private static Item map = new Item(650, "Map", false);
-  private static Item backpack = new Item(850, "Backpack", true);
-  private static Item orsh = new Item(100, "Orsh", true); //seems to have like healing properties, so maybe more expensive?
+  private static int stoveCost = 1800; 
+  private static int tentCost = 1000; 
+  private static int sbagsCost = 500; // boolean is stackable or not
+  private static int skisCost = 250; //i think bags and skis you just auto buy for both
+  private static int gmCost = 25; //25 per pound, 80 days, 2000 money for all the food you need
+  private static int kgermCost = 35; 
+  private static int bappleCost = 75; //maybe more expensive but this makes them happy or smth
+  private static int sugarCost = 50; 
+  private static int fakitCost = 400; //maybe add stack limit?
+  private static int mapCost = 650; 
+  private static int backpackCost = 850; 
+  private static int orshCost = 100; //seems to have like healing properties, so maybe more expensive?
+  private static Item[] shop = {new Item(stoveCost, "Chabe Stove", false), new Item(tentCost, "Polyskin Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(skisCost, "Skis", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(sugarCost, "Sugar", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(orshCost, "Orsh", true)};
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -63,40 +64,40 @@ public class Game {
 public static void findProduct(String p) {
   p.toLowerCase();
   if (p.equals("stove")) {
-    dispPrice(stove.getc());
+    dispPrice(shop[0].getc());
   }
   else if (p.equals("tent")) {
-    dispPrice(tent.getc());
+    dispPrice(shop[1].getc());
   }
   else if (p.equals("sleeping bags")) {
-    dispPrice(sbags.getc());
+    dispPrice(shop[2].getc());
   }
   else if (p.equals("skis")) {
-    dispPrice(skis.getc());
+    dispPrice(shop[3].getc());
   }
   else if (p.equals("gichy michy") || p.equals("gichy-michy")) {
-    dispPrice(gm.getc());
+    dispPrice(shop[4].getc());
   }
   else if (p.equals("kadik germ") || p.equals("kadik-germ")) {
-    dispPrice(kgerm.getc());
+    dispPrice(shop[5].getc());
   }
   else if (p.equals("breadapple") || p.equals("bread apple")) {
-    dispPrice(bapple.getc());
+    dispPrice(shop[6].getc());
   }
   else if (p.equals("sugar")) {
-    dispPrice(sugar.getc());
+    dispPrice(shop[7].getc());
   }
-  else if (p.equals("first aid kit")) {
-    dispPrice(fakit.getc());
+  else if (p.equals("first aid kit") || p.equals("first-aid kit")) {
+    dispPrice(shop[8].getc());
   }
   else if (p.equals("map")) {
-    dispPrice(map.getc());
+    dispPrice(shop[9].getc());
   }
   else if (p.equals("backpack")) {
-    dispPrice(backpack.getc());
+    dispPrice(shop[10].getc());
   }
   else if (p.equals("orsh")) {
-    dispPrice(orsh.getc());
+    dispPrice(shop[11].getc());
   }
   else {
     displayShop();
