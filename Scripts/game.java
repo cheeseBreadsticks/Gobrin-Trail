@@ -269,5 +269,10 @@ public static void findProduct(String p) {
   public static void forward(String t) { //game forward
     dtrav = 12;
     dtrav += terrain();
+    distanceleft -= dtrav;
+    if (distanceleft <= 0) {
+      distanceleft = 0;
+      System.out.println("Congratulations! You have arrived in Kurkurast and won part 1 of the game!");
+    }
   }
 }
