@@ -112,23 +112,23 @@ public static void findProduct(String p) {
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("|  Price:  |     "+bapr+"     |     "+pric+"     |     "+gopr+"     |"); //it looks messed up but it should be fine
+      System.out.println("|  Price:  |    "+bapr+"     |     "+pric+"     |     "+gopr+"     |"); //it looks messed up but it should be fine
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
   else if (Integer.toString(price).length() == 3) {
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("| Quality: |      Bad    |      Okay    |      Good    |");
+      System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"     |      "+gopr+"     |");
+      System.out.println("|  Price:  |     "+bapr+"     |      "+pric+"     |      "+gopr+"     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
   else if (Integer.toString(price).length() == 2) {
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("| Quality: |     Bad     |      Okay    |      Good    |");
+      System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("|  Price:  |      "+bapr+"      |       "+pric+"     |       "+gopr+"     |"); //it looks messed up but it should be fine I can't test
+      System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"      |      "+gopr+"      |"); //it looks messed up but it should be fine I can't test
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
   }
@@ -153,6 +153,7 @@ public static void findProduct(String p) {
     // TODO: use for loop w/ maxdisasters parameter to roll for extra disasters.
 
     double mult = 1.0;
+    double flatDist = 0.0;
     double compoundChance = disasterMult;
     //might want to not round decimals (at least ccRoll)
     double rand = Math.round(Math.random() * 10000)/10000.0; //random number between 0 and 1, rounded to 4 decimal places
@@ -200,11 +201,14 @@ public static void findProduct(String p) {
             activeDisasters.add("Volcano");
           }
         }
-        else if (rand < 0.25 && !activeDisasters.contains("Flat Light")) {
-          // trips = day ends early (duration 1)
+        else if (rand < 0.18 && !activeDisasters.contains("Flat Light")) {
+          // trips = day ends early & no second disaster (if first) (duration 1)
           activeDisasters.add("Tripped ");
+          flatDist = Math.round(Math.random() * 10 * mult);
+          mult *= 0;
+          compoundChance *= 0;
         }
-        else if (rand < 0.5 && activeDisasters.contains("Flat Light")) {
+        else if (rand < 0.2 && activeDisasters.contains("Flat Light")) {
           // increased chance w/ flat light
           activeDisasters.add("Tripped");
         }
@@ -217,6 +221,10 @@ public static void findProduct(String p) {
 
     } else if (biome.equals("b")) { //bay of Guthen
 
+    }
+
+    if (mult == 0) {
+      dtrav += flatDist;
     }
     return mult;
   }
@@ -263,6 +271,7 @@ public static void findProduct(String p) {
 
   public static void main(String[] args) {
     start();
+    dispPrice(30);
   }
 
   public static void forward(String t) { //game forward
