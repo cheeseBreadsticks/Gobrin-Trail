@@ -7,18 +7,9 @@ import java.util.ArrayList;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
-  private static int stoveCost = 1800; 
-  private static int tentCost = 1000; 
-  private static int sbagsCost = 500; // boolean is stackable or not
-  private static int skisCost = 250; //i think bags and skis you just auto buy for both
-  private static int gmCost = 25; //25 per pound, 80 days, 2000 money for all the food you need
-  private static int kgermCost = 35; 
-  private static int bappleCost = 75; //maybe more expensive but this makes them happy or smth
-  private static int sugarCost = 50; 
-  private static int fakitCost = 400; //maybe add stack limit?
-  private static int mapCost = 650; 
-  private static int backpackCost = 850; 
-  private static int orshCost = 100; //seems to have like healing properties, so maybe more expensive?
+  //bool is stackable or not, //i think bags and skis you just auto buy for both, (Gichy-michy) //25 per pound, 80 days, 2000 money for all the food you need, (breadapple) //maybe more expensive but this makes them happy or smth, (first aid kit) //maybe add stack limit?, (map) //good map reduces chance of getting lost, bad map increases it, (orsh) //seems to have like healing properties, so maybe more expensive?
+  //i changed it to array to look better
+  private static int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, skisCost = 250, gmCost = 25, kgermCost = 35, bappleCost = 75, sugarCost = 50, fakitCost = 400, mapCost = 650, backpackCost = 850, orshCost = 100;
   private static Item[] shop = {new Item(stoveCost, "Chabe Stove", false), new Item(tentCost, "Polyskin Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(skisCost, "Skis", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(sugarCost, "Sugar", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(orshCost, "Orsh", true)};
 
   //THIS IS IMPORTANT
