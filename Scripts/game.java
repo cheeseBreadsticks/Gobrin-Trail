@@ -47,7 +47,7 @@ public class Game {
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
   public static void displayShop() {
-    System.out.println(" ____________ _____________ ____________ _______________ _______)");
+    System.out.println(" ____________ _____________ ____________ _______________ ________");
     System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Skis  |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾ ");
     System.out.println(" ____________ _____________ ____________ _______________ ________");
