@@ -1,3 +1,5 @@
+package Scripts;
+
 public class Disaster {
     private double weight; // chance for disaster to happen each day, 0-1;
     private double distMod; // percentage 1 to -1, -1 is can't move, 1 is double speed, mult with other disasters/events

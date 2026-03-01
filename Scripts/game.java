@@ -1,25 +1,24 @@
-// import Scripts.*;
+package Scripts;
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class game {
+public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
-  private static item stove = new item(1800, "Chabe Stove", false);
-  private static item tent = new item(1000, "Polyskin Tent", false);
-  private static item sbags = new item(500, "Sleeping Bags", false); //boolean is stackable or not
-  private static item skis = new item(250, "Skis", false); //i think bags and skis you just auto buy for both
-  private static item gm = new item(25, "Gichy-michy", true); //25 per pound, 80 days, 2000 money for all the food you need
-  private static item kgerm = new item(35, "Kadik-germ", true);
-  private static item bapple = new item(75, "Dried breadapple", true); //maybe more expensive but this makes them happy or smth
-  private static item sugar = new item(50, "Sugar", true);
-  private static item fakit = new item(400, "First Aid Kit", true); //maybe add stack limit?
-  private static item map = new item(650, "Map", false);
-  private static item backpack = new item(850, "Backpack", true);
-  private static item orsh = new item(100, "Orsh", true); //seems to have like healing properties, so maybe more expensive?
+  private static Item stove = new Item(1800, "Chabe Stove", false);
+  private static Item tent = new Item(1000, "Polyskin Tent", false);
+  private static Item sbags = new Item(500, "Sleeping Bags", false); //boolean is stackable or not
+  private static Item skis = new Item(250, "Skis", false); //i think bags and skis you just auto buy for both
+  private static Item gm = new Item(25, "Gichy-michy", true); //25 per pound, 80 days, 2000 money for all the food you need
+  private static Item kgerm = new Item(35, "Kadik-germ", true);
+  private static Item bapple = new Item(75, "Dried breadapple", true); //maybe more expensive but this makes them happy or smth
+  private static Item sugar = new Item(50, "Sugar", true);
+  private static Item fakit = new Item(400, "First Aid Kit", true); //maybe add stack limit?
+  private static Item map = new Item(650, "Map", false);
+  private static Item backpack = new Item(850, "Backpack", true);
+  private static Item orsh = new Item(100, "Orsh", true); //seems to have like healing properties, so maybe more expensive?
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -37,8 +36,8 @@ public class game {
     System.out.println("You start with 2x Backpacks.");
     //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
     //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
-    storage b1 = new storage("Backpack", 30);
-    storage b2 = new storage("Backpack", 30); //backpacks
+  Storage b1 = new Storage("Backpack", 30);
+  Storage b2 = new Storage("Backpack", 30); //backpacks
     System.out.println("Along the way, you will encounter various obstacles and disasters");
     System.out.println("Good luck on the ice!");
   }
@@ -116,7 +115,7 @@ public static void findProduct(String p) {
       System.out.println("|  Price:  |     "+bapr+"     |     "+pric+"     |     "+gopr+"     |"); //it looks messed up but it should be fine
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
-    else if (Integer.toString(price).length == 3) {
+  else if (Integer.toString(price).length() == 3) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |      Bad    |      Okay    |      Good    |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
@@ -124,7 +123,7 @@ public static void findProduct(String p) {
       System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"     |      "+gopr+"     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
-    else if (Integer.toString(price).length == 2) {
+  else if (Integer.toString(price).length() == 2) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |      Okay    |      Good    |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
@@ -134,12 +133,11 @@ public static void findProduct(String p) {
     }
   }
 
-  public static void purchaseItem(item i, String quality, int quantity) {
+  public static void purchaseItem(Item i, String quality, int quantity) {
     int q;
     if (quantity <= 0) {
       quantity = 1;
     }
-    quality = quality.toLowerCase(); // makes it so caps don't matter if we have them input their quality wanted.
     if (quality == "good") {
       q = 2;
     } else if (quality == "avg") {
