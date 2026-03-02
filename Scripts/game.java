@@ -10,7 +10,7 @@ public class Game {
   //bool is stackable or not, //i think bags and skis you just auto buy for both, (Gichy-michy) //25 per pound, 80 days, 2000 money for all the food you need, (breadapple) //maybe more expensive but this makes them happy or smth, (first aid kit) //maybe add stack limit?, (map) //good map reduces chance of getting lost, bad map increases it, (orsh) //seems to have like healing properties, so maybe more expensive?
   //i changed it to array to look better
   private static int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
-  private static item[] shop = {new Item(stoveCost, "Chabe Stove", false), new item(tentCost, "Polyskin Tent", false), new item(sbagsCost, "Sleeping Bags", false), new item(sledgeCost, "Sledge", false), new item(gmCost, "Gichy-michy", true), new item(kgermCost, "Kadik-germ", true), new item(bappleCost, "Dried breadapple", true), new item(orshCost, "Orsh", true), new item(fakitCost, "First Aid Kit", true), new item(mapCost, "Map", false), new item(backpackCost, "Backpack", true), new item(skisCost, "Skis", false)};
+  private static Item[] shop = {new Item(stoveCost, "Chabe Stove", false), new Item(tentCost, "Polyskin Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -53,7 +53,7 @@ public class Game {
   }
 
 public static void findProduct(String p) {
-  item it;
+  Item it;
   for (int i = 0; i < shop.length; i ++) {
     if (p.equals(shop[i].getn().toLowerCase())) {
       it = shop[i];
@@ -69,7 +69,7 @@ public static void findProduct(String p) {
   }
 }
 
-  public static void dispPrice(int price, item i) {
+  public static void dispPrice(int price, Item i) {
     int bapr = (price * 3)/4;
     int gopr = (int)(price * 1.25);
     int pric = price; //I need it to be 4 dig or lower cuz the tables gonna look weird
@@ -109,7 +109,7 @@ public static void findProduct(String p) {
     }
   }
 
-  public static void purchaseItem(item i, String quality, int quantity) {
+  public static void purchaseItem(Item i, String quality, int quantity) {
     System.out.println("You purchased " + quantity + " " quality + " " + i.getn() + "(s).")
   }
 
