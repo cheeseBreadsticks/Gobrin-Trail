@@ -53,50 +53,23 @@ public class Game {
   }
 
 public static void findProduct(String p) {
-  p.toLowerCase();
-  if (p.equals("stove")) {
-    dispPrice(shop[0].getc());
+  item it;
+  for (int i = 0; i < shop.length; i ++) {
+    if (p.equals(shop[i].getn().toLowerCase())) {
+      it = shop[i];
+      break;
+    }
   }
-  else if (p.equals("tent")) {
-    dispPrice(shop[1].getc());
-  }
-  else if (p.equals("sleeping bags")) {
-    dispPrice(shop[2].getc());
-  }
-  else if (p.equals("skis")) {
-    dispPrice(shop[3].getc());
-  }
-  else if (p.equals("gichy michy") || p.equals("gichy-michy")) {
-    dispPrice(shop[4].getc());
-  }
-  else if (p.equals("kadik germ") || p.equals("kadik-germ")) {
-    dispPrice(shop[5].getc());
-  }
-  else if (p.equals("breadapple") || p.equals("bread apple")) {
-    dispPrice(shop[6].getc());
-  }
-  else if (p.equals("sugar")) {
-    dispPrice(shop[7].getc());
-  }
-  else if (p.equals("first aid kit") || p.equals("first-aid kit")) {
-    dispPrice(shop[8].getc());
-  }
-  else if (p.equals("map")) {
-    dispPrice(shop[9].getc());
-  }
-  else if (p.equals("backpack")) {
-    dispPrice(shop[10].getc());
-  }
-  else if (p.equals("orsh")) {
-    dispPrice(shop[11].getc());
-  }
-  else {
+  if (it == null) {
     System.out.println("Type in the name of one of the items.");
     displayShop();
   }
+  else {
+    dispPrice(it.getc(), it);
+  }
 }
 
-  public static void dispPrice(int price, item) {
+  public static void dispPrice(int price, item i) {
     int bapr = (price * 3)/4;
     int gopr = (int)(price * 1.25);
     int pric = price; //I need it to be 4 dig or lower cuz the tables gonna look weird
@@ -126,22 +99,18 @@ public static void findProduct(String p) {
     }
 
     String quality = scan.nextLine();
-    System.out.println("How many would you like to buy?");
-    int quantity = scan.nextInt();
+    if (i.m()) {
+      System.out.println("How many would you like to buy?");
+      String quantity = scan.nextLine();
+      purchaseItem(i, quality, quantity);
+    }
+    else {
+      purchaseItem(i, quality, 1);
+    }
   }
 
   public static void purchaseItem(item i, String quality, int quantity) {
-    int q;
-    if (quantity <= 0) {
-      quantity = 1;
-    }
-    if (quality.equals("good")) {
-      q = 2;
-    } else if (quality.equals("okay")) {
-      q = 1;
-    } else if (quality.equals("bad")) { //you can't do (String == String) for a boolean, you have to do .equals()
-      q = 0;
-    }
+    System.out.println("You purchased " + quantity + " " quality + " " + i.getn() + "(s).")
   }
 
   public static double changeDistMult(double disasterMult, int mapQuality) {
