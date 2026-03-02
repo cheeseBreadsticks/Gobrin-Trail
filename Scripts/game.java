@@ -63,6 +63,12 @@ public static void findProduct(String p) {
       break;
     }
   }
+  if (p.equals("gichy michy")) {
+    it = shop[4];
+  }
+  if (p.equals("kadik germ")) {
+    it = shop[5];
+  }
   if (it == null) {
     System.out.println("Type in the name of one of the items.");
     displayShop();
