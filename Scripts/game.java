@@ -10,7 +10,7 @@ public class Game {
   //bool is stackable or not, //i think bags and skis you just auto buy for both, (Gichy-michy) //25 per pound, 80 days, 2000 money for all the food you need, (breadapple) //maybe more expensive but this makes them happy or smth, (first aid kit) //maybe add stack limit?, (map) //good map reduces chance of getting lost, bad map increases it, (orsh) //seems to have like healing properties, so maybe more expensive?
   //i changed it to array to look better
   private static int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
-  private static Item[] shop = {new Item(stoveCost, "Chabe Stove", false), new Item(tentCost, "Polyskin Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
+  private static Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -54,6 +54,8 @@ public class Game {
   }
 
 public static void findProduct(String p) {
+  p.toLowerCase();
+
   Item it = null;
   for (int i = 0; i < shop.length; i ++) {
     if (p.equals(shop[i].getn().toLowerCase())) {
