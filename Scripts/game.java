@@ -54,7 +54,7 @@ public class Game {
   }
 
 public static void findProduct(String p) {
-  p.toLowerCase();
+  p = p.toLowerCase();
 
   Item it = null;
   for (int i = 0; i < shop.length; i ++) {
@@ -103,7 +103,7 @@ public static void findProduct(String p) {
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"      |      "+gopr+"      |"); //it looks messed up but it should be fine I can't test
+      System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"      |      "+gopr+"     |"); //it looks messed up but it should be fine I can't test
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
 
