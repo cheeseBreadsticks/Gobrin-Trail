@@ -31,6 +31,7 @@ public class Game {
   Storage b2 = new Storage("Backpack", 30); //backpacks
     System.out.println("Along the way, you will encounter various obstacles and disasters");
     System.out.println("Good luck on the ice!");
+    displayShop();
   }
 
   //list of supplies a few pages into chapter 15
@@ -53,7 +54,7 @@ public class Game {
   }
 
 public static void findProduct(String p) {
-  Item it;
+  Item it = null;
   for (int i = 0; i < shop.length; i ++) {
     if (p.equals(shop[i].getn().toLowerCase())) {
       it = shop[i];
@@ -101,7 +102,7 @@ public static void findProduct(String p) {
     String quality = scan.nextLine();
     if (i.m()) {
       System.out.println("How many would you like to buy?");
-      String quantity = scan.nextLine();
+      int quantity = scan.nextInt();
       purchaseItem(i, quality, quantity);
     }
     else {
@@ -110,7 +111,7 @@ public static void findProduct(String p) {
   }
 
   public static void purchaseItem(Item i, String quality, int quantity) {
-    System.out.println("You purchased " + quantity + " " quality + " " + i.getn() + "(s).")
+    System.out.println("You purchased " + quantity + " " + quality + " " + i.getn() + "(s).");
   }
 
   public static double changeDistMult(double disasterMult, int mapQuality) {
@@ -248,7 +249,6 @@ public static void findProduct(String p) {
 
   public static void main(String[] args) {
     start();
-    dispPrice(30);
   }
 
   public static void forward(String t) { //game forward
