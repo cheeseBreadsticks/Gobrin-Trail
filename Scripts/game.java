@@ -48,13 +48,19 @@ public class Game {
     System.out.println(" ____________ _____________ ____________ _______________ __________");
     System.out.println("|    Other:  |  First Aid  |     Map    |    Backpack   |   Skis   |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
+    System.out.println(" __________");
+    System.out.println("| Continue |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾");
 
     String buy = scan.nextLine();
+    buy = buy.toLowerCase();
+    if (buy.equals("continue")) {
+      afterbuying();
+    }
     findProduct(buy);
   }
 
 public static void findProduct(String p) {
-  p = p.toLowerCase();
 
   Item it = null;
   for (int i = 0; i < shop.length; i ++) {
@@ -120,6 +126,10 @@ public static void findProduct(String p) {
 
   public static void purchaseItem(Item i, String quality, int quantity) {
     System.out.println("You purchased " + quantity + " " + quality + " " + i.getn() + "(s).");
+  }
+
+  public static void afterbuying() {
+    //placeholder I have zero clue what to do after done buying
   }
 
   public static double changeDistMult(double disasterMult, int mapQuality) {
@@ -265,7 +275,7 @@ public static void findProduct(String p) {
     distanceleft -= dtrav;
     if (distanceleft <= 0) {
       distanceleft = 0;
-      System.out.println("Congratulations! You have arrived in Kurkurast and won part 1 of the game!");
+      System.out.println("Congratulations! You have arrived in Kurkurast and won part 1 of the game!"); //wdym part 1
     }
   }
 }
