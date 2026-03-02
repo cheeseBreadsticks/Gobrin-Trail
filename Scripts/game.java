@@ -9,8 +9,8 @@ public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
   //bool is stackable or not, //i think bags and skis you just auto buy for both, (Gichy-michy) //25 per pound, 80 days, 2000 money for all the food you need, (breadapple) //maybe more expensive but this makes them happy or smth, (first aid kit) //maybe add stack limit?, (map) //good map reduces chance of getting lost, bad map increases it, (orsh) //seems to have like healing properties, so maybe more expensive?
   //i changed it to array to look better
-  private static int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, skisCost = 250, gmCost = 25, kgermCost = 35, bappleCost = 75, sugarCost = 50, fakitCost = 400, mapCost = 650, backpackCost = 850, orshCost = 100;
-  private static Item[] shop = {new Item(stoveCost, "Chabe Stove", false), new Item(tentCost, "Polyskin Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(skisCost, "Skis", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(sugarCost, "Sugar", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(orshCost, "Orsh", true)};
+  private static int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
+  private static item[] shop = {new Item(stoveCost, "Chabe Stove", false), new item(tentCost, "Polyskin Tent", false), new item(sbagsCost, "Sleeping Bags", false), new item(sledgeCost, "Sledge", false), new item(gmCost, "Gichy-michy", true), new item(kgermCost, "Kadik-germ", true), new item(bappleCost, "Dried breadapple", true), new item(orshCost, "Orsh", true), new item(fakitCost, "First Aid Kit", true), new item(mapCost, "Map", false), new item(backpackCost, "Backpack", true), new item(skisCost, "Skis", false)};
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -19,7 +19,6 @@ public class Game {
   private final static double distance = 840.0;
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
-  private static String b = "U+1F514";
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
   public static void start() {
     System.out.println("Welcome to the Gobrin Trail!");
@@ -39,17 +38,18 @@ public class Game {
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
   public static void displayShop() {
-    System.out.println(" ____________ _____________ ____________ _______________ ________");
-    System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Skis  |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾ ");
-    System.out.println(" ____________ _____________ ____________ _______________ ________");
-    System.out.println("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |  Sugar |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾");
-    System.out.println(" ____________ _____________ ____________ _______________ ________");
-    System.out.println("|    Other:  |  First Aid  |     Map    |    Backpack   |  Orsh  |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾");
+    System.out.println(" ____________ _____________ ____________ _______________ __________");
+    System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ ");
+    System.out.println(" ____________ _____________ ____________ _______________ __________");
+    System.out.println("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |   Orsh   |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
+    System.out.println(" ____________ _____________ ____________ _______________ __________");
+    System.out.println("|    Other:  |  First Aid  |     Map    |    Backpack   |   Skis   |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
 
     String buy = scan.nextLine();
+    findProduct(buy);
   }
 
 public static void findProduct(String p) {
@@ -91,11 +91,12 @@ public static void findProduct(String p) {
     dispPrice(shop[11].getc());
   }
   else {
+    System.out.println("Type in the name of one of the items.");
     displayShop();
   }
 }
 
-  public static void dispPrice(int price) {
+  public static void dispPrice(int price, item) {
     int bapr = (price * 3)/4;
     int gopr = (int)(price * 1.25);
     int pric = price; //I need it to be 4 dig or lower cuz the tables gonna look weird
@@ -123,21 +124,23 @@ public static void findProduct(String p) {
       System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"      |      "+gopr+"      |"); //it looks messed up but it should be fine I can't test
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
+
+    String quality = scan.nextLine();
+    System.out.println("How many would you like to buy?");
+    int quantity = scan.nextInt();
   }
 
-  public static void purchaseItem(Item i, String quality, int quantity) {
+  public static void purchaseItem(item i, String quality, int quantity) {
     int q;
     if (quantity <= 0) {
       quantity = 1;
     }
-    if (quality == "good") {
+    if (quality.equals("good")) {
       q = 2;
-    } else if (quality == "avg") {
+    } else if (quality.equals("okay")) {
       q = 1;
-    } else if (quality == "poor" || quality == "bad") {
+    } else if (quality.equals("bad")) { //you can't do (String == String) for a boolean, you have to do .equals()
       q = 0;
-    } else {
-      q = 1;
     }
   }
 
