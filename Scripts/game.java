@@ -21,24 +21,25 @@ public class Game {
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
   public static void start() {
-    System.out.println("Welcome to the Gobrin Trail!");
-    System.out.println("Your goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away!");
+    System.out.println("\n\n\n\n\n\nWelcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
-    System.out.println("You start with 2x Backpacks.");
+    System.out.println("You start with 2x Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice!\n\nType \"continue\" to begin.");
     //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
     //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
-  Storage b1 = new Storage("Backpack", 30);
-  Storage b2 = new Storage("Backpack", 30); //backpacks
-    System.out.println("Along the way, you will encounter various obstacles and disasters");
-    System.out.println("Good luck on the ice!");
-    displayShop();
+    Storage b1 = new Storage("Backpack", 30);
+    Storage b2 = new Storage("Backpack", 30); //backpacks
+    String next = scan.nextLine();
+    if (next.toLowerCase().equals("continue")) {
+      displayShop(true);
+    }
   }
 
   //list of supplies a few pages into chapter 15
   //orsh, gitchy-mitchy, kadik-germ, dried breadapple, red sugar, sleeping bags, clothes, skis, sledge, qualities for each equipment (good, avg, poor)
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
-  public static void displayShop() {
+  public static void displayShop(boolean valid) {
+    System.out.println("\n\n\n\n\n\nWelcome to the shop! Here are the items available for purchase:");
     System.out.println(" ____________ _____________ ____________ _______________ __________");
     System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ ");
@@ -51,7 +52,11 @@ public class Game {
     System.out.println(" ____________");
     System.out.println("|  Continue  |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾");
-    System.out.println("\nWhat would you like to purchase?");
+    if (valid) {
+      System.out.println("\nWhat would you like to buy?");
+    } else {
+      System.out.println("\nPlease pick a valid item.");
+    }
     String buy = scan.nextLine();
     buy = buy.toLowerCase();
     if (buy.equals("continue")) {
@@ -64,6 +69,7 @@ public class Game {
 public static void findProduct(String p) {
 
   Item it = null;
+  p = p.toLowerCase();
   for (int i = 0; i < shop.length; i ++) {
     if (p.equals(shop[i].getn().toLowerCase())) {
       it = shop[i];
@@ -77,8 +83,7 @@ public static void findProduct(String p) {
     it = shop[5];
   }
   if (it == null) {
-    System.out.println("Please pick one item");
-    displayShop();
+    displayShop(false);
   }
   else {
     dispPrice(it.getc(), it);
@@ -127,7 +132,7 @@ public static void findProduct(String p) {
     String cont = scan.nextLine();
     cont = cont.toLowerCase();
     if (cont.equals("yes")) {
-      displayShop();
+      displayShop(true);
     } else {
       afterbuying();
     }
