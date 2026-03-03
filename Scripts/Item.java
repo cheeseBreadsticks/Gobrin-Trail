@@ -5,6 +5,7 @@ public class Item {
 	private String name;
 	private boolean multiple;
 	private String quality;
+	private int quantity;
 	public Item(int c, String n, boolean m) {
 		name = n;
 		cost = c;
@@ -24,5 +25,8 @@ public class Item {
 	}
 	public String toString() {
 		return quality + " " + name + ": " + cost;
+	}
+	public void setq(int q) {
+		quantity = q;
 	}
 }
