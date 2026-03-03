@@ -11,6 +11,8 @@ public class Game {
   //i changed it to array to look better
   private static int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
   private static Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
+  private static ArrayList<Item> inventory = new ArrayList<Item>();
+  private static int money = 5000;
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -20,6 +22,7 @@ public class Game {
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
+
   public static void start() {
     System.out.println("\n\n\n\n\n\nWelcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
@@ -91,9 +94,9 @@ public static void findProduct(String p) {
 }
 
   public static void dispPrice(int price, Item i) {
-    int bapr = (price * 3)/4;
-    int gopr = (int)(price * 1.25);
-    int pric = price; //I need it to be 4 dig or lower cuz the tables gonna look weird
+      int bapr = (price * 3)/4;
+      int gopr = (int)(price * 1.25);
+      int pric = price;
     if (Integer.toString(price).length() == 4) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
@@ -102,7 +105,7 @@ public static void findProduct(String p) {
       System.out.println("|  Price:  |    "+bapr+"     |     "+pric+"     |     "+gopr+"     |"); //it looks messed up but it should be fine
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
-  else if (Integer.toString(price).length() == 3) {
+    else if (Integer.toString(price).length() == 3) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
@@ -110,7 +113,7 @@ public static void findProduct(String p) {
       System.out.println("|  Price:  |     "+bapr+"     |      "+pric+"     |      "+gopr+"     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
-  else if (Integer.toString(price).length() == 2) {
+    else if (Integer.toString(price).length() == 2) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
@@ -140,6 +143,10 @@ public static void findProduct(String p) {
 
   public static void purchaseItem(Item i, String quality, int quantity) {
     System.out.println("You purchased " + quantity + " " + quality + " " + i.getn() + "(s).");
+    for (int j = 0; j < quantity; j ++) {
+      i.q(quality);
+      inventory.add(i);
+    }
   }
 
   public static void afterbuying() {
