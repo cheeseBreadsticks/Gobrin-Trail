@@ -122,12 +122,13 @@ public static void findProduct(String p) {
     int bapr = playerChar.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
     int gopr = playerChar.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
     int pric = playerChar.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
+    // TODO: change to a for loop w/ print to add spaces, otherwise discounts mess it up
     if (Integer.toString(price).length() == 4) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("|  Price:  |    "+bapr+"     |     "+pric+"     |     "+gopr+"     |"); //it looks messed up but it should be fine
+      System.out.println("|  Price:  |     "+bapr+"     |     "+pric+"     |     "+gopr+"     |"); //it looks messed up but it should be fine
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
     else if (Integer.toString(price).length() == 3) {
@@ -143,7 +144,7 @@ public static void findProduct(String p) {
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"      |      "+gopr+"     |"); //it looks messed up but it should be fine I can't test
+      System.out.println("|  Price:  |      "+bapr+"     |      "+pric+"      |      "+gopr+"      |"); //it looks messed up but it should be fine I can't test
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
 
@@ -175,13 +176,16 @@ public static void findProduct(String p) {
         purchaseItem(i, quality, 1);
       }
       System.out.println("Would you like to buy anything else? (yes/no)");
-      String cont = scan.nextLine();
-      cont = cont.toLowerCase();
+      String cont = scan.nextLine().toLowerCase();
+      while (!cont.equals("yes") && !cont.equals("no")) {
+        System.out.println("Please input a valid answer.");
+        cont = scan.nextLine().toLowerCase();
+      }
       if (cont.equals("yes")) {
         displayShop(true);
       } else {
         afterbuying();
-      }
+      } 
     }
     else {
       System.out.println("You don't have enough money to purchase that!");
