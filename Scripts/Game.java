@@ -161,7 +161,7 @@ public static void findProduct(String p) {
     }
     else {
       System.out.println("Please input a valid quality.");
-      dispPrice();
+      dispPrice(price, i);
       return;
     }
     if (money > p) {
