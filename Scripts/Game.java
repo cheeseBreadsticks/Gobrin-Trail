@@ -108,6 +108,9 @@ public static void findProduct(String p) {
     it = shop[5];
   }
   if (it == null) {
+    if (p.equals("continue")) {
+      afterbuying();
+    }
     displayShop(false);
   }
   else {
@@ -132,7 +135,7 @@ public static void findProduct(String p) {
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
       System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("|  Price:  |     "+bapr+"     |      "+pric+"     |      "+gopr+"     |");
+      System.out.println("|  Price:  |     "+bapr+"      |      "+pric+"     |      "+gopr+"     |");
       System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
     }
     else if (Integer.toString(price).length() == 2) {
@@ -145,30 +148,51 @@ public static void findProduct(String p) {
     }
 
     String quality = scan.nextLine();
-    if (i.m()) {
-      System.out.println("How many would you like to buy?");
-      int quantity = scan.nextInt();
-      purchaseItem(i, quality, quantity);
+    int p = 0;
+    quality = quality.toLowerCase();
+    if (quality.equals("good")) {
+      p = gopr;
+    }
+    else if (quality.equals("okay")) {
+      p = pric;
+    }
+    else if (quality.equals("bad")) {
+      p = bapr;
     }
     else {
-      purchaseItem(i, quality, 1);
+      System.out.println("Please input a valid quality.");
+      dispPrice();
+      return;
     }
-    System.out.println("Would you like to buy anything else? (yes/no)");
-    String cont = scan.nextLine();
-    cont = cont.toLowerCase();
-    if (cont.equals("yes")) {
+    if (money > p) {
+      money -= p;
+      if (i.m()) {
+        System.out.println("How many would you like to buy?");
+        int quantity = scan.nextInt();
+        purchaseItem(i, quality, quantity);
+      }
+      else {
+        purchaseItem(i, quality, 1);
+      }
+      System.out.println("Would you like to buy anything else? (yes/no)");
+      String cont = scan.nextLine();
+      cont = cont.toLowerCase();
+      if (cont.equals("yes")) {
+        displayShop(true);
+      } else {
+        afterbuying();
+      }
+    }
+    else {
+      System.out.println("You don't have enough money to purchase that!");
       displayShop(true);
-    } else {
-      afterbuying();
+      return;
     }
   }
 
   public static void purchaseItem(Item i, String quality, int quantity) {
     System.out.println("You purchased " + quantity + " " + quality + " " + i.getn() + "(s).");
-    for (int j = 0; j < quantity; j ++) {
-      i.q(quality);
-      inventory.add(i);
-    }
+    
   }
 
   public static void afterbuying() {
