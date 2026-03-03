@@ -48,14 +48,15 @@ public class Game {
     System.out.println(" ____________ _____________ ____________ _______________ __________");
     System.out.println("|   Other:   |  First Aid  |     Map    |    Backpack   |   Skis   |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
-    System.out.println(" __________");
-    System.out.println("| Continue |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾");
+    System.out.println(" ____________");
+    System.out.println("|  Continue  |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾");
     System.out.println("\nWhat would you like to purchase?");
     String buy = scan.nextLine();
     buy = buy.toLowerCase();
     if (buy.equals("continue")) {
       afterbuying();
+      return;
     }
     findProduct(buy);
   }
@@ -121,6 +122,14 @@ public static void findProduct(String p) {
     }
     else {
       purchaseItem(i, quality, 1);
+    }
+    System.out.println("Would you like to buy anything else? (yes/no)");
+    String cont = scan.nextLine();
+    cont = cont.toLowerCase();
+    if (cont.equals("yes")) {
+      displayShop();
+    } else {
+      afterbuying();
     }
   }
 
