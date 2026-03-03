@@ -46,10 +46,14 @@ public class Game {
     System.out.println("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |   Orsh   |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
     System.out.println(" ____________ _____________ ____________ _______________ __________");
-    System.out.println("|    Other:  |  First Aid  |     Map    |    Backpack   |   Skis   |");
+    System.out.println("|   Other:   |  First Aid  |     Map    |    Backpack   |   Skis   |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
-
+    System.out.println("\nWhat would you like to purchase?");
     String buy = scan.nextLine();
+    if (buy.toLowerCase().equals("leave")) {
+      System.out.println("You have left the shop.");
+      return;
+    }
     findProduct(buy);
   }
 
@@ -70,7 +74,7 @@ public static void findProduct(String p) {
     it = shop[5];
   }
   if (it == null) {
-    System.out.println("Type in the name of one of the items.");
+    System.out.println("Please pick one item");
     displayShop();
   }
   else {
@@ -200,11 +204,24 @@ public static void findProduct(String p) {
           //frostbite
           activeDisasters.add("Frostbite");
           mult *= 0.3;
+        } else {
+          //no disaster, but still chance for one, just smaller
+          compoundChance *= 0.1;
         }
       }
       // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm
     } else if (biome.equals("i") ) { //ice
-
+      if (ccRoll < compoundChance) {
+        if (rand < 0.1 && !activeDisasters.contains("Snowstorm")) {
+          //ice crevasse
+          activeDisasters.add("Snowstorm");
+          compoundChance *= 0.3;
+        } else if (rand < 0.2 && !activeDisasters.contains("Flat Light")) {
+          //snow storm
+          activeDisasters.add("Flat Light");
+          compoundChance *= 0.3;
+        }
+      }
     } else if (biome.equals("b")) { //bay of Guthen
 
     }
