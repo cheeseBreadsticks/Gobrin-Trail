@@ -9,16 +9,17 @@ public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
   //bool is stackable or not, //i think bags and skis you just auto buy for both, (Gichy-michy) //25 per pound, 80 days, 2000 money for all the food you need, (breadapple) //maybe more expensive but this makes them happy or smth, (first aid kit) //maybe add stack limit?, (map) //good map reduces chance of getting lost, bad map increases it, (orsh) //seems to have like healing properties, so maybe more expensive?
   //i changed it to array to look better
-  private static int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
-  private static Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
   private static ArrayList<Item> inventory = new ArrayList<Item>();
   private static int money = 5000;
+  private static final int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
+  private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
+  private static String playerChar;
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
 
   private static double dtrav = 12.0;
-  private final static double distance = 840.0;
+  private static final double distance = 840.0;
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
@@ -26,14 +27,35 @@ public class Game {
   public static void start() {
     System.out.println("\n\n\n\n\n\nWelcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
-    System.out.println("You start with 2x Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice!\n\nType \"continue\" to begin.");
+    System.out.println("You start with 2x Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice!");
     //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
     //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
     Storage b1 = new Storage("Backpack", 30);
     Storage b2 = new Storage("Backpack", 30); //backpacks
-    String next = scan.nextLine();
-    if (next.toLowerCase().equals("continue")) {
-      displayShop(true);
+    charSelect();
+    if (playerChar != null) {
+      System.out.println("\n" + playerChar + " chosen. Type \"continue\" to begin.");
+      String next = scan.nextLine();
+      if (next.toLowerCase().equals("continue")) {
+        displayShop(true);
+      }
+    }
+    
+  }
+
+  public static void charSelect() {
+    System.out.println("\nPlease type the name of your character:\nEstraven\nGenly");
+    String chara = scan.nextLine();
+    if (chara.toLowerCase().equals("estraven") || chara.equals("1")|| chara.equals("1."))  {
+      playerChar = "Estraven";
+      return;
+    }
+    else if (chara.toLowerCase().equals("genly") || chara.equals("2")|| chara.equals("2.")) {
+      playerChar = "Genly";
+      return;
+    } else {
+      System.out.println("Please pick a valid character.");
+      charSelect();
     }
   }
 
@@ -94,9 +116,9 @@ public static void findProduct(String p) {
 }
 
   public static void dispPrice(int price, Item i) {
-      int bapr = (price * 3)/4;
-      int gopr = (int)(price * 1.25);
-      int pric = price;
+    int bapr = playerChar.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
+    int gopr = playerChar.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
+    int pric = playerChar.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
     if (Integer.toString(price).length() == 4) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
