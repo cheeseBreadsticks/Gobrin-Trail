@@ -289,6 +289,10 @@ public static void findProduct(String p) {
 
   public static void main(String[] args) {
     start();
+    String front = scan.nextLine();
+    if (front.equals("forward")) {
+      forward(front);
+    }
   }
 
   public static void forward(String t) { //game forward
