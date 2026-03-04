@@ -12,7 +12,7 @@ public class Game {
   private static ArrayList<Item> inventory = new ArrayList<Item>();
   private static int money = 5000;
   private static final int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
-  private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
+  private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
   private static String playerChar;
 
   //THIS IS IMPORTANT
@@ -107,6 +107,12 @@ public static void findProduct(String p) {
   if (p.equals("kadik germ")) {
     it = shop[5];
   }
+  if (p.equals("bread apple")) {
+    it = shop[6];
+  }
+  if (p.equals("first aid kit") || p.equals("first-aid") || p.equals("first-aid kit")) {
+    it = shop[8];
+  }
   if (it == null) {
     if (p.equals("continue")) {
       afterbuying();
@@ -123,6 +129,40 @@ public static void findProduct(String p) {
     int gopr = playerChar.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
     int pric = playerChar.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
     // TODO: change to a for loop w/ print to add spaces, otherwise discounts mess it up
+    System.out.print("|  Price:  |");
+    for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
+      System.out.print(" ");
+    }
+    if (Integer.toString(bapr).length() % 2 == 0) {
+      System.out.print(" ");
+    }
+    System.out.print(bapr);
+    for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
+      System.out.print(" ");
+    }
+    System.out.print("|");
+    for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
+      System.out.print(" ");
+    }
+    System.out.print(pric);
+    if (Integer.toString(pric).length() % 2 == 1) {
+      System.out.print(" ");
+    }
+    for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
+      System.out.print(" ");
+    }
+    System.out.print("|");
+    for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
+      System.out.print(" ");
+    }
+    System.out.print(gopr);
+    if (Integer.toString(gopr).length() % 2 == 1) {
+      System.out.print(" ");
+    }
+    for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
+      System.out.print(" ");
+    }
+    System.out.print("|");
     if (Integer.toString(price).length() == 4) {
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
