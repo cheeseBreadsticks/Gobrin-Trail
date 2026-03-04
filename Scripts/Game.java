@@ -209,6 +209,7 @@ public static void findProduct(String p) {
       money -= p;
       if (i.m()) {
         System.out.println("How many would you like to buy?");
+        // TODO: fix bug where it crashes if non int input
         int quantity = scan.nextInt();
         purchaseItem(i, quality, quantity);
       }
@@ -218,8 +219,12 @@ public static void findProduct(String p) {
       System.out.println("Would you like to buy anything else? (yes/no)");
       String cont = scan.nextLine().toLowerCase();
       while (!cont.equals("yes") && !cont.equals("no")) {
-        System.out.println("Please input a valid answer.");
-        cont = scan.nextLine().toLowerCase();
+        if (!i.m() && !scan.hasNextInt()) {
+          System.out.println("Please input a valid answer.");
+          cont = scan.nextLine().toLowerCase();
+        } else {
+          break;
+        }
       }
       if (cont.equals("yes")) {
         displayShop(true);
