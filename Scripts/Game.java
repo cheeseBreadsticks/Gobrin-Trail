@@ -108,7 +108,7 @@ public class Game {
     }
     if (it == null) {
       if (p.equals("continue")) {
-        afterbuying();
+        shteal();
       }
       displayShop(false);
     }
@@ -211,7 +211,7 @@ public class Game {
 
   public static void shteal() {
     System.out.println("You wake in the middle of the night before the journey.");
-    System.out.println("Despite making the most of your money, you have doubts about your resources.")
+    System.out.println("Despite making the most of your money, you have doubts about your resources.");
     System.out.println("Steal from the nearby town (Yes/No)?");
     String steal = scan.nextLine();
     steal = steal.toLowerCase();
@@ -219,7 +219,7 @@ public class Game {
       go();
     }
     else {
-      
+
     }
   }
 

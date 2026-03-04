@@ -23,10 +23,16 @@ public class Item {
 	public void q(String qual) {
 		quality = qual;
 	}
+	public String getqual() {
+		return quality;
+	}
 	public String toString() {
 		return quality + " " + name + ": " + cost;
 	}
 	public void setq(int q) {
 		quantity = q;
+	}
+	public int getq() {
+		return quantity;
 	}
 }
