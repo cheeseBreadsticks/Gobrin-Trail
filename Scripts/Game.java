@@ -12,7 +12,7 @@ public class Game {
   private static ArrayList<Item> inventory = new ArrayList<Item>();
   private static int money = 5000;
   private static final int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
-  private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Dried breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
+  private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
   private static String playerChar;
 
   //THIS IS IMPORTANT
@@ -244,13 +244,13 @@ public class Game {
     }
   }
   public static void steal() {
-    System.out.println(" _____________ ____________ ______ _____________ _______");
-    System.out.println("| Gichy-michy | Kadik-germ | Orsh | Bread-apple | Leave |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾");
+    System.out.println(" _____________ ____________ ______ ____________ _______");
+    System.out.println("| Gichy-michy | Kadik-germ | Orsh | Breadapple | Leave |");
+    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾");
     String ste = scan.nextLine();
     ste = ste.toLowerCase();
-    for (int i = 0; i < shop.length; i ++) {
-      if (ste.equals(shop[i].getn())) {
+    for (int i = 4; i < 8; i ++) {
+      if (ste.equals(shop[i].getn().toLowerCase())) {
         System.out.println("You can only steal 3 of an item at a time.");
         System.out.println("How many would you like to steal?");
         int amt = scan.nextInt();
@@ -262,7 +262,8 @@ public class Game {
         else {
           System.out.println("You accidentally drop some " + shop[i].getn().toLowerCase() + ".");
           System.out.println("After pausing briefly, you here a stir nearby. You quickly pack up your loot and run.");
-          break;
+          go();
+          return;
         }
       }
     }
@@ -270,6 +271,7 @@ public class Game {
       go();
     }
     else {
+      System.out.println("Please select a valid item.")
       steal();
     }
   }
