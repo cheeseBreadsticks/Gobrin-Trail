@@ -14,6 +14,8 @@ public class Game {
   private static final int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
   private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
   private static String playerChar;
+  private static int stashPrice = 0;
+  private static int stashQual = 0; // 1 = bad, 2 = okay, 3 = good
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -121,66 +123,82 @@ public class Game {
   }
 
   public static void dispPrice(int price, Item i, boolean jumpQuant) {
-    int bapr = playerChar.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
-    int gopr = playerChar.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
-    int pric = playerChar.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
-    //this should work no matter price length
-    System.out.println(" __________ _____________ ______________ ______________");
-    System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-    System.out.println(" __________ _____________ ______________ ______________");
-    System.out.print("|  Price:  |");
-    for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
-      System.out.print(" ");
-    }
-    System.out.print(bapr);
-    if (Integer.toString(bapr).length() % 2 == 0) {
-      System.out.print(" ");
-    }
-    for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
-      System.out.print(" ");
-    }
-    System.out.print("|");
-    for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
-      System.out.print(" ");
-    }
-    System.out.print(pric);
-    if (Integer.toString(pric).length() % 2 == 1) {
-      System.out.print(" ");
-    }
-    for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
-      System.out.print(" ");
-    }
-    System.out.print("|");
-    for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
-      System.out.print(" ");
-    }
-    System.out.print(gopr);
-    if (Integer.toString(gopr).length() % 2 == 1) {
-      System.out.print(" ");
-    }
-    for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
-      System.out.print(" ");
-    }
-    System.out.println("|");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+    int p;
+    String quality;
+    if (!jumpQuant) {
+      int bapr = playerChar.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
+      int gopr = playerChar.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
+      int pric = playerChar.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
+      //this should work no matter price length
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+      System.out.println(" __________ _____________ ______________ ______________");
+      System.out.print("|  Price:  |");
+      for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
+        System.out.print(" ");
+      }
+      System.out.print(bapr);
+      if (Integer.toString(bapr).length() % 2 == 0) {
+        System.out.print(" ");
+      }
+      for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
+        System.out.print(" ");
+      }
+      System.out.print("|");
+      for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
+        System.out.print(" ");
+      }
+      System.out.print(pric);
+      if (Integer.toString(pric).length() % 2 == 1) {
+        System.out.print(" ");
+      }
+      for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
+        System.out.print(" ");
+      }
+      System.out.print("|");
+      for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
+        System.out.print(" ");
+      }
+      System.out.print(gopr);
+      if (Integer.toString(gopr).length() % 2 == 1) {
+        System.out.print(" ");
+      }
+      for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
+        System.out.print(" ");
+      }
+      System.out.println("|");
+      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
 
-    String quality = scan.nextLine();
-    int p = 0;
-    quality = quality.toLowerCase();
-    if (quality.equals("good")) {
-      p = gopr;
-    }
-    else if (quality.equals("okay")) {
-      p = pric;
-    }
-    else if (quality.equals("bad")) {
-      p = bapr;
-    }
-    else {
-      System.out.println("Please input a valid quality.");
-      dispPrice(price, i, false);
-      return;
+      quality = scan.nextLine();
+      p = 0;
+      quality = quality.toLowerCase();
+      if (quality.equals("good")) {
+        p = gopr;
+      }
+      else if (quality.equals("okay")) {
+        p = pric;
+      }
+      else if (quality.equals("bad")) {
+        p = bapr;
+      }
+      else {
+        System.out.println("Please input a valid quality.");
+        dispPrice(price, i, false);
+        return;
+      }
+    } else {
+      p = stashPrice;
+      stashPrice = 0;
+      if (stashQual == 3) {
+        quality = "good";
+      }
+      else if (stashQual == 2) {
+        quality = "okay";
+      }
+      else {
+        quality = "bad";
+      }
     }
     if (money > p) {
       money -= p;
@@ -191,6 +209,7 @@ public class Game {
           purchaseItem(i, quality, quantity);
         } else {
           System.out.println("Please input a valid quantity.");
+          stashPrice = p;
           dispPrice(price, i, true);
           return;
         }
