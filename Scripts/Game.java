@@ -102,9 +102,12 @@ public class Game {
     }
     if (p.equals("gichy michy")) {
       it = shop[4];
-    }
-    if (p.equals("kadik germ")) {
+    } else if (p.equals("kadik germ")) {
       it = shop[5];
+    } else if (p.equals("bread apple")) {
+    it = shop[6];
+    } else if (p.equals("first aid kit") || p.equals("first-aid") || p.equals("first-aid kit")) {
+      it = shop[8];
     }
     if (it == null) {
       if (p.equals("continue")) {
