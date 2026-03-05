@@ -116,11 +116,11 @@ public class Game {
       displayShop(false);
     }
     else {
-      dispPrice(it.getc(), it);
+      dispPrice(it.getc(), it, false);
     }
   }
 
-  public static void dispPrice(int price, Item i) {
+  public static void dispPrice(int price, Item i, boolean jumpQuant) {
     int bapr = playerChar.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
     int gopr = playerChar.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
     int pric = playerChar.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
@@ -179,7 +179,7 @@ public class Game {
     }
     else {
       System.out.println("Please input a valid quality.");
-      dispPrice(price, i);
+      dispPrice(price, i, false);
       return;
     }
     if (money > p) {
@@ -191,7 +191,7 @@ public class Game {
           purchaseItem(i, quality, quantity);
         } else {
           System.out.println("Please input a valid quantity.");
-          dispPrice(price, i);
+          dispPrice(price, i, true);
           return;
         }
       }
