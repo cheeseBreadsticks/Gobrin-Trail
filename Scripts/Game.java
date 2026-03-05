@@ -186,8 +186,14 @@ public class Game {
       money -= p;
       if (i.m()) {
         System.out.println("How many would you like to buy?");
-        int quantity = scan.nextInt();
-        purchaseItem(i, quality, quantity);
+        if (scan.hasNextInt()) {
+          int quantity = scan.nextInt();
+          purchaseItem(i, quality, quantity);
+        } else {
+          System.out.println("Please input a valid quantity.");
+          dispPrice(price, i);
+          return;
+        }
       }
       else {
         purchaseItem(i, quality, 1);
