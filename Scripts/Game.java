@@ -271,14 +271,14 @@ public class Game {
       go();
     }
     else {
-      System.out.println("Please select a valid item.")
+      System.out.println("Please select a valid item.");
       steal();
     }
   }
 
   public static double changeDistMult(double disasterMult, int mapQuality) {
     // TODO: use for loop w/ maxdisasters parameter to roll for extra disasters.
-
+    int maxDisasters;
     double mult = 1.0;
     double flatDist = 0.0;
     double compoundChance = disasterMult;
@@ -304,12 +304,14 @@ public class Game {
       activeDisasters.add("On Track");
     }
     if (biome.equals("o")) { //orgoreyn
-      if (ccRoll < compoundChance) { //ccroll btwn 0 & 1, but starts at 1 so always passes 1st time
+      double disasterMod = Math.random() * 3;
+      maxDisasters = 1 + (int)disasterMod;
+      if (ccRoll < compoundChance && activeDisasters.size() < maxDisasters) { //ccroll btwn 0 & 1, but starts at 1 so always passes 1st time
         if (rand < 0.05) {
           //flat light
           if (!activeDisasters.contains("Flat Light")) {
             mult *= 0.8;
-            compoundChance *= 0.1;
+            compoundChance *= 0.3;
             activeDisasters.add("Flat Light");
           }
         }
@@ -317,7 +319,7 @@ public class Game {
           //snow storm
           if (!activeDisasters.contains("Snowstorm")) {
             mult *= 0.7;
-            compoundChance *= 0.1;
+            compoundChance *= 0.3;
             activeDisasters.add("Snowstorm");
           }
         }
@@ -325,7 +327,7 @@ public class Game {
           //eruption (volacno)
           if (!activeDisasters.contains("Volcano")) {
             mult *= 0.5;
-            compoundChance *= 0.1;
+            compoundChance *= 0.3;
             activeDisasters.add("Volcano");
           }
         }
@@ -356,23 +358,31 @@ public class Game {
           mult *= 0.3;
         } else {
           //no disaster, but still chance for one, just smaller
-          compoundChance *= 0.1;
+          compoundChance *= 0.3;
         }
       }
       // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm
     } else if (biome.equals("i") ) { //ice
-      if (ccRoll < compoundChance) {
+      double disasterMod = Math.random() * 2;
+      maxDisasters = 3 + (int)disasterMod;
+      if (ccRoll < compoundChance && activeDisasters.size() < maxDisasters) {
         if (rand < 0.1 && !activeDisasters.contains("Snowstorm")) {
           //ice crevasse
           activeDisasters.add("Snowstorm");
-          compoundChance *= 0.3;
+          compoundChance *= 0.6;
         } else if (rand < 0.2 && !activeDisasters.contains("Flat Light")) {
           //snow storm
           activeDisasters.add("Flat Light");
-          compoundChance *= 0.3;
+          compoundChance *= 0.6;
         }
       }
     } else if (biome.equals("b")) { //bay of Guthen
+      double disasterMod = Math.random() * 3;
+      maxDisasters = 4 + (int)disasterMod; 
+      //mult by 0.75 each time
+      if (ccRoll < compoundChance && activeDisasters.size() < maxDisasters) {
+
+      }
 
     }
 
