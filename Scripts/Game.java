@@ -239,7 +239,7 @@ public class Game {
     }
     else {
       System.out.println("You sneak into the food shop in Turuf.");
-      System.out.println("Stealing any of the other items would be too difficult on skis.")
+      System.out.println("Stealing any of the other items would be too difficult on skis.");
       steal();
     }
   }
@@ -249,18 +249,18 @@ public class Game {
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾");
     String ste = scan.nextLine();
     ste = ste.toLowerCase();
-    for (int i = 0; i < shop.size(); i ++) {
-      if (ste.equals(shop.get(i).getn())) {
+    for (int i = 0; i < shop.length; i ++) {
+      if (ste.equals(shop[i].getn())) {
         System.out.println("You can only steal 3 of an item at a time.");
         System.out.println("How many would you like to steal?");
         int amt = scan.nextLine();
-        int c = Math.random() * amt;
+        double c = Math.random() * amt;
         if (c <= 0.5) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
-          purchaseItem(shop.get(i), "good", amt);
+          purchaseItem(shop[i], "good", amt);
           break;
         }
         else {
-          System.out.println("You accidentally drop some " + shop.get(i).getn().toLowerCase() + ".");
+          System.out.println("You accidentally drop some " + shop[i].getn().toLowerCase() + ".");
           System.out.println("After pausing briefly, you here a stir nearby. You quickly pack up your loot and run.");
           break;
         }
