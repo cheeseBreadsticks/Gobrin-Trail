@@ -396,6 +396,10 @@ public class Game {
     }
   }
 
+  //prob do choices to make it more interactive (ex, which path)
+  //have a planning stage where players map out their route (from set choices)
+  //could add a "lost" event in flat light/snowstorm = more interactivity
+  //option to start/stop rationing food = hunger pangs hindering decision making = higher lost chance as genly, slighly higer as estraven
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
   }
@@ -406,7 +410,7 @@ public class Game {
     distanceleft -= dtrav;
     if (distanceleft <= 0) {
       distanceleft = 0;
-      System.out.println("Congratulations! You have arrived in Kurkurast and won part 1 of the game!"); //wdym part 1
+      System.out.println("Congratulations! You have arrived in Kurkurast and won the game!");
     }
   }
 }
