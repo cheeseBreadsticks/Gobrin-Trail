@@ -1,4 +1,5 @@
 package Scripts;
+import Scripts.UsefulMethods;
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
@@ -25,9 +26,12 @@ public class Game {
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
+  
+  // note: doesn't actually clear the terminal, just pushes the text up
 
   public static void start() {
-    System.out.println("\n\n\n\n\n\nWelcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
+    UsefulMethods.clearTerminal();
+    System.out.println("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
     System.out.println("You start with 2x Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice!");
     //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
@@ -66,7 +70,8 @@ public class Game {
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
   public static void displayShop(boolean valid) {
-    System.out.println("\n\n\n\n\n\nWelcome to the shop! Here are the items available for purchase:");
+    UsefulMethods.clearTerminal();
+    System.out.println("Welcome to the shop! Here are the items available for purchase:");
     System.out.println(" ____________ _____________ ____________ _______________ __________");
     System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ ");
@@ -90,10 +95,12 @@ public class Game {
       shteal();
       return;
     }
+    UsefulMethods.clearTerminal();
     findProduct(buy);
   }
 
   public static void findProduct(String p) {
+    System.out.println("What qualtiy " + UsefulMethods.capitalize(p) + " would you like to buy?\n");
     Item it = null;
     p = p.toLowerCase();
     for (int i = 0; i < shop.length; i ++) {
@@ -183,6 +190,7 @@ public class Game {
         p = bapr;
       }
       else {
+        UsefulMethods.clearTerminal();
         System.out.println("Please input a valid quality.");
         dispPrice(price, i, false);
         return;
