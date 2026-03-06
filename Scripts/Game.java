@@ -1,5 +1,4 @@
 package Scripts;
-import Scripts.UsefulMethods;
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
@@ -26,8 +25,6 @@ public class Game {
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
-  
-  // note: doesn't actually clear the terminal, just pushes the text up
 
   public static void start() {
     UsefulMethods.clearTerminal();
@@ -46,17 +43,16 @@ public class Game {
         displayShop(true);
       }
     }
-    
   }
 
   public static void charSelect() {
     System.out.println("\nPlease type the name of your character:\nEstraven\nGenly");
-    String chara = scan.nextLine();
-    if (chara.toLowerCase().equals("estraven") || chara.equals("1")|| chara.equals("1."))  {
+    String chara = scan.nextLine().toLowerCase();
+    if (chara.equals("estraven") || chara.equals("estraven."))  {
       playerChar = "Estraven";
       return;
     }
-    else if (chara.toLowerCase().equals("genly") || chara.equals("2")|| chara.equals("2.")) {
+    else if (chara.equals("genly") || chara.equals("genly.")) {
       playerChar = "Genly";
       return;
     } else {
@@ -242,7 +238,15 @@ public class Game {
   }
 
   public static void purchaseItem(Item i, String quality, int quantity) {
-    System.out.println("You purchased " + quantity + " " + quality + " " + i.getn() + "(s).");
+    if (i.m()) {
+      if (quantity > 1) {
+        System.out.println("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "s.");
+      } else {
+        System.out.println("You purchased 1 " + quality + " " + i.getn() + ".");
+      }
+    } else {
+      System.out.println("You purchased 1 " + UsefulMethods.capitalize(quality) + " " + i.getn() + ".");
+    }
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().equals(i.getn())) {
         if (inventory.get(j).getqual().equals(quality)) {
