@@ -209,37 +209,37 @@ public class Game {
         quality = "bad";
       }
     }
-    if (money > p) {
-      money -= p;
-      if (i.m()) {
-        System.out.println("How many would you like to buy?");
-        if (scan.hasNextInt()) {
-          int quantity = scan.nextInt();
-          scan.nextLine(); // consume the newline left by nextInt()
-          purchaseItem(i, quality, quantity);
-        } else {
-          System.out.println("Please input a valid quantity.");
-          stashPrice = p;
-          stashQual = quality;
-          dispPrice(price, i, true);
-          return;
-        }
-      }
-      else {
-        purchaseItem(i, quality, 1);
-      }
-      System.out.println("Would you like to buy anything else? (yes/no)");
-      String cont = scan.nextLine().toLowerCase();
-      if (cont.equals("yes")) {
-        displayShop(true);
+    if (i.m()) {
+      System.out.println("How many would you like to buy?");
+      if (scan.hasNextInt()) {
+        int quantity = scan.nextInt();
+        scan.nextLine(); // consume the newline left by nextInt()
       } else {
-        System.out.println("Are you sure you want to stop shopping? (yes/no)");
-        String stop = scan.nextLine();
-        if (stop.toLowerCase().equals("yes")) {
-          shteal();
-        } else {
-          displayShop(true);
-        }
+        System.out.println("Please input a valid quantity.");
+        stashPrice = p;
+        stashQual = quality;
+        dispPrice(price, i, true);
+        return;
+      }
+    }
+    else {
+      quantity = 1;
+    }
+    if (money >= quantity * p) {
+      money -= (quantity * p)
+      purchaseItem(i, quality, quantity);
+     }
+    System.out.println("Would you like to buy anything else? (yes/no)");
+    String cont = scan.nextLine().toLowerCase();
+    if (cont.equals("yes")) {
+      displayShop(true);
+    } else {
+      System.out.println("Are you sure you want to stop shopping? (yes/no)");
+      String stop = scan.nextLine();
+      if (stop.toLowerCase().equals("yes")) {
+        shteal();
+      } else {
+        displayShop(true);
       }
     }
     else {
