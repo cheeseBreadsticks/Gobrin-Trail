@@ -56,7 +56,7 @@ public class Game {
       playerChar = "Genly";
       return;
     } else {
-      System.out.println("Please pick a valid character.");
+      System.out.println("\nPlease pick a valid character.");
       charSelect();
     }
   }
