@@ -228,7 +228,7 @@ public class Game {
     if (money >= quantity * p) {
       money -= (quantity * p)
       purchaseItem(i, quality, quantity);
-     }
+    }
     System.out.println("Would you like to buy anything else? (yes/no)");
     String cont = scan.nextLine().toLowerCase();
     if (cont.equals("yes")) {
@@ -300,12 +300,12 @@ public class Game {
     ste = ste.toLowerCase();
     for (int i = 4; i < 8; i ++) {
       if (ste.equals(shop[i].getn().toLowerCase())) {
-        System.out.println("You can only steal 3 of an item at a time.");
+        System.out.println("You can only steal 5 of an item at a time.");
         System.out.println("How many would you like to steal?");
         int amt = scan.nextInt();
         scan.nextLine(); // consume the newline left by nextInt()
         double c = Math.random() * amt;
-        if (c <= 0.5) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
+        if (c <= 2) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
           purchaseItem(shop[i], "good", amt);
           break;
         }
