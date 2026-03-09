@@ -215,6 +215,7 @@ public class Game {
         System.out.println("How many would you like to buy?");
         if (scan.hasNextInt()) {
           int quantity = scan.nextInt();
+          scan.nextLine(); // consume the newline left by nextInt()
           purchaseItem(i, quality, quantity);
         } else {
           System.out.println("Please input a valid quantity.");
@@ -235,7 +236,6 @@ public class Game {
         System.out.println("Are you sure you want to stop shopping? (yes/no)");
         String stop = scan.nextLine();
         if (stop.toLowerCase().equals("yes")) {
-          System.out.println("3");
           shteal();
         } else {
           displayShop(true);
@@ -303,6 +303,7 @@ public class Game {
         System.out.println("You can only steal 3 of an item at a time.");
         System.out.println("How many would you like to steal?");
         int amt = scan.nextInt();
+        scan.nextLine(); // consume the newline left by nextInt()
         double c = Math.random() * amt;
         if (c <= 0.5) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
           purchaseItem(shop[i], "good", amt);
