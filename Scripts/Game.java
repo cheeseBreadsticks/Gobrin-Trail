@@ -15,7 +15,7 @@ public class Game {
   private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
   private static String playerChar;
   private static int stashPrice = 0;
-  private static int stashQual = 0; // 1 = bad, 2 = okay, 3 = good
+  private static String stashQual; // 1 = bad, 2 = okay, 3 = good
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -80,14 +80,16 @@ public class Game {
     System.out.println(" ____________");
     System.out.println("|  Continue  |");
     System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾");
+    System.out.println("Money: " + money);
     if (valid) {
-      System.out.println("\nWhat would you like to buy?");
+      System.out.println("What would you like to buy?");
     } else {
-      System.out.println("\nPlease pick a valid item.");
+      System.out.println("Please pick a valid item.");
     }
     String buy = scan.nextLine();
     buy = buy.toLowerCase();
     if (buy.equals("continue")) {
+      System.out.println("1");
       shteal();
       return;
     }
@@ -96,7 +98,8 @@ public class Game {
   }
 
   public static void findProduct(String p) {
-    System.out.println("What qualtiy " + UsefulMethods.capitalize(p) + " would you like to buy?\n");
+    System.out.println("Money: " + money);
+    System.out.println("\nWhat quality " + UsefulMethods.capitalize(p) + " would you like to buy?");
     Item it = null;
     p = p.toLowerCase();
     for (int i = 0; i < shop.length; i ++) {
@@ -116,6 +119,7 @@ public class Game {
     }
     if (it == null) {
       if (p.equals("continue")) {
+        System.out.println("2");
         shteal();
       }
       displayShop(false);
@@ -187,17 +191,18 @@ public class Game {
       }
       else {
         UsefulMethods.clearTerminal();
-        System.out.println("Please input a valid quality.");
+        System.out.println("Money: " + money);
+        System.out.println("\nPlease input a valid quality.");
         dispPrice(price, i, false);
         return;
       }
     } else {
       p = stashPrice;
       stashPrice = 0;
-      if (stashQual == 3) {
+      if (stashQual == "good") {
         quality = "good";
       }
-      else if (stashQual == 2) {
+      else if (stashQual == "okay") {
         quality = "okay";
       }
       else {
@@ -214,6 +219,7 @@ public class Game {
         } else {
           System.out.println("Please input a valid quantity.");
           stashPrice = p;
+          stashQual = quality;
           dispPrice(price, i, true);
           return;
         }
@@ -222,12 +228,18 @@ public class Game {
         purchaseItem(i, quality, 1);
       }
       System.out.println("Would you like to buy anything else? (yes/no)");
-      String cont = scan.nextLine();
-      cont = cont.toLowerCase();
+      String cont = scan.nextLine().toLowerCase();
       if (cont.equals("yes")) {
         displayShop(true);
       } else {
-        shteal();
+        System.out.println("Are you sure you want to stop shopping? (yes/no)");
+        String stop = scan.nextLine();
+        if (stop.toLowerCase().equals("yes")) {
+          System.out.println("3");
+          shteal();
+        } else {
+          displayShop(true);
+        }
       }
     }
     else {
@@ -343,59 +355,63 @@ public class Game {
     if (biome.equals("o")) { //orgoreyn
       double disasterMod = Math.random() * 3;
       maxDisasters = 1 + (int)disasterMod;
-      if (ccRoll < compoundChance && activeDisasters.size() < maxDisasters) { //ccroll btwn 0 & 1, but starts at 1 so always passes 1st time
-        if (rand < 0.05) {
-          //flat light
-          if (!activeDisasters.contains("Flat Light")) {
-            mult *= 0.8;
-            compoundChance *= 0.3;
-            activeDisasters.add("Flat Light");
+      for (int i = 0; i < maxDisasters; i++){
+        if (ccRoll < compoundChance && activeDisasters.size() < maxDisasters) { //ccroll btwn 0 & 1, but starts at 1 so always passes 1st time
+          if (rand < 0.05) {
+            //flat light
+            if (!activeDisasters.contains("Flat Light")) {
+              mult *= 0.8;
+              compoundChance *= 0.3;
+              activeDisasters.add("Flat Light");
+            }
           }
-        }
-        else if (rand < 0.15) {
-          //snow storm
-          if (!activeDisasters.contains("Snowstorm")) {
-            mult *= 0.7;
-            compoundChance *= 0.3;
-            activeDisasters.add("Snowstorm");
+          else if (rand < 0.15) {
+            //snow storm
+            if (!activeDisasters.contains("Snowstorm")) {
+              mult *= 0.7;
+              compoundChance *= 0.3;
+              activeDisasters.add("Snowstorm");
+            }
           }
-        }
-        else if (rand < 0.175) {
-          //eruption (volacno)
-          if (!activeDisasters.contains("Volcano")) {
-            mult *= 0.5;
-            compoundChance *= 0.3;
-            activeDisasters.add("Volcano");
+          else if (rand < 0.175) {
+            //eruption (volacno)
+            if (!activeDisasters.contains("Volcano")) {
+              mult *= 0.5;
+              compoundChance *= 0.3;
+              activeDisasters.add("Volcano");
+            }
           }
-        }
-        else if (rand < 0.18 && !activeDisasters.contains("Flat Light")) {
-          // trips = day ends early & no second disaster (if first) (duration 1)
-          activeDisasters.add("Tripped ");
-          flatDist = Math.round(Math.random() * 10 * mult);
-          mult *= 0;
-          compoundChance *= 0;
-          if (rand2 < 0.5) {
-            //50% chance of frostbite
+          else if (rand < 0.18 && !activeDisasters.contains("Flat Light")) {
+            // trips = day ends early & no second disaster (if first) (duration 1)
+            activeDisasters.add("Tripped ");
+            flatDist = Math.round(Math.random() * 10 * mult);
+            mult *= 0;
+            compoundChance *= 0;
+            if (rand2 < 0.5) {
+              //50% chance of frostbite
+              activeDisasters.add("Frostbite");
+              flatDist *= 0.5;
+            }
+          }
+          else if (rand < 0.2 && activeDisasters.contains("Flat Light")) {
+            // increased chance w/ flat light
+            activeDisasters.add("Tripped");
+            if (rand2 < 0.3) {
+              //30% chance of frostbite, less b/c already has flat light
+              activeDisasters.add("Frostbite");
+              flatDist *= 0.5;
+            }
+          }
+          else if (rand < 0.6 && (activeDisasters.contains("Snowstorm") || activeDisasters.contains("Tripped"))) {
+            //frostbite
             activeDisasters.add("Frostbite");
-            flatDist *= 0.5;
+            mult *= 0.3;
+          } else {
+            //no disaster, but still chance for one, just smaller
+            compoundChance *= 0.3;
           }
-        }
-        else if (rand < 0.2 && activeDisasters.contains("Flat Light")) {
-          // increased chance w/ flat light
-          activeDisasters.add("Tripped");
-          if (rand2 < 0.3) {
-            //30% chance of frostbite, less b/c already has flat light
-            activeDisasters.add("Frostbite");
-            flatDist *= 0.5;
-          }
-        }
-        else if (rand < 0.6 && (activeDisasters.contains("Snowstorm") || activeDisasters.contains("Tripped"))) {
-          //frostbite
-          activeDisasters.add("Frostbite");
-          mult *= 0.3;
         } else {
-          //no disaster, but still chance for one, just smaller
-          compoundChance *= 0.3;
+          break;
         }
       }
       // available disasters: crevasse, flat light, snow storm, bad map, avalance, frostbite, extreme snow storm, special snow storm
@@ -410,6 +426,17 @@ public class Game {
         } else if (rand < 0.2 && !activeDisasters.contains("Flat Light")) {
           //snow storm
           activeDisasters.add("Flat Light");
+          compoundChance *= 0.6;
+        } else if (rand < 0.25 && !activeDisasters.contains("Avalanche")) {
+          //avalanche
+          activeDisasters.add("Avalanche");
+          compoundChance *= 0.6;
+        } else if (rand < 0.4 && !activeDisasters.contains("Special Snowstorm")) {
+          //special snow storm
+          activeDisasters.add("Special Snowstorm");
+          compoundChance *= 0.6;
+        } else {
+          //no disaster, but still chance for one, just smaller
           compoundChance *= 0.6;
         }
       }
