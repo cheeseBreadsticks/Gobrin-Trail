@@ -20,4 +20,19 @@ public class Storage {
 			System.out.println("You cannot store that much!");
 		}
 	}
+
+	//get max capacity
+	public int getCap() {
+		return capacity;
+	}
+	
+	//get remaining capacity
+	public int getRem() {
+		return capacityleft;
+	}
+
+	//get name of storage
+	public String getName() {
+		return name;
+	}
 }

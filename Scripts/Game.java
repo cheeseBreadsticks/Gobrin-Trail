@@ -4,6 +4,7 @@ package Scripts;
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 import java.util.Scanner;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
@@ -37,9 +38,9 @@ public class Game {
     Storage b2 = new Storage("Backpack", 30); //backpacks
     charSelect();
     if (playerChar != null) {
-      System.out.println("\n" + playerChar + " chosen. Type \"continue\" to begin.");
+      System.out.println("\n" + playerChar + " chosen. Press ENTER to begin.");
       String next = scan.nextLine();
-      if (next.toLowerCase().equals("continue")) {
+      if (next.equals("")) {
         displayShop(true);
       }
     }
