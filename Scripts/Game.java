@@ -503,6 +503,9 @@ public class Game {
     if (front.equals("forward")) {
       forward(front);
     }
+    JFrame frame = new JFrame("test");
+    frame.setSize(1280, 725);
+    frame.setVisible(true);
   }
 
   //prob do choices to make it more interactive (ex, which path)
