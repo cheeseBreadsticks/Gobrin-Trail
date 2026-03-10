@@ -237,8 +237,11 @@ public class Game {
       quantity = 1;
     }
     if (money >= quantity * p) {
-      money -= (quantity * p);
-      purchaseItem(i, quality, quantity);
+      purchaseItem(i, quality, quantity, p);
+    } else if (money < p) {
+        System.out.println("You don't have enough money to purchase that!");
+        dispPrice(price, i, true);
+        return;
     }
     System.out.println("Would you like to buy anything else? (yes/no)");
     String cont = scan.nextLine().toLowerCase();
@@ -259,16 +262,7 @@ public class Game {
     }
   }
 
-  public static void purchaseItem(Item i, String quality, int quantity) {
-    if (i.m()) {
-      if (quantity > 1) {
-        System.out.println("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "s.");
-      } else {
-        System.out.println("You purchased 1 " + quality + " " + i.getn() + ".");
-      }
-    } else {
-      System.out.println("You purchased 1 " + UsefulMethods.capitalize(quality) + " " + i.getn() + ".");
-    }
+  public static void purchaseItem(Item i, String quality, int quantity, int price) {
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().equals(i.getn())) {
         if (inventory.get(j).getqual().equals(quality)) {
@@ -283,6 +277,17 @@ public class Game {
         i.setq(quantity);
         i.q(quality);
       }
+    }
+    if (i.m()) {
+      money -= quantity * price;
+      if (quantity > 1) {
+        System.out.println("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "s.");
+      } else {
+        System.out.println("You purchased 1 " + quality + " " + i.getn() + ".");
+      }
+    } else {
+      money -= price;
+      System.out.println("You purchased 1 " + UsefulMethods.capitalize(quality) + " " + i.getn() + ".");
     }
     
   }
@@ -316,7 +321,7 @@ public class Game {
         scan.nextLine(); // consume the newline left by nextInt()
         double c = Math.random() * amt;
         if (c <= 2) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
-          purchaseItem(shop[i], "good", amt);
+          purchaseItem(shop[i], "good", amt, 0);
           break;
         }
         else {
