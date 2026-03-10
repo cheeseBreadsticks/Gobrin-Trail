@@ -36,7 +36,11 @@ public class Game {
     //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
     Storage b1 = new Storage("Backpack", 30);
     Storage b2 = new Storage("Backpack", 30); //backpacks
-    charSelect();
+    System.out.println("\nPress ENTER to continue.");
+    String c = scan.nextLine();
+    if (c.equals("")) {
+      charSelect(true);
+    }
     if (playerChar != null) {
       System.out.println("\n" + playerChar + " chosen. Press ENTER to begin.");
       String next = scan.nextLine();
@@ -46,8 +50,14 @@ public class Game {
     }
   }
 
-  public static void charSelect() {
-    System.out.println("\nPlease type the name of your character:\nEstraven\nGenly");
+  public static void charSelect(boolean valid) {
+    UsefulMethods.clearTerminal();
+    if (valid) {
+      System.out.println("\nPlease type the name of your character:");
+    } else {
+      System.out.println("\nPlease pick a valid character:");
+    }
+    System.out.println("\nEstraven\nGenly");
     String chara = scan.nextLine().toLowerCase();
     if (chara.equals("estraven") || chara.equals("estraven."))  {
       playerChar = "Estraven";
@@ -57,8 +67,7 @@ public class Game {
       playerChar = "Genly";
       return;
     } else {
-      System.out.println("\nPlease pick a valid character.");
-      charSelect();
+      charSelect(false);
     }
   }
 
