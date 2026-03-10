@@ -233,7 +233,6 @@ public class Game {
     String cont = scan.nextLine().toLowerCase();
     if (cont.equals("yes")) {
       displayShop(true);
-    } else {
       System.out.println("Are you sure you want to stop shopping? (yes/no)");
       String stop = scan.nextLine();
       if (stop.toLowerCase().equals("yes")) {
