@@ -226,7 +226,7 @@ public class Game {
       quantity = 1;
     }
     if (money >= quantity * p) {
-      money -= (quantity * p)
+      money -= (quantity * p);
       purchaseItem(i, quality, quantity);
     }
     System.out.println("Would you like to buy anything else? (yes/no)");
