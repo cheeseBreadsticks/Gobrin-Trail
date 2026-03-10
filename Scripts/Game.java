@@ -209,10 +209,11 @@ public class Game {
         quality = "bad";
       }
     }
+    int quantity;
     if (i.m()) {
       System.out.println("How many would you like to buy?");
       if (scan.hasNextInt()) {
-        int quantity = scan.nextInt();
+        quantity = scan.nextInt();
         scan.nextLine(); // consume the newline left by nextInt()
       } else {
         System.out.println("Please input a valid quantity.");
