@@ -314,21 +314,29 @@ public class Game {
     String ste = scan.nextLine();
     ste = ste.toLowerCase();
     for (int i = 4; i < 8; i ++) {
-      if (ste.equals(shop[i].getn().toLowerCase())) {
+      if (ste.equals(shop[i].getn().toLowerCase()) || ste.equals("gichy michy") || ste.equals("kadik germ")) {
+        if (ste.equals("gichy michy")) {
+          i = 4;
+        }
+        else if (ste.equals("kadik germ")) {
+          i = 5;
+        }
         System.out.println("You can only steal 5 of an item at a time.");
         System.out.println("How many would you like to steal?");
         int amt = scan.nextInt();
         scan.nextLine(); // consume the newline left by nextInt()
         double c = Math.random() * amt;
-        if (c <= 2) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
-          purchaseItem(shop[i], "good", amt, 0);
-          break;
-        }
-        else {
-          System.out.println("You accidentally drop some " + shop[i].getn().toLowerCase() + ".");
-          System.out.println("After pausing briefly, you here a stir nearby. You quickly pack up your loot and run.");
-          go();
-          return;
+        if (amt < 6) {
+          if (c <= 2) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
+            purchaseItem(shop[i], "good", amt, 0);
+            break;
+          }
+          else {
+            System.out.println("You accidentally drop some " + shop[i].getn().toLowerCase() + ".");
+            System.out.println("After pausing briefly, you here a stir nearby. You quickly pack up your loot and run.");
+            go();
+            return;
+          }
         }
       }
     }
@@ -519,8 +527,11 @@ public class Game {
       forward(front);
     }
     JFrame frame = new JFrame("test");
+    JButton but = new JButton("test");
     frame.setSize(1280, 725);
     frame.setVisible(true);
+    but.setBounds(100,100,100,50);
+    frame.add(but);
   }
 
   //prob do choices to make it more interactive (ex, which path)
