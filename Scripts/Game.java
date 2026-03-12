@@ -33,6 +33,12 @@ public class Game {
     frame.setLayout(null);
     frame.setUndecorated(true);
     frame.setVisible(true);
+    ImageIcon back = new ImageIcon("Gobrin-Trail/Assets/back.png");
+    JLabel backe = new JLabel(back);
+    backe.setLayout(null);
+    frame.setContentPane(backe);
+
+
     UsefulMethods.clearTerminal();
     System.out.println("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
