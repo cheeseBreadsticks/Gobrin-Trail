@@ -4,6 +4,7 @@ package Scripts;
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 import java.util.Scanner;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
@@ -16,6 +17,7 @@ public class Game {
   private static String playerChar;
   private static int stashPrice = 0;
   private static String stashQual; // 1 = bad, 2 = okay, 3 = good
+  private static JFrame frame = new JFrame("Game");
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -27,6 +29,10 @@ public class Game {
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
 
   public static void start() {
+    frame.setSize(1470, 920);
+    frame.setLayout(null);
+    frame.setUndecorated(true);
+    frame.setVisible(true);
     UsefulMethods.clearTerminal();
     System.out.println("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
     System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
