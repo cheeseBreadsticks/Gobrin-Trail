@@ -4,7 +4,6 @@ package Scripts;
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 import java.util.Scanner;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
@@ -526,12 +525,6 @@ public class Game {
     if (front.equals("forward")) {
       forward(front);
     }
-    JFrame frame = new JFrame("test");
-    JButton but = new JButton("test");
-    frame.setSize(1280, 725);
-    frame.setVisible(true);
-    but.setBounds(100,100,100,50);
-    frame.add(but);
   }
 
   //prob do choices to make it more interactive (ex, which path)
