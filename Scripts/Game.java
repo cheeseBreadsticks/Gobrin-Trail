@@ -57,13 +57,13 @@ public class Game {
     } else {
       System.out.println("\nPlease pick a valid character:");
     }
-    System.out.println("\nEstraven\nGenly");
+    System.out.println("\n1. Estraven\n2. Genly");
     String chara = scan.nextLine().toLowerCase();
-    if (chara.equals("estraven") || chara.equals("estraven."))  {
+    if (chara.equals("estraven") || chara.equals("1") || chara.equals("1."))  {
       playerChar = "Estraven";
       return;
     }
-    else if (chara.equals("genly") || chara.equals("genly.")) {
+    else if (chara.equals("genly") || chara.equals("2") || chara.equals("2.")) {
       playerChar = "Genly";
       return;
     } else {
@@ -262,6 +262,34 @@ public class Game {
     }
   }
 
+  public static void dispQuant(int price, Item i, String quality, boolean overbuy) {
+    int quantity;
+    if (i.m()) {
+      if (!overbuy) {
+        System.out.println("How many would you like to buy?");
+      } else {
+        System.out.println("You don't have enough money to purchase that!");
+      }
+      
+      if (scan.hasNextInt()) {
+        quantity = scan.nextInt();
+        scan.nextLine(); // consume the newline left by nextInt()
+      } else {
+        System.out.println("Please input a valid quantity.");
+        dispQuant(price, i, quality, false);
+        return;
+      }
+    } else {
+      quantity = 1;
+    }
+    if (money >= quantity * price) {
+      purchaseItem(i, quality, quantity, price);
+    } else {
+      dispQuant(price, i, quality, true);
+      return;
+    }
+  }
+
   public static void purchaseItem(Item i, String quality, int quantity, int price) {
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().equals(i.getn())) {
@@ -278,15 +306,14 @@ public class Game {
         i.q(quality);
       }
     }
+    money -= quantity * price;
     if (i.m()) {
-      money -= quantity * price;
       if (quantity > 1) {
         System.out.println("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "s.");
       } else {
         System.out.println("You purchased 1 " + quality + " " + i.getn() + ".");
       }
     } else {
-      money -= price;
       System.out.println("You purchased 1 " + UsefulMethods.capitalize(quality) + " " + i.getn() + ".");
     }
     
