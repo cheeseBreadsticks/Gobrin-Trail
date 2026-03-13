@@ -2,9 +2,11 @@ package Scripts;
 //100 off ice, frostbite, bad map
 //600 ice - crevasse, snowstorm, volcano, flat light, frostbite, bad map, avalanche
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
-import java.util.Scanner;
+import java.awt.Font;
+import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.JFrame;
+import java.util.Scanner;
+import javax.swing.*;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
@@ -14,9 +16,15 @@ public class Game {
   private static int money = 5000;
   private static final int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
   private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
-  private static String playerChar;
   private static int stashPrice = 0;
   private static String stashQual; // 1 = bad, 2 = okay, 3 = good
+  private static JFrame frame = new JFrame("Game");
+  private static Font font = new Font("Times New Roman", Font.PLAIN, 18);
+  private static JTextField answer = new JTextField();
+  private static JTextArea text = new JTextArea();
+  private static String c = "";
+  private static String chara;
+  private static String blank;
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -27,89 +35,105 @@ public class Game {
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
 
-  public static void start() {
-    UsefulMethods.clearTerminal();
-    System.out.println("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away.");
-    System.out.println("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice.");
-    System.out.println("You start with 2x Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice!");
-    //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
-    //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
-    Storage b1 = new Storage("Backpack", 30);
-    Storage b2 = new Storage("Backpack", 30); //backpacks
-    System.out.println("\nPress ENTER to continue.");
-    String c = scan.nextLine();
-    if (c.equals("")) {
+  public static void start(boolean skip) {
+    //vis
+    if (!skip) {
+      frame.setSize(1470, 920);
+      frame.setLayout(null);
+      frame.setUndecorated(true);
+      frame.setVisible(true);
+      ImageIcon back = new ImageIcon("Gobrin-Trail/Assets/back.png");
+      JLabel backe = new JLabel(back);
+      backe.setLayout(null);
+      frame.setContentPane(backe);
+      text.setEditable(false);
+      text.setBounds(235, 25, 1000, 750);
+      text.setFont(font);
+      frame.add(text);
+      text.append("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away. \n");
+      text.append("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice. \n");
+      text.append("You start with 2 Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice! \n");
+      //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
+      //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
+      Storage b1 = new Storage("Backpack", 30);
+      Storage b2 = new Storage("Backpack", 30); //backpacks
+      answer.setBounds(231, 770, 1007,35);
+      answer.setText("");
+      frame.add(answer);
+      frame.repaint();
+      frame.revalidate();
+    }
+    if (chara == null) {
       charSelect(true);
     }
-    if (playerChar != null) {
-      System.out.println("\n" + playerChar + " chosen. Press ENTER to begin.");
-      String next = scan.nextLine();
-      if (next.equals("")) {
-        displayShop(true);
+    if (chara != null) {
+      text.append(chara + " chosen. Type 'continue' to begin. \n");
+      while(true) {
+        if (c.toLowerCase().equals("continue")) {
+          displayShop(true);
+          return;
+        }
       }
     }
   }
 
   public static void charSelect(boolean valid) {
-    UsefulMethods.clearTerminal();
     if (valid) {
-      System.out.println("\nPlease type the name of your character:");
+      text.append("Please type the name of your character:\n");
     } else {
-      System.out.println("\nPlease pick a valid character:");
+      text.append("Please pick a valid character:\n");
     }
-    System.out.println("\n1. Estraven\n2. Genly");
-    String chara = scan.nextLine().toLowerCase();
-    if (chara.equals("estraven") || chara.equals("1") || chara.equals("1."))  {
-      playerChar = "Estraven";
-      return;
-    }
-    else if (chara.equals("genly") || chara.equals("2") || chara.equals("2.")) {
-      playerChar = "Genly";
-      return;
-    } else {
-      charSelect(false);
+    text.append("1. Estraven\n2. Genly\n");
+    while (true) { 
+     if (c.toLowerCase().equals("genly") || c.toLowerCase().equals("estraven")) {
+        chara = c;
+        chara = UsefulMethods.capitalize(chara);
+        return;
+     }   
     }
   }
-
+  // text.append("Welcome to the shop! Here are the items available for purchase:\n");
+    // text.append(" ____________ _____________ ____________ _______________ __________\n");
+    // text.append("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ \n");
+    // text.append(" ____________ _____________ ____________ _______________ __________\n");
+    // text.append("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |   Orsh   |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾\n");
+    // text.append(" ____________ _____________ ____________ _______________ __________\n");
+    // text.append("|   Other:   |  First Aid  |     Map    |    Backpack   |   Skis   |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾\n");
+    // text.append(" ____________\n");
+    // text.append("|  Continue  |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾\n");
+    //I don't think we can do this bc it prints poorly in the TextArea
   //list of supplies a few pages into chapter 15
   //orsh, gitchy-mitchy, kadik-germ, dried breadapple, red sugar, sleeping bags, clothes, skis, sledge, qualities for each equipment (good, avg, poor)
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
   public static void displayShop(boolean valid) {
-    UsefulMethods.clearTerminal();
-    System.out.println("Welcome to the shop! Here are the items available for purchase:");
-    System.out.println(" ____________ _____________ ____________ _______________ __________");
-    System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ ");
-    System.out.println(" ____________ _____________ ____________ _______________ __________");
-    System.out.println("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |   Orsh   |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
-    System.out.println(" ____________ _____________ ____________ _______________ __________");
-    System.out.println("|   Other:   |  First Aid  |     Map    |    Backpack   |   Skis   |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
-    System.out.println(" ____________");
-    System.out.println("|  Continue  |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾");
-    System.out.println("Money: " + money);
+    text.append("Specialties: Stove, Tent, Sleeping Bags, Sledge \n");
+    text.append("Food: Gichy-michy, Kadik-germ, Breadapple, Orsh \n");
+    text.append("Other: First Aid, Map, Backpack, Skis \n");
+    text.append("Continue \n");
+    text.append("Money: " + money + "\n");
     if (valid) {
-      System.out.println("What would you like to buy?");
+      text.append("What would you like to buy?\n");
     } else {
-      System.out.println("Please pick a valid item.");
+      text.append("Please pick a valid item.\n");
     }
-    String buy = scan.nextLine();
-    buy = buy.toLowerCase();
+    //figure out the buy thing (if it doesn't work at first cry cry again)
+    String buy = "";
     if (buy.equals("continue")) {
       System.out.println("1");
       shteal();
       return;
     }
-    UsefulMethods.clearTerminal();
     findProduct(buy);
   }
 
   public static void findProduct(String p) {
-    System.out.println("Money: " + money);
-    System.out.println("\nWhat quality " + UsefulMethods.capitalize(p) + " would you like to buy?");
+    text.append("Money: " + money + "\n");
+    text.append("\nWhat quality " + UsefulMethods.capitalize(p) + " would you like to buy?\n");
     Item it = null;
     p = p.toLowerCase();
     for (int i = 0; i < shop.length; i ++) {
@@ -143,9 +167,9 @@ public class Game {
     int p;
     String quality;
     if (!jumpQuant) {
-      int bapr = playerChar.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
-      int gopr = playerChar.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
-      int pric = playerChar.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
+      int bapr = chara.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
+      int gopr = chara.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
+      int pric = chara.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
       //this should work no matter price length
       System.out.println(" __________ _____________ ______________ ______________");
       System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
@@ -341,21 +365,29 @@ public class Game {
     String ste = scan.nextLine();
     ste = ste.toLowerCase();
     for (int i = 4; i < 8; i ++) {
-      if (ste.equals(shop[i].getn().toLowerCase())) {
+      if (ste.equals(shop[i].getn().toLowerCase()) || ste.equals("gichy michy") || ste.equals("kadik germ")) {
+        if (ste.equals("gichy michy")) {
+          i = 4;
+        }
+        else if (ste.equals("kadik germ")) {
+          i = 5;
+        }
         System.out.println("You can only steal 5 of an item at a time.");
         System.out.println("How many would you like to steal?");
         int amt = scan.nextInt();
         scan.nextLine(); // consume the newline left by nextInt()
         double c = Math.random() * amt;
-        if (c <= 2) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
-          purchaseItem(shop[i], "good", amt, 0);
-          break;
-        }
-        else {
-          System.out.println("You accidentally drop some " + shop[i].getn().toLowerCase() + ".");
-          System.out.println("After pausing briefly, you here a stir nearby. You quickly pack up your loot and run.");
-          go();
-          return;
+        if (amt < 6) {
+          if (c <= 2) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
+            purchaseItem(shop[i], "good", amt, 0);
+            break;
+          }
+          else {
+            System.out.println("You accidentally drop some " + shop[i].getn().toLowerCase() + ".");
+            System.out.println("After pausing briefly, you here a stir nearby. You quickly pack up your loot and run.");
+            go();
+            return;
+          }
         }
       }
     }
@@ -540,14 +572,18 @@ public class Game {
   }
 
   public static void main(String[] args) {
-    start();
+    answer.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          c = answer.getText();
+          System.out.println(c);
+          answer.setText("");
+        }
+    });
+    start(false);
     String front = scan.nextLine();
     if (front.equals("forward")) {
       forward(front);
     }
-    JFrame frame = new JFrame("test");
-    frame.setSize(1280, 725);
-    frame.setVisible(true);
   }
 
   //prob do choices to make it more interactive (ex, which path)
