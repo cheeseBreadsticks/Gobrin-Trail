@@ -85,11 +85,19 @@ public class Game {
     }
     text.append("1. Estraven\n2. Genly\n");
     while (true) { 
-     if (c.toLowerCase().equals("genly") || c.toLowerCase().equals("estraven")) {
+     if (c.toLowerCase().substring(0, 5).equals("genly") || c.toLowerCase().substring(0, 7).equals("estraven")) {
         chara = c;
         chara = UsefulMethods.capitalize(chara);
         return;
-     }   
+     }
+     if (c.substring(0, 1).equals("1") || c.substring(0, 1).equals("2")) {
+      if (c.substring(0, 1).equals("1")) {
+        chara = "Estraven";
+      } else {
+        chara = "Genly";
+      }
+      return;
+     }
     }
   }
   // text.append("Welcome to the shop! Here are the items available for purchase:\n");
