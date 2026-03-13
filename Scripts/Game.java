@@ -77,12 +77,6 @@ public class Game {
     }
   }
 
-  public static String prompt(String s, boolean valid) {
-    text.append(s);
-    String ret = "";
-    return "";
-  }
-
   public static void charSelect(boolean valid) {
     if (valid) {
       text.append("Please type the name of your character:\n");
@@ -98,45 +92,48 @@ public class Game {
      }   
     }
   }
-
+  // text.append("Welcome to the shop! Here are the items available for purchase:\n");
+    // text.append(" ____________ _____________ ____________ _______________ __________\n");
+    // text.append("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ \n");
+    // text.append(" ____________ _____________ ____________ _______________ __________\n");
+    // text.append("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |   Orsh   |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾\n");
+    // text.append(" ____________ _____________ ____________ _______________ __________\n");
+    // text.append("|   Other:   |  First Aid  |     Map    |    Backpack   |   Skis   |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾\n");
+    // text.append(" ____________\n");
+    // text.append("|  Continue  |\n");
+    // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾\n");
+    //I don't think we can do this bc it prints poorly in the TextArea
   //list of supplies a few pages into chapter 15
   //orsh, gitchy-mitchy, kadik-germ, dried breadapple, red sugar, sleeping bags, clothes, skis, sledge, qualities for each equipment (good, avg, poor)
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
   public static void displayShop(boolean valid) {
-    System.out.println("Welcome to the shop! Here are the items available for purchase:");
-    System.out.println(" ____________ _____________ ____________ _______________ __________");
-    System.out.println("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ ");
-    System.out.println(" ____________ _____________ ____________ _______________ __________");
-    System.out.println("|    Food:   | Gichy-michy | Kadik-germ |   Breadapple  |   Orsh   |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
-    System.out.println(" ____________ _____________ ____________ _______________ __________");
-    System.out.println("|   Other:   |  First Aid  |     Map    |    Backpack   |   Skis   |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾");
-    System.out.println(" ____________");
-    System.out.println("|  Continue  |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾");
-    System.out.println("Money: " + money);
+    text.append("Specialties: Stove, Tent, Sleeping Bags, Sledge \n");
+    text.append("Food: Gichy-michy, Kadik-germ, Breadapple, Orsh \n");
+    text.append("Other: First Aid, Map, Backpack, Skis \n");
+    text.append("Continue \n");
+    text.append("Money: " + money + "\n");
     if (valid) {
-      System.out.println("What would you like to buy?");
+      text.append("What would you like to buy?\n");
     } else {
-      System.out.println("Please pick a valid item.");
+      text.append("Please pick a valid item.\n");
     }
-    String buy = scan.nextLine();
-    buy = buy.toLowerCase();
+    //figure out the buy thing (if it doesn't work at first cry cry again)
+    String buy = "";
     if (buy.equals("continue")) {
       System.out.println("1");
       shteal();
       return;
     }
-    UsefulMethods.clearTerminal();
     findProduct(buy);
   }
 
   public static void findProduct(String p) {
-    System.out.println("Money: " + money);
-    System.out.println("\nWhat quality " + UsefulMethods.capitalize(p) + " would you like to buy?");
+    text.append("Money: " + money + "\n");
+    text.append("\nWhat quality " + UsefulMethods.capitalize(p) + " would you like to buy?\n");
     Item it = null;
     p = p.toLowerCase();
     for (int i = 0; i < shop.length; i ++) {
