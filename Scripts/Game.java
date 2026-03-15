@@ -25,6 +25,16 @@ public class Game {
   private static String c = "";
   private static String chara;
   private static String blank;
+  private static String oldc = "";
+  static class action extends AbstractAction {
+    public void actionPerformed(ActionEvent e) {
+      oldc = c;
+      c = answer.getText();
+      answer.setText("");
+      System.out.println(c);
+    }
+  }
+  private static action Action = new action();
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -42,10 +52,6 @@ public class Game {
       frame.setLayout(null);
       frame.setUndecorated(true);
       frame.setVisible(true);
-      ImageIcon back = new ImageIcon("Gobrin-Trail/Assets/back.png");
-      JLabel backe = new JLabel(back);
-      backe.setLayout(null);
-      frame.setContentPane(backe);
       text.setEditable(false);
       text.setBounds(235, 25, 1000, 750);
       text.setFont(font);
@@ -62,6 +68,8 @@ public class Game {
       frame.add(answer);
       frame.repaint();
       frame.revalidate();
+      answer.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "gogo");
+      answer.getActionMap().put("gogo", Action);
     }
     if (chara == null) {
       charSelect(true);
@@ -71,6 +79,7 @@ public class Game {
       while(true) {
         if (c.toLowerCase().equals("continue")) {
           displayShop(true);
+          c = "";
           return;
         }
       }
@@ -85,19 +94,17 @@ public class Game {
     }
     text.append("1. Estraven\n2. Genly\n");
     while (true) { 
-     if (c.toLowerCase().substring(0, 5).equals("genly") || c.toLowerCase().substring(0, 7).equals("estraven")) {
+     if (c.toLowerCase().equals("genly") || c.toLowerCase().equals("estraven")) {
         chara = c;
         chara = UsefulMethods.capitalize(chara);
         return;
      }
-     if (c.substring(0, 1).equals("1") || c.substring(0, 1).equals("2")) {
-      if (c.substring(0, 1).equals("1")) {
-        chara = "Estraven";
-      } else {
+     if (c.equals("1")) {
         chara = "Genly";
       }
-      return;
-     }
+      else if (c.equals("2")) {
+        chara = "Estraven";
+      }
     }
   }
   // text.append("Welcome to the shop! Here are the items available for purchase:\n");
@@ -136,7 +143,9 @@ public class Game {
       shteal();
       return;
     }
-    findProduct(buy);
+    if (!buy.equals("")) {
+      findProduct(buy);
+    }
   }
 
   public static void findProduct(String p) {
@@ -580,13 +589,6 @@ public class Game {
   }
 
   public static void main(String[] args) {
-    answer.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          c = answer.getText();
-          System.out.println(c);
-          answer.setText("");
-        }
-    });
     start(false);
     String front = scan.nextLine();
     if (front.equals("forward")) {
