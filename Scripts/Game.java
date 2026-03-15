@@ -20,21 +20,10 @@ public class Game {
   private static String stashQual; // 1 = bad, 2 = okay, 3 = good
   private static JFrame frame = new JFrame("Game");
   private static Font font = new Font("Times New Roman", Font.PLAIN, 18);
-  private static JTextField answer = new JTextField();
   private static JTextArea text = new JTextArea();
   private static String c = "";
   private static String chara;
   private static String blank;
-  private static String oldc = "";
-  static class action extends AbstractAction {
-    public void actionPerformed(ActionEvent e) {
-      oldc = c;
-      c = answer.getText();
-      answer.setText("");
-      System.out.println(c);
-    }
-  }
-  private static action Action = new action();
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -45,9 +34,8 @@ public class Game {
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
 
-  public static void start(boolean skip) {
+  public static void start() {
     //vis
-    if (!skip) {
       frame.setSize(1470, 920);
       frame.setLayout(null);
       frame.setUndecorated(true);
@@ -63,27 +51,31 @@ public class Game {
       //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
       Storage b1 = new Storage("Backpack", 30);
       Storage b2 = new Storage("Backpack", 30); //backpacks
-      answer.setBounds(231, 770, 1007,35);
-      answer.setText("");
-      frame.add(answer);
       frame.repaint();
       frame.revalidate();
-      answer.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "gogo");
-      answer.getActionMap().put("gogo", Action);
-    }
-    if (chara == null) {
       charSelect(true);
-    }
-    if (chara != null) {
-      text.append(chara + " chosen. Type 'continue' to begin. \n");
-      while(true) {
-        if (c.toLowerCase().equals("continue")) {
-          displayShop(true);
-          c = "";
-          return;
+  }
+
+  public static JTextField bob() { //this makes the JTextFields and prints them, idk why I named it bob
+    JTextField answer = new JTextField();
+    answer.setBounds(231, 770, 1007,35);
+    answer.setText("Type responses here: ");
+    answer.addFocusListener(new FocusListener() {
+      public void focusGained(FocusEvent e) {
+        if (answer.getText().equals("Type responses here: ")) {
+          answer.setText("");
         }
       }
-    }
+      public void focusLost(FocusEvent e) {
+        if (answer.getText().equals("")) {
+          answer.setText("Type responses here: ");
+        }
+      }
+    });
+    frame.add(answer);
+    frame.repaint();
+    frame.revalidate();
+    return answer;
   }
 
   public static void charSelect(boolean valid) {
@@ -93,21 +85,35 @@ public class Game {
       text.append("Please pick a valid character:\n");
     }
     text.append("1. Estraven\n2. Genly\n");
-    while (true) { 
-     if (c.toLowerCase().equals("genly") || c.toLowerCase().equals("estraven")) {
-        chara = c;
-        chara = UsefulMethods.capitalize(chara);
-        return;
-     }
-     if (c.equals("1")) {
-        chara = "Genly";
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        System.out.println(c);
+        if (c.toLowerCase().equals("genly")) {
+          chara = "Genly";
+          a.setText("");
+          text.append(chara + " chosen \n");
+          displayShop(true);
+          frame.remove(a);
+        }
+        else if (c.toLowerCase().equals("estraven \n")) {
+          chara = "estraven";
+          text.append(chara + " chosen");
+          a.setText("");
+          displayShop(true);
+          frame.remove(a);
+        }
+        else {
+          charSelect(false);
+          a.setText("");
+          frame.remove(a);
+          return;
+        }
       }
-      else if (c.equals("2")) {
-        chara = "Estraven";
-      }
-    }
+    });
   }
-  // text.append("Welcome to the shop! Here are the items available for purchase:\n");
+  
     // text.append(" ____________ _____________ ____________ _______________ __________\n");
     // text.append("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |\n");
     // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ \n");
@@ -125,7 +131,9 @@ public class Game {
   //orsh, gitchy-mitchy, kadik-germ, dried breadapple, red sugar, sleeping bags, clothes, skis, sledge, qualities for each equipment (good, avg, poor)
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
+
   public static void displayShop(boolean valid) {
+    text.append("Welcome to the shop! Here are the items available for purchase:\n");
     text.append("Specialties: Stove, Tent, Sleeping Bags, Sledge \n");
     text.append("Food: Gichy-michy, Kadik-germ, Breadapple, Orsh \n");
     text.append("Other: First Aid, Map, Backpack, Skis \n");
@@ -137,15 +145,20 @@ public class Game {
       text.append("Please pick a valid item.\n");
     }
     //figure out the buy thing (if it doesn't work at first cry cry again)
-    String buy = "";
-    if (buy.equals("continue")) {
-      System.out.println("1");
-      shteal();
-      return;
-    }
-    if (!buy.equals("")) {
-      findProduct(buy);
-    }
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        if (c.toLowerCase().equals("continue")) {
+          System.out.println("sneaky sneaky");
+          shteal();
+          return;
+        }
+        if (!c.equals("")) {
+          findProduct(c);
+        }
+      }
+    });
   }
 
   public static void findProduct(String p) {
@@ -589,7 +602,7 @@ public class Game {
   }
 
   public static void main(String[] args) {
-    start(false);
+    start();
     String front = scan.nextLine();
     if (front.equals("forward")) {
       forward(front);
