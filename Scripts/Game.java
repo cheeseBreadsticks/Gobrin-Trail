@@ -15,15 +15,13 @@ public class Game {
   private static ArrayList<Item> inventory = new ArrayList<Item>();
   private static int money = 5000;
   private static final int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
-  private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid Kit", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
-  private static int stashPrice = 0;
-  private static String stashQual; // 1 = bad, 2 = okay, 3 = good
+  private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
   private static JFrame frame = new JFrame("Game");
   private static Font font = new Font("Times New Roman", Font.PLAIN, 18);
   private static JTextArea text = new JTextArea();
   private static String c = "";
   private static String chara;
-  private static String blank;
+  private static int p;
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -72,6 +70,16 @@ public class Game {
         }
       }
     });
+    answer.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = answer.getText();
+        System.out.println(c);
+        if (c.toLowerCase().equals("clear")) {
+          text.setText("");
+          answer.setText("");
+        }
+      }
+    });
     frame.add(answer);
     frame.repaint();
     frame.revalidate();
@@ -89,24 +97,20 @@ public class Game {
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         c = a.getText();
-        System.out.println(c);
         if (c.toLowerCase().equals("genly")) {
           chara = "Genly";
-          a.setText("");
           text.append(chara + " chosen \n");
           displayShop(true);
           frame.remove(a);
         }
-        else if (c.toLowerCase().equals("estraven \n")) {
-          chara = "estraven";
-          text.append(chara + " chosen");
-          a.setText("");
+        else if (c.toLowerCase().equals("estraven")) {
+          chara = "Estraven";
+          text.append(chara + " chosen \n");
           displayShop(true);
           frame.remove(a);
         }
         else {
           charSelect(false);
-          a.setText("");
           frame.remove(a);
           return;
         }
@@ -152,18 +156,18 @@ public class Game {
         if (c.toLowerCase().equals("continue")) {
           System.out.println("sneaky sneaky");
           shteal();
+          frame.remove(a);
           return;
         }
         if (!c.equals("")) {
           findProduct(c);
+          frame.remove(a);
         }
       }
     });
   }
 
   public static void findProduct(String p) {
-    text.append("Money: " + money + "\n");
-    text.append("\nWhat quality " + UsefulMethods.capitalize(p) + " would you like to buy?\n");
     Item it = null;
     p = p.toLowerCase();
     for (int i = 0; i < shop.length; i ++) {
@@ -189,245 +193,226 @@ public class Game {
       displayShop(false);
     }
     else {
-      dispPrice(it.getc(), it, false);
+      dispPrice(it.getc(), it);
     }
   }
 
-  public static void dispPrice(int price, Item i, boolean jumpQuant) {
-    int p;
-    String quality;
-    if (!jumpQuant) {
-      int bapr = chara.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
-      int gopr = chara.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
-      int pric = chara.equals("Estraven") ? (int)price : (int)price; //I need it to be 4 dig or lower cuz the tables gonna look weird
-      //this should work no matter price length
-      System.out.println(" __________ _____________ ______________ ______________");
-      System.out.println("| Quality: |     Bad     |     Okay     |     Good     |");
-      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-      System.out.println(" __________ _____________ ______________ ______________");
-      System.out.print("|  Price:  |");
-      for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
-        System.out.print(" ");
+  public static void dispPrice(int price, Item i) {
+    text.append("Money: " + money + "\n");
+    text.append("\nWhat quality " + UsefulMethods.capitalize(i.getn()) + " would you like to buy?\n");
+    int bapr = chara.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
+    int gopr = chara.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
+    int pric = chara.equals("Estraven") ? (int)price : (int)price;
+    text.append("Good Quality: " + gopr + "\n");
+    text.append("Okay Quality: " + pric + "\n");
+    text.append("Bad Quality: " + bapr + "\n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        if (c.toLowerCase().equals("good")) {
+          frame.remove(a);
+          getQuant(i, "Good", gopr);
+        }
+        else if (c.toLowerCase().equals("okay")) {
+          frame.remove(a);
+          getQuant(i, "Okay", pric);
+        }
+        else if (c.toLowerCase().equals("bad")) {
+          frame.remove(a);
+          getQuant(i, "Bad", bapr);
+        }
+        else {
+          text.append("Please input a valid quality \n");
+          dispPrice(price, i);
+          frame.remove(a);
+          return;
+        }
       }
-      System.out.print(bapr);
-      if (Integer.toString(bapr).length() % 2 == 0) {
-        System.out.print(" ");
-      }
-      for (int k = 0; k < (13 - Integer.toString(bapr).length())/2; k++) {
-        System.out.print(" ");
-      }
-      System.out.print("|");
-      for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
-        System.out.print(" ");
-      }
-      System.out.print(pric);
-      if (Integer.toString(pric).length() % 2 == 1) {
-        System.out.print(" ");
-      }
-      for (int k = 0; k < (14 - Integer.toString(pric).length())/2; k++) {
-        System.out.print(" ");
-      }
-      System.out.print("|");
-      for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
-        System.out.print(" ");
-      }
-      System.out.print(gopr);
-      if (Integer.toString(gopr).length() % 2 == 1) {
-        System.out.print(" ");
-      }
-      for (int k = 0; k < (14 - Integer.toString(gopr).length())/2; k++) {
-        System.out.print(" ");
-      }
-      System.out.println("|");
-      System.out.println(" ‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-
-      quality = scan.nextLine();
-      p = 0;
-      quality = quality.toLowerCase();
-      if (quality.equals("good")) {
-        p = gopr;
-      }
-      else if (quality.equals("okay")) {
-        p = pric;
-      }
-      else if (quality.equals("bad")) {
-        p = bapr;
-      }
-      else {
-        UsefulMethods.clearTerminal();
-        System.out.println("Money: " + money);
-        System.out.println("\nPlease input a valid quality.");
-        dispPrice(price, i, false);
-        return;
-      }
-    } else {
-      p = stashPrice;
-      stashPrice = 0;
-      if (stashQual == "good") {
-        quality = "good";
-      }
-      else if (stashQual == "okay") {
-        quality = "okay";
-      }
-      else {
-        quality = "bad";
-      }
-    }
-    int quantity;
-    if (i.m()) {
-      System.out.println("How many would you like to buy?");
-      if (scan.hasNextInt()) {
-        quantity = scan.nextInt();
-        scan.nextLine(); // consume the newline left by nextInt()
-      } else {
-        System.out.println("Please input a valid quantity.");
-        stashPrice = p;
-        stashQual = quality;
-        dispPrice(price, i, true);
-        return;
-      }
-    }
-    else {
-      quantity = 1;
-    }
-    if (money >= quantity * p) {
-      purchaseItem(i, quality, quantity, p);
-    } else if (money < p) {
-        System.out.println("You don't have enough money to purchase that!");
-        dispPrice(price, i, true);
-        return;
-    }
-    System.out.println("Would you like to buy anything else? (yes/no)");
-    String cont = scan.nextLine().toLowerCase();
-    if (cont.equals("yes")) {
-      displayShop(true);
-      System.out.println("Are you sure you want to stop shopping? (yes/no)");
-      String stop = scan.nextLine();
-      if (stop.toLowerCase().equals("yes")) {
-        shteal();
-      } else {
-        displayShop(true);
-      }
-    }
-    else {
-      System.out.println("You don't have enough money to purchase that!");
-      displayShop(true);
-      return;
-    }
+    });
   }
-
-  public static void dispQuant(int price, Item i, String quality, boolean overbuy) {
-    int quantity;
+  
+  public static void getQuant(Item i, String q, int p) {
     if (i.m()) {
-      if (!overbuy) {
-        System.out.println("How many would you like to buy?");
-      } else {
-        System.out.println("You don't have enough money to purchase that!");
+      text.append("How many " + q + " " + i.getn() + " would you like to buy?");
+      JTextField a = bob();
+      a.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          c = a.getText();
+          int quant = 1;
+          try {
+            quant = Integer.parseInt(c);
+          }
+          catch (NumberFormatException z) {
+            text.append("Please input a valid quantity (just the number!)");
+            frame.remove(a);
+            getQuant(i,q,p);
+            return;
+          }
+          if (money >= (p * quant)) {
+            purchaseItem(i,q,quant,p);
+            frame.remove(a);
+          }
+          else {
+            text.append("You do not have enough money to purchase that!");
+            frame.remove(a);
+            getQuant(i,q,p);
+            return;
+          }
+        }
+      });
+    }
+    else {
+      if (money >= p) {
+        purchaseItem(i, q, 1, p);
       }
-      
-      if (scan.hasNextInt()) {
-        quantity = scan.nextInt();
-        scan.nextLine(); // consume the newline left by nextInt()
-      } else {
-        System.out.println("Please input a valid quantity.");
-        dispQuant(price, i, quality, false);
+      else {
+        text.append("You do not have enough money to purchase that!");
+        getQuant(i,q,p);
         return;
       }
-    } else {
-      quantity = 1;
-    }
-    if (money >= quantity * price) {
-      purchaseItem(i, quality, quantity, price);
-    } else {
-      dispQuant(price, i, quality, true);
-      return;
     }
   }
 
   public static void purchaseItem(Item i, String quality, int quantity, int price) {
+    int count = 0;
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().equals(i.getn())) {
         if (inventory.get(j).getqual().equals(quality)) {
           inventory.get(j).setq(inventory.get(j).getq() + quantity);
         }
-        inventory.add(i);
-        i.setq(quantity);
-        i.q(quality);
+        else {
+          inventory.add(i);
+          i.setq(quantity);
+          i.q(quality);
+        }
       }
       else {
-        inventory.add(i);
-        i.setq(quantity);
-        i.q(quality);
+        count ++;
       }
+    }
+    if (count == inventory.size()) {
+      inventory.add(i);
+      i.setq(quantity);
+      i.q(quality);
     }
     money -= quantity * price;
-    if (i.m()) {
-      if (quantity > 1) {
-        System.out.println("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "s.");
-      } else {
-        System.out.println("You purchased 1 " + quality + " " + i.getn() + ".");
+    text.append("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "s. \n");
+    text.append("Would you like to purchase anything else? \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        if (c.toLowerCase().equals("no")) {
+          shteal();
+          frame.remove(a);
+        }
+        else {
+          displayShop(true);
+          frame.remove(a);
+        }
       }
-    } else {
-      System.out.println("You purchased 1 " + UsefulMethods.capitalize(quality) + " " + i.getn() + ".");
-    }
-    
+    });
   }
 
   public static void shteal() {
-    System.out.println("You wake in the middle of the night before the journey.");
-    System.out.println("Despite making the most of your money, you have doubts about your resources.");
-    System.out.println("Steal from the nearby town (Yes/No)?");
-    String steal = scan.nextLine();
-    steal = steal.toLowerCase();
-    if (steal.equals("no")) {
-      go();
-    }
-    else {
-      System.out.println("You sneak into the food shop in Turuf.");
-      System.out.println("Stealing any of the other items would be too difficult on skis.");
-      steal();
-    }
+    text.append("You wake in the middle of the night before the journey. \n");
+    text.append("Despite making the most of your money, you have doubts about your resources. \n");
+    text.append("Steal from the nearby town (Yes/No)? \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        if (c.toLowerCase().equals("yes")) {
+          text.append("You sneak into the food shop in Turuf. \n");
+          steal();
+          frame.remove(a);
+        }
+        else {
+          go();
+          frame.remove(a);
+        }
+      }
+    });
   }
+  
   public static void steal() {
-    System.out.println(" _____________ ____________ ______ ____________ _______");
-    System.out.println("| Gichy-michy | Kadik-germ | Orsh | Breadapple | Leave |");
-    System.out.println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾");
-    String ste = scan.nextLine();
-    ste = ste.toLowerCase();
-    for (int i = 4; i < 8; i ++) {
-      if (ste.equals(shop[i].getn().toLowerCase()) || ste.equals("gichy michy") || ste.equals("kadik germ")) {
-        if (ste.equals("gichy michy")) {
-          i = 4;
-        }
-        else if (ste.equals("kadik germ")) {
-          i = 5;
-        }
-        System.out.println("You can only steal 5 of an item at a time.");
-        System.out.println("How many would you like to steal?");
-        int amt = scan.nextInt();
-        scan.nextLine(); // consume the newline left by nextInt()
-        double c = Math.random() * amt;
-        if (amt < 6) {
-          if (c <= 2) { //kinda arbitrary but whatever just that the more you buy the lower chance of hitting it, so 50% at 1 item, 25% at 2 item, 16.7% at 3 item
-            purchaseItem(shop[i], "good", amt, 0);
+    text.append("Gichy-michy, Kadik-germ, Orsh, Breadapple \n");
+    text.append("Leave \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        Item it = null;
+        c = a.getText();
+        c = c.toLowerCase();
+        for (int i = 4; i < 8; i ++) {
+          if (c.equals(shop[i].getn().toLowerCase())) {
+            it = shop[i];
             break;
           }
-          else {
-            System.out.println("You accidentally drop some " + shop[i].getn().toLowerCase() + ".");
-            System.out.println("After pausing briefly, you here a stir nearby. You quickly pack up your loot and run.");
+        }
+        if (c.equals("gichy michy")) {
+          it = shop[4];
+        }
+        else if (c.equals("kadik germ")) {
+          it = shop[5];
+        }
+        if (it != null) {
+          stealQuant(it);
+          frame.remove(a);
+        }
+        else {
+          if (c.equals("continue")) {
+            text.append("Cutting your losses, you leave with your loot. \n");
+            frame.remove(a);
             go();
+          }
+          else {
+            text.append("Please input a valid item \n");
+            steal();
+            frame.remove(a);
             return;
           }
         }
       }
-    }
-    if (ste.equals("leave")) {
-      go();
-    }
-    else {
-      System.out.println("Please select a valid item.");
-      steal();
-    }
+    });
+  }
+
+  public static void stealQuant(Item i) {
+    text.append("How many " + i.getn() + " would you like to steal (max 5) \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        try { 
+          p = Integer.parseInt(c);
+          if (p <= 5 && p > 0) {
+            double d = (Math.random() * p);
+            if (d <= (Math.pow(1.1, p))) {
+              purchaseItem(i,"Okay",p,0);
+              frame.remove(a);
+            }
+            else {
+              text.append("While trying to steal the " + i.getn() + " you drop some and make a stir. \n");
+              text.append("Not wanting to get caught, you cut your losses and ski back to camp. \n");
+              frame.remove(a);
+              go();
+            }
+          }
+          else {
+            text.append("Please input a valid quantity (more than 0, less than 6) \n");
+            frame.remove(a);
+            stealQuant(i);
+            return;
+          }
+        } catch (NumberFormatException z) {
+          text.append("Please input a valid quantity (just the number!) \n");
+          frame.remove(a);
+          stealQuant(i);
+          return;
+        }
+      }
+    });
   }
 
   public static double changeDistMult(double disasterMult, int mapQuality) {
@@ -615,6 +600,7 @@ public class Game {
   //option to start/stop rationing food = hunger pangs hindering decision making = higher lost chance as genly, slighly higer as estraven
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
+    text.append("start start go go");
   }
 
   public static void forward(String t) { //game forward
