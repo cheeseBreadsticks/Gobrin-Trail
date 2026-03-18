@@ -22,6 +22,8 @@ public class Game {
   private static String chara;
   private static int p;
   private static java.util.Timer check = new java.util.Timer();
+  private static ArrayList<String> old = new ArrayList<String>();
+  private static int count = 0;
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -90,6 +92,35 @@ public class Game {
       public void focusLost(FocusEvent e) {
         if (answer.getText().equals("")) {
           answer.setText("Type responses here: ");
+        }
+      }
+    });
+    answer.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        old.add(answer.getText());
+        count = old.size();
+      }
+    }); 
+    answer.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+          if (count > 0) {
+            count --;
+            answer.setText(old.get(count));
+          }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+          if (count == old.size() - 1) {
+            count ++;
+            answer.setText("");
+          }
+          if (count < old.size() - 1) {
+              count ++;
+              answer.setText(old.get(count));
+          }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+          count = old.size();
         }
       }
     });
@@ -291,7 +322,7 @@ public class Game {
 
   public static void purchaseItem(Item i, String quality, int quantity, int price, boolean steal) {
     text.append("\n");
-    int count = 0;
+    int coun = 0;
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().equals(i.getn())) {
         if (inventory.get(j).getqual().equals(quality)) {
@@ -304,10 +335,10 @@ public class Game {
         }
       }
       else {
-        count ++;
+        coun ++;
       }
     }
-    if (count == inventory.size()) {
+    if (coun == inventory.size()) {
       inventory.add(i);
       i.setq(quantity);
       i.q(quality);
@@ -640,15 +671,23 @@ public class Game {
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
     text.append("go me up before you wake wake");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        String c = a.getText();
+        if (c.equals("forward")) {
+          text.append("You traveled " + dtrav + " miles");
+        }
+      }
+    });
+
+    
   }
 
-  public static void forward(String t) { //game forward
+  public static double forward(String t) { //game forward
     dtrav = 12;
     dtrav += terrain();
     distanceleft -= dtrav;
-    if (distanceleft <= 0) {
-      distanceleft = 0;
-      System.out.println("Congratulations! You have arrived in Kurkurast and won the game!");
-    }
+    return dtrav;
   }
 }
