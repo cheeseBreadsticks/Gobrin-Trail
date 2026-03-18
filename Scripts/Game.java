@@ -37,17 +37,14 @@ public class Game {
       if (text.getLineCount() >= 27) {
         ArrayList<String> keep = new ArrayList<String>();
         String[] lines = text.getText().split("\n");
-        System.out.println(Arrays.deepToString(lines));
         for (int j = lines.length - 1; j >= 0; j --) {
           if (lines[j].isEmpty()) {
-            System.out.println("J is " + j);
             for (int i = j + 1; i < lines.length; i ++) {
               keep.add(lines[i]);
             }
             break;
           }
         }
-        System.out.println(Arrays.deepToString(keep.toArray()));
         text.setText("");
         for (int i = 0; i < keep.size(); i++) {
           text.append(keep.get(i) + "\n");
@@ -88,7 +85,6 @@ public class Game {
       public void focusGained(FocusEvent e) {
         if (answer.getText().equals("Type responses here: ")) {
           answer.setText("");
-          System.out.println(text.getLineCount());
         }
       }
       public void focusLost(FocusEvent e) {
@@ -173,7 +169,6 @@ public class Game {
       public void actionPerformed(ActionEvent e) {
         c = a.getText();
         if (c.toLowerCase().equals("continue")) {
-          System.out.println("sneaky sneaky");
           shteal();
           frame.remove(a);
           return;
@@ -187,7 +182,6 @@ public class Game {
   }
 
   public static void findProduct(String p) {
-    text.append("\n");
     Item it = null;
     p = p.toLowerCase();
     for (int i = 0; i < shop.length; i ++) {
@@ -207,7 +201,6 @@ public class Game {
     }
     if (it == null) {
       if (p.equals("continue")) {
-        System.out.println("2");
         shteal();
       }
       displayShop(false);
@@ -272,7 +265,7 @@ public class Game {
             return;
           }
           if (money >= (p * quant)) {
-            purchaseItem(i,q,quant,p);
+            purchaseItem(i,q,quant,p, false);
             frame.remove(a);
           }
           else {
@@ -286,7 +279,7 @@ public class Game {
     }
     else {
       if (money >= p) {
-        purchaseItem(i, q, 1, p);
+        purchaseItem(i, q, 1, p, false);
       }
       else {
         text.append("You do not have enough money to purchase that! \n");
@@ -296,7 +289,7 @@ public class Game {
     }
   }
 
-  public static void purchaseItem(Item i, String quality, int quantity, int price) {
+  public static void purchaseItem(Item i, String quality, int quantity, int price, boolean steal) {
     text.append("\n");
     int count = 0;
     for (int j = 0; j < inventory.size(); j ++) {
@@ -320,20 +313,37 @@ public class Game {
       i.q(quality);
     }
     money -= quantity * price;
-    text.append("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "s. \n");
+    if (!steal) {
+      text.append("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
+    }
+    else {
+      text.append("You stole " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
+    }
     text.append("Would you like to purchase anything else? \n");
     JTextField a = bob();
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         c = a.getText();
+        if (!steal) {
+          if (c.toLowerCase().equals("no")) {
+            shteal();
+            frame.remove(a);
+          }
+          else {
+            displayShop(true);
+            frame.remove(a);
+          }
+        }
+        else {
         if (c.toLowerCase().equals("no")) {
-          shteal();
+          go();
           frame.remove(a);
         }
         else {
-          displayShop(true);
+          steal();
           frame.remove(a);
         }
+      }
       }
     });
   }
@@ -415,7 +425,7 @@ public class Game {
           if (p <= 5 && p > 0) {
             double d = (Math.random() * p);
             if (d <= (Math.pow(1.1, p))) {
-              purchaseItem(i,"Okay",p,0);
+              purchaseItem(i,"Okay",p,0, true);
               frame.remove(a);
             }
             else {
@@ -629,7 +639,7 @@ public class Game {
   //option to start/stop rationing food = hunger pangs hindering decision making = higher lost chance as genly, slighly higer as estraven
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
-    text.append("start start go go");
+    text.append("go me up before you wake wake");
   }
 
   public static void forward(String t) { //game forward
