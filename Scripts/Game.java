@@ -4,8 +4,7 @@ package Scripts;
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 import java.awt.Font;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import javax.swing.*;
 
 public class Game {
@@ -22,6 +21,7 @@ public class Game {
   private static String c = "";
   private static String chara;
   private static int p;
+  private static java.util.Timer check = new java.util.Timer();
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -32,29 +32,55 @@ public class Game {
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
 
+  static TimerTask go = new TimerTask() {
+    public void run() {
+      if (text.getLineCount() >= 27) {
+        ArrayList<String> keep = new ArrayList<String>();
+        String[] lines = text.getText().split("\n");
+        System.out.println(Arrays.deepToString(lines));
+        for (int j = lines.length - 1; j >= 0; j --) {
+          if (lines[j].isEmpty()) {
+            System.out.println("J is " + j);
+            for (int i = j + 1; i < lines.length; i ++) {
+              keep.add(lines[i]);
+            }
+            break;
+          }
+        }
+        System.out.println(Arrays.deepToString(keep.toArray()));
+        text.setText("");
+        for (int i = 0; i < keep.size(); i++) {
+          text.append(keep.get(i) + "\n");
+        }
+        text.append("\n");
+      }
+    }
+  };
+
   public static void start() {
     //vis
-      frame.setSize(1470, 920);
-      frame.setLayout(null);
-      frame.setUndecorated(true);
-      frame.setVisible(true);
-      text.setEditable(false);
-      text.setBounds(235, 25, 1000, 750);
-      text.setFont(font);
-      frame.add(text);
-      text.append("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away. \n");
-      text.append("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice. \n");
-      text.append("You start with 2 Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice! \n");
-      //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
-      //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
-      Storage b1 = new Storage("Backpack", 30);
-      Storage b2 = new Storage("Backpack", 30); //backpacks
-      frame.repaint();
-      frame.revalidate();
-      charSelect(true);
+    frame.setSize(1470, 920);
+    frame.setLayout(null);
+    frame.setUndecorated(true);
+    frame.setVisible(true);
+    text.setEditable(false);
+    text.setBounds(235, 25, 1000, 750);
+    text.setFont(font);
+    text.setLineWrap(true);
+    frame.add(text);
+    text.append("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away. \n");
+    text.append("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice. \n");
+    text.append("You start with 2 Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice! \n");
+    //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
+    //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
+    Storage b1 = new Storage("Backpack", 30);
+    Storage b2 = new Storage("Backpack", 30); //backpacks
+    frame.repaint();
+    frame.revalidate();
+    charSelect(true);
   }
 
-  public static JTextField bob() { //this makes the JTextFields and prints them, idk why I named it bob
+  public static JTextField bob() {  //this makes the JTextFields and prints them, idk why I named it bob
     JTextField answer = new JTextField();
     answer.setBounds(231, 770, 1007,35);
     answer.setText("Type responses here: ");
@@ -62,6 +88,7 @@ public class Game {
       public void focusGained(FocusEvent e) {
         if (answer.getText().equals("Type responses here: ")) {
           answer.setText("");
+          System.out.println(text.getLineCount());
         }
       }
       public void focusLost(FocusEvent e) {
@@ -70,23 +97,14 @@ public class Game {
         }
       }
     });
-    answer.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = answer.getText();
-        System.out.println(c);
-        if (c.toLowerCase().equals("clear")) {
-          text.setText("");
-          answer.setText("");
-        }
-      }
-    });
     frame.add(answer);
     frame.repaint();
     frame.revalidate();
     return answer;
-  }
+}
 
   public static void charSelect(boolean valid) {
+    text.append("\n");
     if (valid) {
       text.append("Please type the name of your character:\n");
     } else {
@@ -137,6 +155,7 @@ public class Game {
   //gichy-michy req 1lb/day
 
   public static void displayShop(boolean valid) {
+    text.append("\n");
     text.append("Welcome to the shop! Here are the items available for purchase:\n");
     text.append("Specialties: Stove, Tent, Sleeping Bags, Sledge \n");
     text.append("Food: Gichy-michy, Kadik-germ, Breadapple, Orsh \n");
@@ -168,6 +187,7 @@ public class Game {
   }
 
   public static void findProduct(String p) {
+    text.append("\n");
     Item it = null;
     p = p.toLowerCase();
     for (int i = 0; i < shop.length; i ++) {
@@ -198,8 +218,9 @@ public class Game {
   }
 
   public static void dispPrice(int price, Item i) {
+    text.append("\n");
     text.append("Money: " + money + "\n");
-    text.append("\nWhat quality " + UsefulMethods.capitalize(i.getn()) + " would you like to buy?\n");
+    text.append("What quality " + UsefulMethods.capitalize(i.getn()) + " would you like to buy?\n");
     int bapr = chara.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
     int gopr = chara.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
     int pric = chara.equals("Estraven") ? (int)price : (int)price;
@@ -233,8 +254,9 @@ public class Game {
   }
   
   public static void getQuant(Item i, String q, int p) {
+    text.append("\n");
     if (i.m()) {
-      text.append("How many " + q + " " + i.getn() + " would you like to buy?");
+      text.append("How many " + q + " " + i.getn() + " would you like to buy? \n");
       JTextField a = bob();
       a.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -244,7 +266,7 @@ public class Game {
             quant = Integer.parseInt(c);
           }
           catch (NumberFormatException z) {
-            text.append("Please input a valid quantity (just the number!)");
+            text.append("Please input a valid quantity (just the number!) \n");
             frame.remove(a);
             getQuant(i,q,p);
             return;
@@ -254,9 +276,9 @@ public class Game {
             frame.remove(a);
           }
           else {
-            text.append("You do not have enough money to purchase that!");
+            text.append("You do not have enough money to purchase that! \n");
             frame.remove(a);
-            getQuant(i,q,p);
+            displayShop(true);
             return;
           }
         }
@@ -267,14 +289,15 @@ public class Game {
         purchaseItem(i, q, 1, p);
       }
       else {
-        text.append("You do not have enough money to purchase that!");
-        getQuant(i,q,p);
+        text.append("You do not have enough money to purchase that! \n");
+        displayShop(true);
         return;
       }
     }
   }
 
   public static void purchaseItem(Item i, String quality, int quantity, int price) {
+    text.append("\n");
     int count = 0;
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().equals(i.getn())) {
@@ -316,6 +339,7 @@ public class Game {
   }
 
   public static void shteal() {
+    text.append("\n");
     text.append("You wake in the middle of the night before the journey. \n");
     text.append("Despite making the most of your money, you have doubts about your resources. \n");
     text.append("Steal from the nearby town (Yes/No)? \n");
@@ -337,6 +361,7 @@ public class Game {
   }
   
   public static void steal() {
+    text.append("\n");
     text.append("Gichy-michy, Kadik-germ, Orsh, Breadapple \n");
     text.append("Leave \n");
     JTextField a = bob();
@@ -379,6 +404,7 @@ public class Game {
   }
 
   public static void stealQuant(Item i) {
+    text.append("\n");
     text.append("How many " + i.getn() + " would you like to steal (max 5) \n");
     JTextField a = bob();
     a.addActionListener(new ActionListener() {
@@ -416,6 +442,7 @@ public class Game {
   }
 
   public static double changeDistMult(double disasterMult, int mapQuality) {
+    text.append("\n");
     // TODO: use for loop w/ maxdisasters parameter to roll for extra disasters.
     int maxDisasters;
     double mult = 1.0;
@@ -547,6 +574,7 @@ public class Game {
   }
 
   public static double terrain() {
+    text.append("\n");
     double e = Math.random();
     if (biome.equals("o")) { //orgoreyn
       if (e < (1/3)) {
@@ -587,6 +615,7 @@ public class Game {
   }
 
   public static void main(String[] args) {
+    check.scheduleAtFixedRate(go, 0, 5);
     start();
     String front = scan.nextLine();
     if (front.equals("forward")) {
