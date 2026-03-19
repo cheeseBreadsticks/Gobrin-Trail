@@ -24,6 +24,7 @@ public class Game {
   private static java.util.Timer check = new java.util.Timer();
   private static ArrayList<String> old = new ArrayList<String>();
   private static int count = 0;
+  private static int mapQuality = -1;
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -237,6 +238,14 @@ public class Game {
       displayShop(false);
     }
     else {
+      if (!it.m()) {
+        for (int i = 0; i < inventory.size(); i ++) {
+          if (it.getn().equals(inventory.get(i).getn())) {
+            text.append("You have already purchased one of this item, you cannot buy another (some items are one and only)!");
+            displayShop(true);
+          }
+        }
+      }
       dispPrice(it.getc(), it);
     }
   }
@@ -482,7 +491,7 @@ public class Game {
     });
   }
 
-  public static double changeDistMult(double disasterMult, int mapQuality) {
+  public static double changeDistMult(double disasterMult) {
     text.append("\n");
     // TODO: use for loop w/ maxdisasters parameter to roll for extra disasters.
     int maxDisasters;
@@ -509,6 +518,10 @@ public class Game {
       //good map
       mult *= 1.01;
       activeDisasters.add("On Track");
+    }
+    if (mapQuality == -1) {
+      mult *= 0.9;
+      activeDisasters.add("Lost");
     }
     if (biome.equals("o")) { //orgoreyn
       double disasterMod = Math.random() * 3;
@@ -670,14 +683,11 @@ public class Game {
   //option to start/stop rationing food = hunger pangs hindering decision making = higher lost chance as genly, slighly higer as estraven
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
-    text.append("go me up before you wake wake");
+    text.append("Finally, you begin your journey across the Ice");
     JTextField a = bob();
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        String c = a.getText();
-        if (c.equals("forward")) {
-          text.append("You traveled " + dtrav + " miles");
-        }
+        c = a.getText();
       }
     });
 
