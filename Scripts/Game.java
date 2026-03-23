@@ -700,10 +700,6 @@ public class Game {
   public static void main(String[] args) {
     check.scheduleAtFixedRate(go, 0, 5);
     start();
-    String front = scan.nextLine();
-    if (front.equals("forward")) {
-      forward(front);
-    }
   }
 
   //prob do choices to make it more interactive (ex, which path)
@@ -713,17 +709,26 @@ public class Game {
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
     text.append("Finally, you begin your journey across the Ice");
+  }
+  public static void move() {
+    text.append("\n");
     JTextField a = bob();
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        c = a.getText();
+        if (distanceleft <= 0) {
+          text.append("You won");
+        }
+        else {
+          c = a.getText();
+          text.append("You traveled + " + forward() + " miles \n");
+          frame.remove(a);
+          move();
+        }
       }
     });
-
-    
   }
 
-  public static double forward(String t) { //game forward
+  public static double forward() { //game forward
     dtrav = 15;
     dtrav += terrain();
     dtrav *= changeDistMult(1 - activeDisasters.size() * (0.14));
