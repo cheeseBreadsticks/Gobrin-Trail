@@ -389,6 +389,19 @@ public class Game {
   }
 
   public static void shteal() {
+    for (int i = 0; i < inventory.size(); i ++) {
+      if (inventory.get(i).getn().equals("Map")) {
+        if (inventory.get(i).getqual().equals("good")) {
+          mapQuality = 2;
+        }
+        else if (inventory.get(i).getqual().equals("okay")) {
+          mapQuality = 1;
+        }
+        else if (inventory.get(i).getqual().equals("bad")) {
+          mapQuality = 0;
+        }
+      }
+    }
     text.append("\n");
     text.append("You wake in the middle of the night before the journey. \n");
     text.append("Despite making the most of your money, you have doubts about your resources. \n");
@@ -493,6 +506,8 @@ public class Game {
 
   public static double changeDistMult(double disasterMult) {
     text.append("\n");
+    //I think this is necessary but should discuss
+    activeDisasters.clear();
     // TODO: use for loop w/ maxdisasters parameter to roll for extra disasters.
     int maxDisasters;
     double mult = 1.0;
@@ -506,23 +521,28 @@ public class Game {
       //bad map
       if (rand< 0.7) {
         mult *= 0.9;
-        activeDisasters.add("Lost");
+        if (!activeDisasters.contains("Lost")) {
+          activeDisasters.add("Lost");
+        }
       }
     } else if (mapQuality == 1)  {
       //average map
       if (rand < 0.25) {
         mult *= 0.9;
+        if (!activeDisasters.contains("Lost")) {
+          activeDisasters.add("Lost");
+        }
+      }
+    } else if (mapQuality == -1) { //no map
+      mult *= 0.9;
+      if (!activeDisasters.contains("Lost")) {
         activeDisasters.add("Lost");
       }
     } else {
       //good map
       mult *= 1.01;
-      activeDisasters.add("On Track");
     }
-    if (mapQuality == -1) {
-      mult *= 0.9;
-      activeDisasters.add("Lost");
-    }
+    
     if (biome.equals("o")) { //orgoreyn
       double disasterMod = Math.random() * 3;
       maxDisasters = 1 + (int)disasterMod;
@@ -630,6 +650,15 @@ public class Game {
   public static double terrain() {
     text.append("\n");
     double e = Math.random();
+    if (dtrav < 100) {
+      biome = "o";
+    }
+    else if (dtrav < 640) {
+      biome = "i";
+    }
+    else {
+      biome = "b";
+    }
     if (biome.equals("o")) { //orgoreyn
       if (e < (1/3)) {
         return 8.0; //good terrain
@@ -695,8 +724,9 @@ public class Game {
   }
 
   public static double forward(String t) { //game forward
-    dtrav = 12;
+    dtrav = 15;
     dtrav += terrain();
+    dtrav *= changeDistMult(1 - activeDisasters.size() * (0.14));
     distanceleft -= dtrav;
     return dtrav;
   }
