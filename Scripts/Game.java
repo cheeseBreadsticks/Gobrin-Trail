@@ -37,7 +37,7 @@ public class Game {
 
   static TimerTask go = new TimerTask() {
     public void run() {
-      if (text.getLineCount() >= 27) {
+      if (text.getLineCount() >= 30) {
         ArrayList<String> keep = new ArrayList<String>();
         String[] lines = text.getText().split("\n");
         for (int j = lines.length - 1; j >= 0; j --) {
@@ -52,7 +52,6 @@ public class Game {
         for (int i = 0; i < keep.size(); i++) {
           text.append(keep.get(i) + "\n");
         }
-        text.append("\n");
       }
     }
   };
@@ -389,19 +388,21 @@ public class Game {
   }
 
   public static void shteal() {
+    System.out.println(Arrays.deepToString(inventory.toArray()));
     for (int i = 0; i < inventory.size(); i ++) {
       if (inventory.get(i).getn().equals("Map")) {
-        if (inventory.get(i).getqual().equals("good")) {
+        if (inventory.get(i).getqual().toLowerCase().equals("good")) {
           mapQuality = 2;
         }
-        else if (inventory.get(i).getqual().equals("okay")) {
+        else if (inventory.get(i).getqual().toLowerCase().equals("okay")) {
           mapQuality = 1;
         }
-        else if (inventory.get(i).getqual().equals("bad")) {
+        else if (inventory.get(i).getqual().toLowerCase().equals("bad")) {
           mapQuality = 0;
         }
       }
     }
+    System.out.println(mapQuality);
     text.append("\n");
     text.append("You wake in the middle of the night before the journey. \n");
     text.append("Despite making the most of your money, you have doubts about your resources. \n");
@@ -654,9 +655,15 @@ public class Game {
       biome = "o";
     }
     else if (dtrav < 640) {
+      if (biome.equals("o")) {
+        text.append("You have made it onto the Gobrin Ice! \n");
+      }
       biome = "i";
     }
     else {
+      if (biome.equals("i")) {
+        text.append("You have made it to the Bay of Guthen! \n");
+      }
       biome = "b";
     }
     if (biome.equals("o")) { //orgoreyn
@@ -709,18 +716,20 @@ public class Game {
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
     text.append("Finally, you begin your journey across the Ice");
+    move();
   }
   public static void move() {
-    text.append("\n");
     JTextField a = bob();
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         if (distanceleft <= 0) {
           text.append("You won");
+          a.setEditable(false);
         }
         else {
           c = a.getText();
-          text.append("You traveled + " + forward() + " miles \n");
+          text.append("You traveled " + forward() + " miles \n");
+          text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
           frame.remove(a);
           move();
         }
