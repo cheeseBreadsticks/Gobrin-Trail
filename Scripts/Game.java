@@ -16,15 +16,18 @@ public class Game {
   private static final int stoveCost = 1800, tentCost = 1000, sbagsCost = 500, sledgeCost = 750, gmCost = 25, kgermCost = 35, bappleCost = 75, orshCost = 100, fakitCost = 400, mapCost = 650, backpackCost = 850, skisCost = 100;
   private static final Item[] shop = {new Item(stoveCost, "Stove", false), new Item(tentCost, "Tent", false), new Item(sbagsCost, "Sleeping Bags", false), new Item(sledgeCost, "Sledge", false), new Item(gmCost, "Gichy-michy", true), new Item(kgermCost, "Kadik-germ", true), new Item(bappleCost, "Breadapple", true), new Item(orshCost, "Orsh", true), new Item(fakitCost, "First Aid", true), new Item(mapCost, "Map", false), new Item(backpackCost, "Backpack", true), new Item(skisCost, "Skis", false)};
   private static JFrame frame = new JFrame("Game");
-  private static Font font = new Font("Times New Roman", Font.PLAIN, 18);
+  private static Font font = new Font("Times New Roman", Font.PLAIN, 16);
   private static JTextArea text = new JTextArea();
   private static String c = "";
   private static String chara;
   private static int p;
-  private static java.util.Timer check = new java.util.Timer();
   private static ArrayList<String> old = new ArrayList<String>();
   private static int count = 0;
   private static int mapQuality = -1;
+  private static int standTravel = 15; //standard travel amt per day, can change based on how the players ration or their health
+  private static int foodUse = 1;
+  private static int foodUnits = 0;
+  private static boolean first = true;
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -35,38 +38,19 @@ public class Game {
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
 
-  static TimerTask go = new TimerTask() {
-    public void run() {
-      if (text.getLineCount() >= 30) {
-        ArrayList<String> keep = new ArrayList<String>();
-        String[] lines = text.getText().split("\n");
-        for (int j = lines.length - 1; j >= 0; j --) {
-          if (lines[j].isEmpty()) {
-            for (int i = j + 1; i < lines.length; i ++) {
-              keep.add(lines[i]);
-            }
-            break;
-          }
-        }
-        text.setText("");
-        for (int i = 0; i < keep.size(); i++) {
-          text.append(keep.get(i) + "\n");
-        }
-      }
-    }
-  };
-
   public static void start() {
     //vis
+    JScrollPane hold = new JScrollPane(text);
     frame.setSize(1470, 920);
     frame.setLayout(null);
     frame.setUndecorated(true);
     frame.setVisible(true);
     text.setEditable(false);
-    text.setBounds(235, 25, 1000, 750);
+    hold.setBounds(235, 25, 1000, 750);
+    hold.setBorder(null);
     text.setFont(font);
     text.setLineWrap(true);
-    frame.add(text);
+    frame.add(hold);
     text.append("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away. \n");
     text.append("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice. \n");
     text.append("You start with 2 Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice! \n");
@@ -81,7 +65,9 @@ public class Game {
 
   public static JTextField bob() {  //this makes the JTextFields and prints them, idk why I named it bob
     JTextField answer = new JTextField();
-    answer.setBounds(231, 770, 1007,35);
+    answer.setBounds(235, 767, 1000,35);
+    answer.setFont(font);
+    answer.setBorder(null);
     answer.setText("Type responses here: ");
     answer.addFocusListener(new FocusListener() {
       public void focusGained(FocusEvent e) {
@@ -99,6 +85,7 @@ public class Game {
       public void actionPerformed(ActionEvent e) {
         old.add(answer.getText());
         count = old.size();
+        text.setCaretPosition(text.getDocument().getLength());
       }
     }); 
     answer.addKeyListener(new KeyAdapter() {
@@ -400,6 +387,15 @@ public class Game {
         else if (inventory.get(i).getqual().toLowerCase().equals("bad")) {
           mapQuality = 0;
         }
+      }
+      if (inventory.get(i).getn().equals("Gichy-michy")) {
+        foodUnits += inventory.get(i).getq();
+      }
+      if (inventory.get(i).getn().equals("Kadik-germ")) {
+        foodUnits += (inventory.get(i).getq() * 2);
+      }
+      if (inventory.get(i).getn().equals("Breadapple")) {
+        foodUnits += (inventory.get(i).getq() * 3);
       }
     }
     System.out.println(mapQuality);
@@ -705,7 +701,6 @@ public class Game {
   }
 
   public static void main(String[] args) {
-    check.scheduleAtFixedRate(go, 0, 5);
     start();
   }
 
@@ -716,29 +711,118 @@ public class Game {
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
     text.append("Finally, you begin your journey across the Ice");
-    move();
+
+    move(true);
   }
-  public static void move() {
+  
+  public static void move(boolean valid) {
     JTextField a = bob();
+    if (!valid) {
+      text.append("Please input one of the following, enter continue when ready to move on. \n");
+    }
+    text.append("Manage: Food, Distance, Inventory, Status. \n");
+    if (first) {
+      text.append("Type Continue whenever you want to move on. \n");
+      first = false;
+    }
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
+        a.setText("");
         if (distanceleft <= 0) {
           text.append("You won");
           a.setEditable(false);
         }
-        else {
+        if (c.toLowerCase().equals("food")) { 
+          food();
+          frame.remove(a);
+        }
+        if (c.toLowerCase().equals("distance")) {
+          distance();
+        }
+        if (c.toLowerCase().equals("inventory")) {
+          inventory();
+        }
+        if (c.toLowerCase().equals("status")) {
+          status();
+        }
+        if (c.toLowerCase().equals("continue")) {
           c = a.getText();
           text.append("You traveled " + forward() + " miles \n");
           text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
+          foodUnits -= foodUse;
           frame.remove(a);
-          move();
+          move(true);
+        }
+        else {
+          move(false);
+          frame.remove(a);
+        }
+      }
+    });
+  }
+  //can prob change how food works this is just the first system that came to mind
+  //units will be easiest but others def possible
+  public static void food() { 
+    JTextField a = bob();
+    text.append("You are currently consuming " + foodUse + " units  of food everyday. \n");
+    text.append("Kadik-germ = 2 units, Gichy-michy = 1 unit, Breadapple = 3 units \n");
+    text.append("You currently have " + foodUnits + " units of food. \n");
+    text.append("Would you like to change how you're rationing? \n");
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        if (c.toLowerCase().equals("yes")) {
+          ration(true);
+          frame.remove(a);
+        }
+        else {
+          move(true);
+          frame.remove(a);
+        }
+      }
+    });
+  }
+  
+  public static void ration(boolean val) {
+    if (!val) {
+      text.append("You can use a maximum of 4 food units a day, or a minimum of 1 food unit per day. \n");
+      text.append("Using more or less will increase/decrease the distance you travel each day. \n");
+      text.append("How many would you like to use per day (whole number)? \n");
+    }
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        try {
+          int x = Integer.parseInt(c);
+          foodUse = x;
+          text.append("You are now using " + x + " units of food per day. \n");
+          frame.remove(a);
+          move(true);
+        } catch (NumberFormatException z) {
+          text.append("Please input a whole number. \n");
+          ration(false);
+          frame.remove(a);
         }
       }
     });
   }
 
+  public static void inventory() {
+    text.append("You currently have: " + Arrays.deepToString(inventory.toArray()) + "\n");
+    text.append("Would you like to dispose of anything? \n");
+  }
+
+  public static void distance() {
+
+  }
+
+  public static void status() {
+
+  }
+
   public static double forward() { //game forward
-    dtrav = 15;
+    dtrav = standTravel;
     dtrav += terrain();
     dtrav *= changeDistMult(1 - activeDisasters.size() * (0.14));
     distanceleft -= dtrav;
