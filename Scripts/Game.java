@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import java.text.*;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
@@ -24,10 +25,13 @@ public class Game {
   private static ArrayList<String> old = new ArrayList<String>();
   private static int count = 0;
   private static int mapQuality = -1;
-  private static int standTravel = 15; //standard travel amt per day, can change based on how the players ration or their health
+  private static int standTravel = 13; //standard travel amt per day, can change based on how the players ration or their health
   private static int foodUse = 1;
   private static int foodUnits = 0;
   private static boolean first = true;
+  private static Person g = new Person("Genly");
+  private static Person e = new Person("Estraven");
+  private static DecimalFormat df = new DecimalFormat("#.####");
 
   //THIS IS IMPORTANT
   private static Scanner scan = new Scanner(System.in);
@@ -56,8 +60,6 @@ public class Game {
     text.append("You start with 2 Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice! \n");
     //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
     //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
-    Storage b1 = new Storage("Backpack", 30);
-    Storage b2 = new Storage("Backpack", 30); //backpacks
     frame.repaint();
     frame.revalidate();
     charSelect(true);
@@ -305,6 +307,13 @@ public class Game {
     }
     else {
       if (money >= p) {
+        for (int j = 0; j < inventory.size(); j ++) {
+          if (inventory.get(j).getn().toLowerCase().equals(i.getn().toLowerCase())) {
+            text.append("You have already bought one of these items! \n");
+            displayShop(true);
+            return;
+          }
+        }
         purchaseItem(i, q, 1, p, false);
       }
       else {
@@ -710,8 +719,13 @@ public class Game {
   //option to start/stop rationing food = hunger pangs hindering decision making = higher lost chance as genly, slighly higer as estraven
   public static void go() {
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
+    for (int i = 0; i < inventory.size(); i ++) {
+      if (inventory.get(i).getn().equals("Skis")) {
+        standTravel ++;
+        break;
+      }
+    }
     text.append("Finally, you begin your journey across the Ice");
-
     move(true);
   }
   
@@ -747,7 +761,7 @@ public class Game {
         }
         if (c.toLowerCase().equals("continue")) {
           c = a.getText();
-          text.append("You traveled " + forward() + " miles \n");
+          text.append("You traveled " + Double.parseDouble(df.format(Double.toString(forward()))) + " miles \n");
           text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
           foodUnits -= foodUse;
           frame.remove(a);
@@ -811,14 +825,151 @@ public class Game {
   public static void inventory() {
     text.append("You currently have: " + Arrays.deepToString(inventory.toArray()) + "\n");
     text.append("Would you like to dispose of anything? \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        if (c.toLowerCase().equals("yes")) {
+
+        }
+      }
+    });
+  }
+
+  public static void dispose() {
+    text.append("What would you like to dispose (this is irreversible)? \n");
+    text.append("Enter 'none' if you would not like to dispose of anything. \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        for (int i = 0; i < inventory.size(); i ++) {
+          if (inventory.get(i).getn().toLowerCase().equals(c.toLowerCase())) {
+            for (int j = i + 1; j < inventory.size(); j ++) {
+              if (inventory.get(j).getn().equals(inventory.get(i).getn())) {
+                getDropQual(inventory.get(i).getn());
+                return;
+              }
+            }
+            if (inventory.get(i).m()) {
+              getDropQuan(inventory.get(i).getn(), inventory.get(i).getqual());
+              frame.remove(a);
+              return;
+            }
+            else {
+              inventory.remove(i);
+              text.append("You dropped your " + inventory.get(i).getn() + ". \n");
+              inventory();
+              frame.remove(a);
+              return;
+            }
+          }
+        }
+
+        if (c.toLowerCase().equals("none")) {
+          move(true);
+          frame.remove(a);
+          return;
+        }
+
+        text.append("Please enter a valid item. \n");
+        dispose();
+        frame.remove(a);
+      }
+    });
+  }
+
+  public static void getDropQual(String s) {
+    text.append("What quality " + s + " would you like to dispose of? \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        for (int i = 0; i < inventory.size(); i ++) {
+          if (s.equals(inventory.get(i).getn())) {
+            if (c.toLowerCase().equals(inventory.get(i).getqual().toLowerCase())) {
+              if (inventory.get(i).m()) {
+                getDropQuan(inventory.get(i).getn(), inventory.get(i).getqual());
+                frame.remove(a);
+                return;
+              }
+              else {
+                inventory.remove(i);
+                text.append("You dropped your " + inventory.get(i).getn() + ". \n");
+                inventory();
+                frame.remove(a);
+                return;
+              }
+            }
+          }
+        }
+        if (c.toLowerCase().equals("none")) {
+          move(true);
+          frame.remove(a);
+          return;
+        }
+        text.append("Please input a valid quantity of the item you chose. \n");
+        dispose();
+        frame.remove(a);
+      }
+    });
+  }
+
+  public static void getDropQuan(String s, String q) {
+    text.append("How much " + q + " " + s + " would you like to dispose? \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        if (c.toLowerCase().equals("none")) {
+          inventory();
+          frame.remove(a);
+          return;
+        }
+        try {
+            int amt = Integer.parseInt(c);
+            for (int i = 0; i < inventory.size(); i ++) {
+              if (inventory.get(i).getn().toLowerCase().equals(s.toLowerCase())) {
+                if (inventory.get(i).getn().toLowerCase().equals(q.toLowerCase())) {
+                  if (inventory.get(i).getq() > amt) {
+                    inventory.get(i).setq(inventory.get(i).getq() - amt);
+                    text.append("You have disposed of " + amt + " " + q + " " + s + ". \n");
+                    frame.remove(a);
+                    inventory();
+                    return;
+                  }
+                  else {
+                    inventory.remove(i);
+                    text.append("You disposed all of your " + q + " " + s + ". \n");
+                    frame.remove(a);
+                    inventory();
+                    return;
+                  }
+                }
+              }
+            }
+            text.append("Soemthing messed up :( \n");
+        } catch (NumberFormatException z) {
+          text.append("Please input a valid integer. \n");
+          getDropQuan(s, q);
+          frame.remove(a);
+        }
+      }
+    });
   }
 
   public static void distance() {
-
+    text.append("You are currenlty " + (840 - distanceleft) + " miles through your journey. \n");
+    move(true);
   }
 
   public static void status() {
-
+    text.append(g.toString() + ", " + e.toString());
+    for (int i = 0; i < inventory.size(); i ++) {
+      if (inventory.get(i).getn().equals("First Aid")) {
+        text.append("Would you like to use any first aid kits? \n");
+      }
+    }
   }
 
   public static double forward() { //game forward
