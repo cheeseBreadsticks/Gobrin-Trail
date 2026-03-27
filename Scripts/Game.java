@@ -4,9 +4,9 @@ package Scripts;
 //140 bay - town, snowstorms, flat light, frostbite, bad map, 
 import java.awt.Font;
 import java.awt.event.*;
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
-import java.text.*;
 
 public class Game {
   //making items so its easier to print stuff out and such just a bunch of variables
@@ -183,7 +183,6 @@ public class Game {
     } else {
       text.append("Please pick a valid item.\n");
     }
-    //figure out the buy thing (if it doesn't work at first cry cry again)
     JTextField a = bob();
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -229,8 +228,10 @@ public class Game {
       if (!it.m()) {
         for (int i = 0; i < inventory.size(); i ++) {
           if (it.getn().equals(inventory.get(i).getn())) {
-            text.append("You have already purchased one of this item, you cannot buy another (some items are one and only)!");
+            text.append("\n");
+            text.append("You have already purchased one of this item, you cannot buy another (some items are one and only)! \n");
             displayShop(true);
+            return;
           }
         }
       }
@@ -240,7 +241,6 @@ public class Game {
 
   public static void dispPrice(int price, Item i) {
     text.append("\n");
-    text.append("Money: " + money + "\n");
     text.append("What quality " + UsefulMethods.capitalize(i.getn()) + " would you like to buy?\n");
     int bapr = chara.equals("Estraven") ? (int)(price * 3)/4 : (int)(((price*3)/4)*0.95);
     int gopr = chara.equals("Estraven") ? (int)(price * 1.25) : (int)((price*1.25)*0.95);
@@ -292,6 +292,12 @@ public class Game {
             getQuant(i,q,p);
             return;
           }
+          if (quant == 0) {
+            text.append("You decide not to purchase any " + i.getn() + ". \n");
+            displayShop(true);
+            frame.remove(a);
+            return;
+          }
           if (money >= (p * quant)) {
             purchaseItem(i,q,quant,p, false);
             frame.remove(a);
@@ -307,19 +313,11 @@ public class Game {
     }
     else {
       if (money >= p) {
-        for (int j = 0; j < inventory.size(); j ++) {
-          if (inventory.get(j).getn().toLowerCase().equals(i.getn().toLowerCase())) {
-            text.append("You have already bought one of these items! \n");
-            displayShop(true);
-            return;
-          }
-        }
         purchaseItem(i, q, 1, p, false);
       }
       else {
         text.append("You do not have enough money to purchase that! \n");
         displayShop(true);
-        return;
       }
     }
   }
@@ -725,7 +723,7 @@ public class Game {
         break;
       }
     }
-    text.append("Finally, you begin your journey across the Ice");
+    text.append("Finally, you begin your journey across the Ice. \n");
     move(true);
   }
   
@@ -742,6 +740,7 @@ public class Game {
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         a.setText("");
+        c = a.getText();
         if (distanceleft <= 0) {
           text.append("You won");
           a.setEditable(false);
@@ -774,6 +773,7 @@ public class Game {
       }
     });
   }
+  
   //can prob change how food works this is just the first system that came to mind
   //units will be easiest but others def possible
   public static void food() { 
