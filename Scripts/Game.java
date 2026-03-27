@@ -33,9 +33,6 @@ public class Game {
   private static Person e = new Person("Estraven");
   private static DecimalFormat df = new DecimalFormat("#.####");
 
-  //THIS IS IMPORTANT
-  private static Scanner scan = new Scanner(System.in);
-
   private static double dtrav = 12.0;
   private static final double distance = 840.0;
   private static double distanceleft = 840.0;
@@ -45,13 +42,15 @@ public class Game {
   public static void start() {
     //vis
     JScrollPane hold = new JScrollPane(text);
+    ImageIcon back = new ImageIcon("../Assets/back.png");
+    JLabel backe = new JLabel(back);
     frame.setSize(1470, 920);
+    frame.setContentPane(backe);
     frame.setLayout(null);
     frame.setUndecorated(true);
     frame.setVisible(true);
     text.setEditable(false);
-    hold.setBounds(235, 25, 1000, 750);
-    hold.setBorder(null);
+    hold.setBounds(235, 85, 1000, 750);
     text.setFont(font);
     text.setLineWrap(true);
     frame.add(hold);
