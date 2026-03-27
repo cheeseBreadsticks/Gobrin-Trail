@@ -965,11 +965,109 @@ public class Game {
 
   public static void status() {
     text.append(g.toString() + ", " + e.toString());
+    JTextField a = bob();
+    boolean hasKit = false;
     for (int i = 0; i < inventory.size(); i ++) {
       if (inventory.get(i).getn().equals("First Aid")) {
+        hasKit = true;
+      }
+      if (hasKit) {
         text.append("Would you like to use any first aid kits? \n");
+        a.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            c = a.getText();
+
+            if (c.toLowerCase().equals("yes")) {
+              for (int i = 0; i < inventory.size(); i ++) {
+                if (inventory.get(i).getn().equals("First Aid")) {
+                  for (int j = i + 1; j < inventory.size(); j ++) {
+                    if (inventory.get(j).getn().equals("First Aid")) {
+                      getMedQual();
+                      frame.remove(a);
+                      return;
+                    }
+                  }
+                  getMedQuan(inventory.get(i).getqual());
+                  frame.remove(a);
+                  return;
+                }
+              }
+            }
+            else {
+              move(true);
+              frame.remove(a);
+            }
+          }
+        });
       }
     }
+  }
+
+  public static void getMedQual() {
+    JTextField a = bob();
+    text.append("What quality first aid kit would you like to use? \n");
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        for (int i = 0; i < inventory.size(); i ++) {
+          if (inventory.get(i).getn().equals("First Aid") && inventory.get(i).getqual().toLowerCase().equals(c.toLowerCase())) {
+            if (inventory.get(i).getq() > 1) {
+              //TODO: figure out which person to add it to or prompt player?
+              frame.remove(a);
+              return;
+            }
+            else {
+              getMedQuan(c);
+              frame.remove(a);
+              return;
+            }
+          }
+        }
+        if (c.toLowerCase().equals("none")) {
+          move(true);
+          frame.remove(a);
+          return;
+        }
+        text.append("Please input a valid quality of first aid kit that you own. \n");
+        frame.remove(a);
+      }
+    });
+  }
+
+  public static void getMedQuan(String q) {
+    text.append("What quantity of " + q + " first aid kits would you like to use? \n");
+    JTextField a = bob();
+    a.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        c = a.getText();
+        try {
+            int amt = Integer.parseInt(c);
+            for (int i = 0; i < inventory.size(); i ++) {
+              if (inventory.get(i).getn().equals("First Aid") && inventory.get(i).getqual().toLowerCase().equals(q.toLowerCase())) {
+                if (amt < inventory.get(i).getq()) {
+                  //TODO: use amt, on who, etc. etc.
+                  frame.remove(a);
+                  return;
+                }
+                else {
+                  text.append("You do not have that many " + q + " first aid kits! \n");
+                  getMedQuan(q);
+                  frame.remove(a);
+                  return;
+                }
+              }
+            }
+        } catch (NumberFormatException z) {
+          if (c.toLowerCase().equals("none")) {
+            move(true);
+            frame.remove(a);
+            return;
+          }
+          text.append("Please input a valid integer! \n");
+          getMedQuan(q);
+        }
+      }
+    });
   }
 
   public static double forward() { //game forward
