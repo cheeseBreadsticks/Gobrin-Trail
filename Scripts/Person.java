@@ -8,6 +8,10 @@ public class Person {
 		name = n;
 	}
 
+	public int hp() {
+		return health;
+	}
+	
 	public void dmg(int d) {
 		health -= d;
 	}

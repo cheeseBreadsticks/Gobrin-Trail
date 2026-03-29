@@ -26,11 +26,11 @@ public class Game {
   private static int count = 0;
   private static int mapQuality = -1;
   private static int standTravel = 13; //standard travel amt per day, can change based on how the players ration or their health
-  private static int foodUse = 1;
+  private static int foodUse = 2;
   private static int foodUnits = 0;
   private static boolean first = true;
   private static Person g = new Person("Genly");
-  private static Person e = new Person("Estraven");
+  private static Person es = new Person("Estraven");
   private static DecimalFormat df = new DecimalFormat("#.####");
 
   private static double dtrav = 12.0;
@@ -42,21 +42,21 @@ public class Game {
   public static void start() {
     //vis
     JScrollPane hold = new JScrollPane(text);
-    ImageIcon back = new ImageIcon("../Assets/back.png");
-    JLabel backe = new JLabel(back);
+    // ImageIcon back = new ImageIcon("../Assets/back.png");
+    // JLabel backe = new JLabel(back);
     frame.setSize(1470, 920);
-    frame.setContentPane(backe);
+    //frame.setContentPane(backe);
     frame.setLayout(null);
     frame.setUndecorated(true);
     frame.setVisible(true);
     text.setEditable(false);
-    hold.setBounds(235, 85, 1000, 750);
+    hold.setBounds(235, 85, 1000, 650);
     text.setFont(font);
     text.setLineWrap(true);
     frame.add(hold);
     text.append("Welcome to the Gobrin Trail!\nYour goal is to travel safely across the Gobrin Ice and find freedom in Karhide, 840 miles away. \n");
     text.append("You must manage your resources wisely and make strategic decisions to survive the harsh conditions of the Gobrin Ice. \n");
-    text.append("You start with 2 Backpacks, and must buy more items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice! \n");
+    text.append("You must buy items from the shop to survive your journey.\nAlong the way, you will encounter various obstacles and disasters.\nGood luck on the Ice! \n");
     //sledge still should be ten times, but it said in the book that backpacks < 30lbs, sledge > 300lbs
     //maybe storage isnt limit, but makes travel slower with diff limit as hard cap
     frame.repaint();
@@ -66,9 +66,8 @@ public class Game {
 
   public static JTextField bob() {  //this makes the JTextFields and prints them, idk why I named it bob
     JTextField answer = new JTextField();
-    answer.setBounds(235, 767, 1000,35);
+    answer.setBounds(232, 730, 1006,35);
     answer.setFont(font);
-    answer.setBorder(null);
     answer.setText("Type responses here: ");
     answer.addFocusListener(new FocusListener() {
       public void focusGained(FocusEvent e) {
@@ -150,7 +149,7 @@ public class Game {
       }
     });
   }
-  
+  //TODO figure out what tent sleeping bags and storage stuff (sledge backpack) will do
     // text.append(" ____________ _____________ ____________ _______________ __________\n");
     // text.append("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |\n");
     // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ \n");
@@ -382,6 +381,20 @@ public class Game {
 
   public static void shteal() {
     System.out.println(Arrays.deepToString(inventory.toArray()));
+    int sto = 0;
+    for (int i = 0; i < inventory.size(); i ++) {
+      if (inventory.get(i).getn().equals("Stove")) {
+        if (inventory.get(i).getqual().equals("Bad")) {
+          sto = 1;
+        }
+        else if (inventory.get(i).getqual().equals("Okay")) {
+          sto = 2;
+        }
+        else {
+          sto = 3;
+        }
+      }
+    }
     for (int i = 0; i < inventory.size(); i ++) {
       if (inventory.get(i).getn().equals("Map")) {
         if (inventory.get(i).getqual().toLowerCase().equals("good")) {
@@ -394,17 +407,54 @@ public class Game {
           mapQuality = 0;
         }
       }
-      if (inventory.get(i).getn().equals("Gichy-michy")) {
-        foodUnits += inventory.get(i).getq();
+      if (sto == 0) {
+        if (inventory.get(i).getn().equals("Gichy-michy")) {
+          foodUnits += inventory.get(i).getq();
+        }
+        if (inventory.get(i).getn().equals("Kadik-germ")) {
+          foodUnits += (inventory.get(i).getq() * 2);
+        }
+        if (inventory.get(i).getn().equals("Breadapple")) {
+          foodUnits += (inventory.get(i).getq() * 3);
+        }
       }
-      if (inventory.get(i).getn().equals("Kadik-germ")) {
-        foodUnits += (inventory.get(i).getq() * 2);
+      else if (sto == 1) {
+        if (inventory.get(i).getn().equals("Gichy-michy")) {
+          foodUnits += (inventory.get(i).getq() * 1.25);
+        }
+        if (inventory.get(i).getn().equals("Kadik-germ")) {
+          foodUnits += 1.5 * (inventory.get(i).getq() * 2.5);
+        }
+        if (inventory.get(i).getn().equals("Breadapple")) {
+          foodUnits += (inventory.get(i).getq() * 3.5);
+        }
       }
-      if (inventory.get(i).getn().equals("Breadapple")) {
-        foodUnits += (inventory.get(i).getq() * 3);
+      else if (sto == 2) {
+        if (inventory.get(i).getn().equals("Gichy-michy")) {
+          foodUnits += (inventory.get(i).getq() * 1.5);
+        }
+        if (inventory.get(i).getn().equals("Kadik-germ")) {
+          foodUnits += 1.5 * (inventory.get(i).getq() * 3);
+        }
+        if (inventory.get(i).getn().equals("Breadapple")) {
+          foodUnits += (inventory.get(i).getq() * 4);
+        }
       }
+      else if (sto == 3) {
+        if (inventory.get(i).getn().equals("Gichy-michy")) {
+          foodUnits += (inventory.get(i).getq() * 2);
+        }
+        if (inventory.get(i).getn().equals("Kadik-germ")) {
+          foodUnits += 1.5 * (inventory.get(i).getq() * 3.5);
+        }
+        if (inventory.get(i).getn().equals("Breadapple")) {
+          foodUnits += (inventory.get(i).getq() * 4.5);
+        }
+      }
+      
     }
-    System.out.println(mapQuality);
+    
+    System.out.println("Map quality: " + mapQuality);
     text.append("\n");
     text.append("You wake in the middle of the night before the journey. \n");
     text.append("Despite making the most of your money, you have doubts about your resources. \n");
@@ -573,6 +623,12 @@ public class Game {
               mult *= 0.5;
               compoundChance *= 0.3;
               activeDisasters.add("Volcano");
+              if (rand > 0.5) {
+                g.dmg(10);
+              }
+              else {
+                es.dmg(10);
+              }
             }
           }
           else if (rand < 0.18 && !activeDisasters.contains("Flat Light")) {
@@ -585,21 +641,45 @@ public class Game {
               //50% chance of frostbite
               activeDisasters.add("Frostbite");
               flatDist *= 0.5;
+              if (rand > 0.5) {
+                g.dmg(15);
+              }
+              else {
+                es.dmg(15);
+              }
             }
           }
           else if (rand < 0.2 && activeDisasters.contains("Flat Light")) {
             // increased chance w/ flat light
             activeDisasters.add("Tripped");
+            if (rand > 0.5) {
+              g.dmg(5);
+            }
+            else {
+              es.dmg(5);
+            }
             if (rand2 < 0.3) {
               //30% chance of frostbite, less b/c already has flat light
               activeDisasters.add("Frostbite");
               flatDist *= 0.5;
+              if (rand > 0.5) {
+                g.dmg(15);
+              }
+              else {
+                es.dmg(15);
+              }
             }
           }
           else if (rand < 0.6 && (activeDisasters.contains("Snowstorm") || activeDisasters.contains("Tripped"))) {
             //frostbite
             activeDisasters.add("Frostbite");
             mult *= 0.3;
+            if (rand > 0.5) {
+              g.dmg(15);
+            }
+            else {
+              es.dmg(15);
+            }
           } else {
             //no disaster, but still chance for one, just smaller
             compoundChance *= 0.3;
@@ -625,10 +705,18 @@ public class Game {
           //avalanche
           activeDisasters.add("Avalanche");
           compoundChance *= 0.6;
+          if (rand > 0.5) {
+              g.dmg(10);
+            }
+            else {
+              es.dmg(10);
+            }
         } else if (rand < 0.4 && !activeDisasters.contains("Special Snowstorm")) {
           //special snow storm
           activeDisasters.add("Special Snowstorm");
           compoundChance *= 0.6;
+          g.dmg(-20);
+          es.dmg(-20);
         } else {
           //no disaster, but still chance for one, just smaller
           compoundChance *= 0.6;
@@ -738,8 +826,8 @@ public class Game {
     }
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        a.setText("");
         c = a.getText();
+        a.setText("");
         if (distanceleft <= 0) {
           text.append("You won");
           a.setEditable(false);
@@ -758,12 +846,16 @@ public class Game {
           status();
         }
         if (c.toLowerCase().equals("continue")) {
-          c = a.getText();
           text.append("You traveled " + Double.parseDouble(df.format(Double.toString(forward()))) + " miles \n");
           text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
           foodUnits -= foodUse;
           frame.remove(a);
           move(true);
+          if (g.hp() <= 0 || es.hp() <= 0) {
+            text.append("You have lost! One of your group members died. \n");
+            a.setEditable(false);
+            return;
+          }
         }
         else {
           move(false);
@@ -800,21 +892,26 @@ public class Game {
     if (!val) {
       text.append("You can use a maximum of 4 food units a day, or a minimum of 1 food unit per day. \n");
       text.append("Using more or less will increase/decrease the distance you travel each day. \n");
-      text.append("How many would you like to use per day (whole number)? \n");
     }
+    text.append("How many would you like to use per day (whole number)? \n");
     JTextField a = bob();
     a.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         c = a.getText();
         try {
           int x = Integer.parseInt(c);
-          foodUse = x;
-          text.append("You are now using " + x + " units of food per day. \n");
+          if (x < 5 && x > 0) {
+            foodUse = x;
+            text.append("You are now using " + x + " units of food per day. \n");
+            frame.remove(a);
+            move(true);
+          }
+          text.append("Please input a number between 1 and 4 inclusive!");
+          ration(true);
           frame.remove(a);
-          move(true);
         } catch (NumberFormatException z) {
           text.append("Please input a whole number. \n");
-          ration(false);
+          ration(true);
           frame.remove(a);
         }
       }
@@ -963,7 +1060,7 @@ public class Game {
   }
 
   public static void status() {
-    text.append(g.toString() + ", " + e.toString());
+    text.append(g.toString() + ", " + es.toString());
     JTextField a = bob();
     boolean hasKit = false;
     for (int i = 0; i < inventory.size(); i ++) {
@@ -1072,8 +1169,33 @@ public class Game {
   public static double forward() { //game forward
     dtrav = standTravel;
     dtrav += terrain();
+    g.dmg((int)(dtrav));
+    es.dmg((int)(dtrav));
     dtrav *= changeDistMult(1 - activeDisasters.size() * (0.14));
     distanceleft -= dtrav;
+    if ((foodUnits - foodUse > 0)) {
+      if (foodUse == 1) {
+        g.dmg((int)(dtrav - (1.5 * dtrav)));
+        es.dmg((int)(dtrav - (1.5 * dtrav)));
+      }
+      else if (foodUse == 2) {
+        g.dmg((int)(-dtrav));
+        es.dmg((int)(-dtrav));
+      }
+      else if (foodUse == 3) {
+        g.dmg((int)(-dtrav * 1.5));
+        es.dmg((int)(-dtrav * 1.5));
+      }
+      else {
+        g.dmg((int)(-dtrav * 2));
+        es.dmg((int)(-dtrav * 2));
+      }
+    }
+    else {
+      g.dmg(-10);
+      es.dmg(-10);
+      text.append("You have run out of food! \n");
+    }
     return dtrav;
   }
 }
