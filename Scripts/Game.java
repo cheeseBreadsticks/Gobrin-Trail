@@ -81,12 +81,18 @@ public class Game {
         }
       }
     });
-    answer.addActionListener(new ActionListener() {
+    // replaced following code with a "lambda expression" (not sure why it works but it does and makes it simpler)
+    /*answer.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         old.add(answer.getText());
         count = old.size();
         text.setCaretPosition(text.getDocument().getLength());
       }
+    });  */
+    answer.addActionListener(e -> {
+      old.add(answer.getText());
+      count = old.size();
+      text.setCaretPosition(text.getDocument().getLength());
     }); 
     answer.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent e) {
@@ -126,26 +132,24 @@ public class Game {
     }
     text.append("1. Estraven\n2. Genly\n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (c.toLowerCase().equals("genly")) {
-          chara = "Genly";
-          text.append(chara + " chosen \n");
-          frame.remove(a);
-          displayShop(true);
-        }
-        else if (c.toLowerCase().equals("estraven")) {
-          chara = "Estraven";
-          text.append(chara + " chosen \n");
-          frame.remove(a);
-          displayShop(true);
-        }
-        else {
-          frame.remove(a);
-          charSelect(false);
-          return;
-        }
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (c.toLowerCase().equals("genly")) {
+        chara = "Genly";
+        text.append(chara + " chosen \n");
+        displayShop(true);
+        frame.remove(a);
+      }
+      else if (c.toLowerCase().equals("estraven")) {
+        chara = "Estraven";
+        text.append(chara + " chosen \n");
+        displayShop(true);
+        frame.remove(a);
+      }
+      else {
+        charSelect(false);
+        frame.remove(a);
+        return;
       }
     });
   }
@@ -176,24 +180,23 @@ public class Game {
     text.append("Other: First Aid, Map, Backpack, Skis \n");
     text.append("Continue \n");
     text.append("Money: " + money + "\n");
+    text.append("Food: " + foodUnits + "\n");
     if (valid) {
       text.append("What would you like to buy?\n");
     } else {
       text.append("Please pick a valid item.\n");
     }
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (c.toLowerCase().equals("continue")) {
-          shteal();
-          frame.remove(a);
-          return;
-        }
-        if (!c.equals("")) {
-          findProduct(c);
-          frame.remove(a);
-        }
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (c.toLowerCase().equals("continue")) {
+        shteal();
+        frame.remove(a);
+        return;
+      }
+      if (!c.equals("")) {
+        findProduct(c);
+        frame.remove(a);
       }
     });
   }
@@ -247,27 +250,25 @@ public class Game {
     text.append("Okay Quality: " + pric + "\n");
     text.append("Bad Quality: " + bapr + "\n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (c.toLowerCase().equals("good")) {
-          frame.remove(a);
-          getQuant(i, "Good", gopr);
-        }
-        else if (c.toLowerCase().equals("okay")) {
-          frame.remove(a);
-          getQuant(i, "Okay", pric);
-        }
-        else if (c.toLowerCase().equals("bad")) {
-          frame.remove(a);
-          getQuant(i, "Bad", bapr);
-        }
-        else {
-          text.append("Please input a valid quality \n");
-          dispPrice(price, i);
-          frame.remove(a);
-          return;
-        }
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (c.toLowerCase().equals("good")) {
+        frame.remove(a);
+        getQuant(i, "Good", gopr);
+      }
+      else if (c.toLowerCase().equals("okay")) {
+        frame.remove(a);
+        getQuant(i, "Okay", pric);
+      }
+      else if (c.toLowerCase().equals("bad")) {
+        frame.remove(a);
+        getQuant(i, "Bad", bapr);
+      }
+      else {
+        text.append("Please input a valid quality \n");
+        dispPrice(price, i);
+        frame.remove(a);
+        return;
       }
     });
   }
@@ -277,35 +278,33 @@ public class Game {
     if (i.m()) {
       text.append("How many " + q + " " + i.getn() + " would you like to buy? \n");
       JTextField a = bob();
-      a.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          c = a.getText();
-          int quant = 1;
-          try {
-            quant = Integer.parseInt(c);
-          }
-          catch (NumberFormatException z) {
-            text.append("Please input a valid quantity (just the number!) \n");
-            frame.remove(a);
-            getQuant(i,q,p);
-            return;
-          }
-          if (quant == 0) {
-            text.append("You decide not to purchase any " + i.getn() + ". \n");
-            frame.remove(a);
-            displayShop(true);
-            return;
-          }
-          if (money >= (p * quant)) {
-            purchaseItem(i,q,quant,p, false);
-            frame.remove(a);
-          }
-          else {
-            text.append("You do not have enough money to purchase that! \n");
-            frame.remove(a);
-            displayShop(true);
-            return;
-          }
+      a.addActionListener(e -> {
+        c = a.getText();
+        int quant = 1;
+        try {
+          quant = Integer.parseInt(c);
+        }
+        catch (NumberFormatException z) {
+          text.append("Please input a valid quantity (just the number!) \n");
+          frame.remove(a);
+          getQuant(i,q,p);
+          return;
+        }
+        if (quant == 0) {
+          text.append("You decide not to purchase any " + i.getn() + ". \n");
+          displayShop(true);
+          frame.remove(a);
+          return;
+        }
+        if (money >= (p * quant)) {
+          purchaseItem(i,q,quant,p, false);
+          frame.remove(a);
+        }
+        else {
+          text.append("You do not have enough money to purchase that! \n");
+          frame.remove(a);
+          displayShop(true);
+          return;
         }
       });
     }
@@ -352,20 +351,19 @@ public class Game {
     }
     text.append("Would you like to purchase anything else? \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (!steal) {
-          if (c.toLowerCase().equals("no")) {
-            shteal();
-            frame.remove(a);
-          }
-          else {
-            frame.remove(a);
-            displayShop(true);
-          }
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (!steal) {
+        if (c.toLowerCase().equals("no")) {
+          shteal();
+          frame.remove(a);
         }
         else {
+          displayShop(true);
+          frame.remove(a);
+        }
+      }
+      else {
         if (c.toLowerCase().equals("no")) {
           go();
           frame.remove(a);
@@ -374,7 +372,6 @@ public class Game {
           steal();
           frame.remove(a);
         }
-      }
       }
     });
   }
@@ -460,18 +457,16 @@ public class Game {
     text.append("Despite making the most of your money, you have doubts about your resources. \n");
     text.append("Steal from the nearby town (Yes/No)? \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (c.toLowerCase().equals("yes")) {
-          text.append("You sneak into the food shop in Turuf. \n");
-          steal();
-          frame.remove(a);
-        }
-        else {
-          go();
-          frame.remove(a);
-        }
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (c.toLowerCase().equals("yes")) {
+        text.append("You sneak into the food shop in Turuf. \n");
+        steal();
+        frame.remove(a);
+      }
+      else {
+        go();
+        frame.remove(a);
       }
     });
   }
@@ -481,39 +476,37 @@ public class Game {
     text.append("Gichy-michy, Kadik-germ, Orsh, Breadapple \n");
     text.append("Leave \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        Item it = null;
-        c = a.getText();
-        c = c.toLowerCase();
-        for (int i = 4; i < 8; i ++) {
-          if (c.equals(shop[i].getn().toLowerCase())) {
-            it = shop[i];
-            break;
-          }
+    a.addActionListener(e -> {
+      Item it = null;
+      c = a.getText();
+      c = c.toLowerCase();
+      for (int i = 4; i < 8; i ++) {
+        if (c.equals(shop[i].getn().toLowerCase())) {
+          it = shop[i];
+          break;
         }
-        if (c.equals("gichy michy")) {
-          it = shop[4];
-        }
-        else if (c.equals("kadik germ")) {
-          it = shop[5];
-        }
-        if (it != null) {
-          stealQuant(it);
+      }
+      if (c.equals("gichy michy")) {
+        it = shop[4];
+      }
+      else if (c.equals("kadik germ")) {
+        it = shop[5];
+      }
+      if (it != null) {
+        stealQuant(it);
+        frame.remove(a);
+      }
+      else {
+        if (c.equals("continue")) {
+          text.append("Cutting your losses, you leave with your loot. \n");
           frame.remove(a);
+          go();
         }
         else {
-          if (c.equals("continue")) {
-            text.append("Cutting your losses, you leave with your loot. \n");
-            frame.remove(a);
-            go();
-          }
-          else {
-            text.append("Please input a valid item \n");
-            steal();
-            frame.remove(a);
-            return;
-          }
+          text.append("Please input a valid item \n");
+          steal();
+          frame.remove(a);
+          return;
         }
       }
     });
@@ -523,36 +516,34 @@ public class Game {
     text.append("\n");
     text.append("How many " + i.getn() + " would you like to steal (max 5) \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        try { 
-          p = Integer.parseInt(c);
-          if (p <= 5 && p > 0) {
-            double d = (Math.random() * p);
-            if (d <= (Math.pow(1.1, p))) {
-              purchaseItem(i,"Okay",p,0, true);
-              frame.remove(a);
-            }
-            else {
-              text.append("While trying to steal the " + i.getn() + " you drop some and make a stir. \n");
-              text.append("Not wanting to get caught, you cut your losses and ski back to camp. \n");
-              frame.remove(a);
-              go();
-            }
+    a.addActionListener(e -> {
+      c = a.getText();
+      try { 
+        p = Integer.parseInt(c);
+        if (p <= 5 && p > 0) {
+          double d = (Math.random() * p);
+          if (d <= (Math.pow(1.1, p))) {
+            purchaseItem(i,"Okay",p,0, true);
+            frame.remove(a);
           }
           else {
-            text.append("Please input a valid quantity (more than 0, less than 6) \n");
+            text.append("While trying to steal the " + i.getn() + " you drop some and make a stir. \n");
+            text.append("Not wanting to get caught, you cut your losses and ski back to camp. \n");
             frame.remove(a);
-            stealQuant(i);
-            return;
+            go();
           }
-        } catch (NumberFormatException z) {
-          text.append("Please input a valid quantity (just the number!) \n");
+        }
+        else {
+          text.append("Please input a valid quantity (more than 0, less than 6) \n");
           frame.remove(a);
           stealQuant(i);
           return;
         }
+      } catch (NumberFormatException z) {
+        text.append("Please input a valid quantity (just the number!) \n");
+        frame.remove(a);
+        stealQuant(i);
+        return;
       }
     });
   }
@@ -826,49 +817,45 @@ public class Game {
       text.append("Type Continue whenever you want to move on. \n");
       first = false;
     }
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        a.setText("");
-        if (distanceleft <= 0) {
-          text.append("You won");
+    a.addActionListener(e -> {
+      c = a.getText();
+      a.setText("");
+      if (distanceleft <= 0) {
+        text.append("You won");
+        a.setEditable(false);
+      }
+      if (c.toLowerCase().equals("food")) { 
+        food();
+        frame.remove(a);
+      }
+      if (c.toLowerCase().equals("distance")) {
+        distance();
+      }
+      if (c.toLowerCase().equals("inventory")) {
+        inventory();
+      }
+      if (c.toLowerCase().equals("status")) {
+        status();
+      }
+      if (c.toLowerCase().equals("continue")) {
+        text.append("You traveled " + Double.parseDouble(df.format(Double.toString(forward()))) + " miles \n");
+        text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
+        foodUnits -= foodUse;
+        frame.remove(a);
+        move(true);
+        if (g.hp() <= 0 || es.hp() <= 0) {
+          text.append("You have lost! One of your group members died. \n");
           a.setEditable(false);
-        }
-        if (c.toLowerCase().equals("food")) { 
-          food();
-          frame.remove(a);
           return;
-        }
-        if (c.toLowerCase().equals("distance")) {
-          distance();
-          frame.remove(a);
-          return;
-        }
-        if (c.toLowerCase().equals("inventory")) {
-          inventory();
-          frame.remove(a);
-          return;
-        }
-        if (c.toLowerCase().equals("status")) {
-          status();
-          frame.remove(a);
-          return;
-        }
-        if (c.toLowerCase().equals("continue")) {
-          text.append("You traveled " + Double.parseDouble(df.format(Double.toString(forward()))) + " miles \n");
-          text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
-          foodUnits -= foodUse;
-          frame.remove(a);
-          move(true);
-          if (g.hp() <= 0 || es.hp() <= 0) {
-            text.append("You have lost! One of your group members died. \n");
-            a.setEditable(false);
-          }
         }
         else {
           move(false);
           frame.remove(a);
         }
+      }
+      else {
+        move(false);
+        frame.remove(a);
       }
     });
   }
@@ -882,17 +869,15 @@ public class Game {
     text.append("Kadik-germ = 2 units, Gichy-michy = 1 unit, Breadapple = 3 units \n");
     text.append("You currently have " + foodUnits + " units of food. \n");
     text.append("Would you like to change how you're rationing? \n");
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (c.toLowerCase().equals("yes")) {
-          ration(true);
-          frame.remove(a);
-        }
-        else {
-          move(true);
-          frame.remove(a);
-        }
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (c.toLowerCase().equals("yes")) {
+        ration(true);
+        frame.remove(a);
+      }
+      else {
+        move(true);
+        frame.remove(a);
       }
     });
   }
@@ -905,25 +890,23 @@ public class Game {
     }
     text.append("How many would you like to use per day (whole number)? \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        try {
-          int x = Integer.parseInt(c);
-          if (x < 5 && x > 0) {
-            foodUse = x;
-            text.append("You are now using " + x + " units of food per day. \n");
-            frame.remove(a);
-            move(true);
-          }
-          text.append("Please input a number between 1 and 4 inclusive!");
-          ration(true);
+    a.addActionListener(e -> {
+      c = a.getText();
+      try {
+        int x = Integer.parseInt(c);
+        if (x < 5 && x > 0) {
+          foodUse = x;
+          text.append("You are now using " + x + " units of food per day. \n");
           frame.remove(a);
-        } catch (NumberFormatException z) {
-          text.append("Please input a whole number. \n");
-          ration(true);
-          frame.remove(a);
+          move(true);
         }
+        text.append("Please input a number between 1 and 4 inclusive!");
+        ration(true);
+        frame.remove(a);
+      } catch (NumberFormatException z) {
+        text.append("Please input a whole number. \n");
+        ration(true);
+        frame.remove(a);
       }
     });
   }
@@ -933,12 +916,10 @@ public class Game {
     text.append("You currently have: " + Arrays.deepToString(inventory.toArray()) + "\n");
     text.append("Would you like to dispose of anything? \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (c.toLowerCase().equals("yes")) {
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (c.toLowerCase().equals("yes")) {
 
-        }
       }
     });
   }
@@ -948,17 +929,52 @@ public class Game {
     text.append("What would you like to dispose (this is irreversible)? \n");
     text.append("Enter 'none' if you would not like to dispose of anything. \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        for (int i = 0; i < inventory.size(); i ++) {
-          if (inventory.get(i).getn().toLowerCase().equals(c.toLowerCase())) {
-            for (int j = i + 1; j < inventory.size(); j ++) {
-              if (inventory.get(j).getn().equals(inventory.get(i).getn())) {
-                getDropQual(inventory.get(i).getn());
-                return;
-              }
+    a.addActionListener(e -> {
+      c = a.getText();
+      for (int i = 0; i < inventory.size(); i ++) {
+        if (inventory.get(i).getn().toLowerCase().equals(c.toLowerCase())) {
+          for (int j = i + 1; j < inventory.size(); j ++) {
+            if (inventory.get(j).getn().equals(inventory.get(i).getn())) {
+              getDropQual(inventory.get(i).getn());
+              return;
             }
+          }
+          if (inventory.get(i).m()) {
+            getDropQuan(inventory.get(i).getn(), inventory.get(i).getqual());
+            frame.remove(a);
+            return;
+          }
+          else {
+            inventory.remove(i);
+            text.append("You dropped your " + inventory.get(i).getn() + ". \n");
+            inventory();
+            frame.remove(a);
+            return;
+          }
+        }
+      }
+
+      if (c.toLowerCase().equals("none")) {
+        move(true);
+        frame.remove(a);
+        return;
+      }
+
+      text.append("Please enter a valid item. \n");
+      dispose();
+      frame.remove(a);
+    });
+  }
+
+  public static void getDropQual(String s) {
+    text.append("\n");
+    text.append("What quality " + s + " would you like to dispose of? \n");
+    JTextField a = bob();
+    a.addActionListener(e -> {
+      c = a.getText();
+      for (int i = 0; i < inventory.size(); i ++) {
+        if (s.equals(inventory.get(i).getn())) {
+          if (c.toLowerCase().equals(inventory.get(i).getqual().toLowerCase())) {
             if (inventory.get(i).m()) {
               getDropQuan(inventory.get(i).getn(), inventory.get(i).getqual());
               frame.remove(a);
@@ -973,54 +989,15 @@ public class Game {
             }
           }
         }
-
-        if (c.toLowerCase().equals("none")) {
-          move(true);
-          frame.remove(a);
-          return;
-        }
-
-        text.append("Please enter a valid item. \n");
-        dispose();
-        frame.remove(a);
       }
-    });
-  }
-
-  public static void getDropQual(String s) {
-    text.append("\n");
-    text.append("What quality " + s + " would you like to dispose of? \n");
-    JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        for (int i = 0; i < inventory.size(); i ++) {
-          if (s.equals(inventory.get(i).getn())) {
-            if (c.toLowerCase().equals(inventory.get(i).getqual().toLowerCase())) {
-              if (inventory.get(i).m()) {
-                getDropQuan(inventory.get(i).getn(), inventory.get(i).getqual());
-                frame.remove(a);
-                return;
-              }
-              else {
-                inventory.remove(i);
-                text.append("You dropped your " + inventory.get(i).getn() + ". \n");
-                inventory();
-                frame.remove(a);
-                return;
-              }
-            }
-          }
-        }
-        if (c.toLowerCase().equals("none")) {
-          move(true);
-          frame.remove(a);
-          return;
-        }
-        text.append("Please input a valid quantity of the item you chose. \n");
-        dispose();
+      if (c.toLowerCase().equals("none")) {
+        move(true);
         frame.remove(a);
+        return;
       }
+      text.append("Please input a valid quantity of the item you chose. \n");
+      dispose();
+      frame.remove(a);
     });
   }
 
@@ -1028,42 +1005,40 @@ public class Game {
     text.append("\n");
     text.append("How much " + q + " " + s + " would you like to dispose? \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        if (c.toLowerCase().equals("none")) {
-          inventory();
-          frame.remove(a);
-          return;
-        }
-        try {
-            int amt = Integer.parseInt(c);
-            for (int i = 0; i < inventory.size(); i ++) {
-              if (inventory.get(i).getn().toLowerCase().equals(s.toLowerCase())) {
-                if (inventory.get(i).getn().toLowerCase().equals(q.toLowerCase())) {
-                  if (inventory.get(i).getq() > amt) {
-                    inventory.get(i).setq(inventory.get(i).getq() - amt);
-                    text.append("You have disposed of " + amt + " " + q + " " + s + ". \n");
-                    frame.remove(a);
-                    inventory();
-                    return;
-                  }
-                  else {
-                    inventory.remove(i);
-                    text.append("You disposed all of your " + q + " " + s + ". \n");
-                    frame.remove(a);
-                    inventory();
-                    return;
-                  }
+    a.addActionListener(e -> {
+      c = a.getText();
+      if (c.toLowerCase().equals("none")) {
+        inventory();
+        frame.remove(a);
+        return;
+      }
+      try {
+          int amt = Integer.parseInt(c);
+          for (int i = 0; i < inventory.size(); i ++) {
+            if (inventory.get(i).getn().toLowerCase().equals(s.toLowerCase())) {
+              if (inventory.get(i).getn().toLowerCase().equals(q.toLowerCase())) {
+                if (inventory.get(i).getq() > amt) {
+                  inventory.get(i).setq(inventory.get(i).getq() - amt);
+                  text.append("You have disposed of " + amt + " " + q + " " + s + ". \n");
+                  frame.remove(a);
+                  inventory();
+                  return;
+                }
+                else {
+                  inventory.remove(i);
+                  text.append("You disposed all of your " + q + " " + s + ". \n");
+                  frame.remove(a);
+                  inventory();
+                  return;
                 }
               }
             }
-            text.append("Soemthing messed up :( \n");
-        } catch (NumberFormatException z) {
-          text.append("Please input a valid integer. \n");
-          getDropQuan(s, q);
-          frame.remove(a);
-        }
+          }
+          text.append("Soemthing messed up :( \n");
+      } catch (NumberFormatException z) {
+        text.append("Please input a valid integer. \n");
+        getDropQuan(s, q);
+        frame.remove(a);
       }
     });
   }
@@ -1074,6 +1049,7 @@ public class Game {
     move(true);
   }
 
+  //the if haskit part was originally in the first for loop, but they both had "i" as a counting var so i moved it out
   public static void status() {
     text.append("\n");
     text.append(g.toString() + ", " + es.toString());
@@ -1083,35 +1059,33 @@ public class Game {
       if (inventory.get(i).getn().equals("First Aid")) {
         hasKit = true;
       }
-      if (hasKit) {
-        text.append("Would you like to use any first aid kits? \n");
-        a.addActionListener(new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            c = a.getText();
+    }
+    if (hasKit) {
+      text.append("Would you like to use any first aid kits? \n");
+      a.addActionListener(e -> {
+        c = a.getText();
 
-            if (c.toLowerCase().equals("yes")) {
-              for (int i = 0; i < inventory.size(); i ++) {
-                if (inventory.get(i).getn().equals("First Aid")) {
-                  for (int j = i + 1; j < inventory.size(); j ++) {
-                    if (inventory.get(j).getn().equals("First Aid")) {
-                      getMedQual();
-                      frame.remove(a);
-                      return;
-                    }
-                  }
-                  getMedQuan(inventory.get(i).getqual());
+        if (c.toLowerCase().equals("yes")) {
+          for (int i = 0; i < inventory.size(); i ++) {
+            if (inventory.get(i).getn().equals("First Aid")) {
+              for (int j = i + 1; j < inventory.size(); j ++) {
+                if (inventory.get(j).getn().equals("First Aid")) {
+                  getMedQual();
                   frame.remove(a);
                   return;
                 }
               }
-            }
-            else {
-              move(true);
+              getMedQuan(inventory.get(i).getqual());
               frame.remove(a);
+              return;
             }
           }
-        });
-      }
+        }
+        else {
+          move(true);
+          frame.remove(a);
+        }
+      });
     }
   }
 
@@ -1119,31 +1093,29 @@ public class Game {
     text.append("\n");
     JTextField a = bob();
     text.append("What quality first aid kit would you like to use? \n");
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        c = a.getText();
-        for (int i = 0; i < inventory.size(); i ++) {
-          if (inventory.get(i).getn().equals("First Aid") && inventory.get(i).getqual().toLowerCase().equals(c.toLowerCase())) {
-            if (inventory.get(i).getq() > 1) {
-              //TODO: figure out which person to add it to or prompt player?
-              frame.remove(a);
-              return;
-            }
-            else {
-              getMedQuan(c);
-              frame.remove(a);
-              return;
-            }
+    a.addActionListener(e -> {
+      c = a.getText();
+      for (int i = 0; i < inventory.size(); i ++) {
+        if (inventory.get(i).getn().equals("First Aid") && inventory.get(i).getqual().toLowerCase().equals(c.toLowerCase())) {
+          if (inventory.get(i).getq() > 1) {
+            //TODO: figure out which person to add it to or prompt player?
+            frame.remove(a);
+            return;
+          }
+          else {
+            getMedQuan(c);
+            frame.remove(a);
+            return;
           }
         }
-        if (c.toLowerCase().equals("none")) {
-          move(true);
-          frame.remove(a);
-          return;
-        }
-        text.append("Please input a valid quality of first aid kit that you own. \n");
-        frame.remove(a);
       }
+      if (c.toLowerCase().equals("none")) {
+        move(true);
+        frame.remove(a);
+        return;
+      }
+      text.append("Please input a valid quality of first aid kit that you own. \n");
+      frame.remove(a);
     });
   }
 
@@ -1151,8 +1123,7 @@ public class Game {
     text.append("\n");
     text.append("What quantity of " + q + " first aid kits would you like to use? \n");
     JTextField a = bob();
-    a.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+    a.addActionListener(e -> {
         c = a.getText();
         try {
             int amt = Integer.parseInt(c);
@@ -1180,7 +1151,6 @@ public class Game {
           text.append("Please input a valid integer! \n");
           getMedQuan(q);
         }
-      }
     });
   }
 
