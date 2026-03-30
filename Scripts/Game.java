@@ -137,18 +137,18 @@ public class Game {
       if (c.toLowerCase().equals("genly")) {
         chara = "Genly";
         text.append(chara + " chosen \n");
-        frame.remove(a);
         displayShop(true);
+        frame.remove(a);
       }
       else if (c.toLowerCase().equals("estraven")) {
         chara = "Estraven";
         text.append(chara + " chosen \n");
-        frame.remove(a);
         displayShop(true);
+        frame.remove(a);
       }
       else {
-        frame.remove(a);
         charSelect(false);
+        frame.remove(a);
       }
     });
   }
@@ -189,13 +189,13 @@ public class Game {
     a.addActionListener(e -> {
       c = a.getText();
       if (c.toLowerCase().equals("continue")) {
-        frame.remove(a);
         shteal();
+        frame.remove(a);
         return;
       }
       if (!c.equals("")) {
-        frame.remove(a);
         findProduct(c);
+        frame.remove(a);
       }
     });
   }
@@ -252,22 +252,21 @@ public class Game {
     a.addActionListener(e -> {
       c = a.getText();
       if (c.toLowerCase().equals("good")) {
-        frame.remove(a);
         getQuant(i, "Good", gopr);
+        frame.remove(a);
       }
       else if (c.toLowerCase().equals("okay")) {
-        frame.remove(a);
         getQuant(i, "Okay", pric);
+        frame.remove(a);
       }
       else if (c.toLowerCase().equals("bad")) {
-        frame.remove(a);
         getQuant(i, "Bad", bapr);
+        frame.remove(a);
       }
       else {
         text.append("Please input a valid quality \n");
-        frame.remove(a);
         dispPrice(price, i);
-        return;
+        frame.remove(a);
       }
     });
   }
@@ -285,25 +284,24 @@ public class Game {
         }
         catch (NumberFormatException z) {
           text.append("Please input a valid quantity (just the number!) \n");
-          frame.remove(a);
           getQuant(i,q,p);
+          frame.remove(a);
           return;
         }
         if (quant == 0) {
           text.append("You decide not to purchase any " + i.getn() + ". \n");
-          frame.remove(a);
           displayShop(true);
+          frame.remove(a);
           return;
         }
         if (money >= (p * quant)) {
-          frame.remove(a);
           purchaseItem(i,q,quant,p, false);
+          frame.remove(a);
         }
         else {
           text.append("You do not have enough money to purchase that! \n");
-          frame.remove(a);
           displayShop(true);
-          return;
+          frame.remove(a);
         }
       });
     }
@@ -354,22 +352,22 @@ public class Game {
       c = a.getText();
       if (!steal) {
         if (c.toLowerCase().equals("no")) {
-          frame.remove(a);
           shteal();
+          frame.remove(a);
         }
         else {
-          frame.remove(a);
           displayShop(true);
+          frame.remove(a);
         }
       }
       else {
         if (c.toLowerCase().equals("no")) {
-          frame.remove(a);
           go();
+          frame.remove(a);
         }
         else {
-          frame.remove(a);
           steal();
+          frame.remove(a);
         }
       }
     });
@@ -460,12 +458,12 @@ public class Game {
       c = a.getText();
       if (c.toLowerCase().equals("yes")) {
         text.append("You sneak into the food shop in Turuf. \n");
-        frame.remove(a);
         steal();
+        frame.remove(a);
       }
       else {
-        frame.remove(a);
         go();
+        frame.remove(a);
       }
     });
   }
@@ -492,19 +490,19 @@ public class Game {
         it = shop[5];
       }
       if (it != null) {
-        frame.remove(a);
         stealQuant(it);
+        frame.remove(a);
       }
       else {
         if (c.equals("continue")) {
           text.append("Cutting your losses, you leave with your loot. \n");
-          frame.remove(a);
           go();
+          frame.remove(a);
         }
         else {
           text.append("Please input a valid item \n");
-          frame.remove(a);
           steal();
+          frame.remove(a);
         }
       }
     });
@@ -521,27 +519,25 @@ public class Game {
         if (p <= 5 && p > 0) {
           double d = (Math.random() * p);
           if (d <= (Math.pow(1.1, p))) {
-            frame.remove(a);
             purchaseItem(i,"Okay",p,0, true);
+            frame.remove(a);
           }
           else {
             text.append("While trying to steal the " + i.getn() + " you drop some and make a stir. \n");
             text.append("Not wanting to get caught, you cut your losses and ski back to camp. \n");
-            frame.remove(a);
             go();
+            frame.remove(a);
           }
         }
         else {
           text.append("Please input a valid quantity (more than 0, less than 6) \n");
-          frame.remove(a);
           stealQuant(i);
-          return;
+          frame.remove(a);
         }
       } catch (NumberFormatException z) {
         text.append("Please input a valid quantity (just the number!) \n");
-        frame.remove(a);
         stealQuant(i);
-        return;
+        frame.remove(a);
       }
     });
   }
@@ -823,20 +819,20 @@ public class Game {
         a.setEditable(false);
       }
       if (c.toLowerCase().equals("food")) { 
-        frame.remove(a);
         food();
+        frame.remove(a);
       }
       if (c.toLowerCase().equals("distance")) {
-        frame.remove(a);
         distance();
+        frame.remove(a);
       }
       if (c.toLowerCase().equals("inventory")) {
-        frame.remove(a);
         inventory();
+        frame.remove(a);
       }
       if (c.toLowerCase().equals("status")) {
-        frame.remove(a);
         status();
+        frame.remove(a);
       }
       if (c.toLowerCase().equals("continue")) {
         text.append("You traveled " + Double.parseDouble(df.format(forward())) + " miles \n");
@@ -849,8 +845,8 @@ public class Game {
         }
       }
       else {
-        frame.remove(a);
         move(false);
+        frame.remove(a);
       }
     });
   }
@@ -867,12 +863,12 @@ public class Game {
     a.addActionListener(e -> {
       c = a.getText();
       if (c.toLowerCase().equals("yes")) {
-        frame.remove(a);
         ration(true);
+        frame.remove(a);
       }
       else {
-        frame.remove(a);
         move(true);
+        frame.remove(a);
       }
     });
   }
@@ -892,18 +888,18 @@ public class Game {
         if (x < 5 && x > 0) {
           foodUse = x;
           text.append("You are now using " + x + " units of food per day. \n");
-          frame.remove(a);
           move(true);
+          frame.remove(a);
         }
         else {
           text.append("Please input a number between 1 and 4 inclusive!");
-          frame.remove(a);
           ration(true);
+          frame.remove(a);
         }
       } catch (NumberFormatException z) {
         text.append("Please input a whole number. \n");
-        frame.remove(a);
         ration(true);
+        frame.remove(a);
       }
     });
   }
@@ -916,7 +912,12 @@ public class Game {
     a.addActionListener(e -> {
       c = a.getText();
       if (c.toLowerCase().equals("yes")) {
-
+        dispose();
+        frame.remove(a);
+      }
+      else {
+        move(true);
+        frame.remove(a);
       }
     });
   }
@@ -933,33 +934,34 @@ public class Game {
           for (int j = i + 1; j < inventory.size(); j ++) {
             if (inventory.get(j).getn().equals(inventory.get(i).getn())) {
               getDropQual(inventory.get(i).getn());
+              frame.remove(a);
               return;
             }
           }
           if (inventory.get(i).m()) {
-            frame.remove(a);
             getDropQuan(inventory.get(i).getn(), inventory.get(i).getqual());
+            frame.remove(a);
             return;
           }
           else {
             inventory.remove(i);
             text.append("You dropped your " + inventory.get(i).getn() + ". \n");
-            frame.remove(a);
             inventory();
+            frame.remove(a);
             return;
           }
         }
       }
 
       if (c.toLowerCase().equals("none")) {
-        frame.remove(a);
         move(true);
+        frame.remove(a);
         return;
       }
 
       text.append("Please enter a valid item. \n");
-      frame.remove(a);
       dispose();
+      frame.remove(a);
     });
   }
 
@@ -973,28 +975,28 @@ public class Game {
         if (s.equals(inventory.get(i).getn())) {
           if (c.toLowerCase().equals(inventory.get(i).getqual().toLowerCase())) {
             if (inventory.get(i).m()) {
-              frame.remove(a);
               getDropQuan(inventory.get(i).getn(), inventory.get(i).getqual());
+              frame.remove(a);
               return;
             }
             else {
               inventory.remove(i);
               text.append("You dropped your " + inventory.get(i).getn() + ". \n");
-              frame.remove(a);
               inventory();
+              frame.remove(a);
               return;
             }
           }
         }
       }
       if (c.toLowerCase().equals("none")) {
-        frame.remove(a);
         move(true);
+        frame.remove(a);
         return;
       }
       text.append("Please input a valid quantity of the item you chose. \n");
-      frame.remove(a);
       dispose();
+      frame.remove(a);
     });
   }
 
@@ -1005,8 +1007,8 @@ public class Game {
     a.addActionListener(e -> {
       c = a.getText();
       if (c.toLowerCase().equals("none")) {
-        frame.remove(a);
         inventory();
+        frame.remove(a);
         return;
       }
       try {
@@ -1017,15 +1019,15 @@ public class Game {
                 if (inventory.get(i).getq() > amt) {
                   inventory.get(i).setq(inventory.get(i).getq() - amt);
                   text.append("You have disposed of " + amt + " " + q + " " + s + ". \n");
-                  frame.remove(a);
                   inventory();
+                  frame.remove(a);
                   return;
                 }
                 else {
                   inventory.remove(i);
                   text.append("You disposed all of your " + q + " " + s + ". \n");
-                  frame.remove(a);
                   inventory();
+                  frame.remove(a);
                   return;
                 }
               }
@@ -1034,8 +1036,8 @@ public class Game {
           text.append("Soemthing messed up :( \n");
       } catch (NumberFormatException z) {
         text.append("Please input a valid integer. \n");
-        frame.remove(a);
         getDropQuan(s, q);
+        frame.remove(a);
       }
     });
   }
@@ -1067,20 +1069,20 @@ public class Game {
             if (inventory.get(i).getn().equals("First Aid")) {
               for (int j = i + 1; j < inventory.size(); j ++) {
                 if (inventory.get(j).getn().equals("First Aid")) {
-                  frame.remove(a);
                   getMedQual();
+                  frame.remove(a);
                   return;
                 }
               }
-              frame.remove(a);
               getMedQuan(inventory.get(i).getqual());
+              frame.remove(a);
               return;
             }
           }
         }
         else {
-          frame.remove(a);
           move(true);
+          frame.remove(a);
         }
       });
     }
@@ -1100,20 +1102,20 @@ public class Game {
             return;
           }
           else {
-            frame.remove(a);
             getMedQuan(c);
+            frame.remove(a);
             return;
           }
         }
       }
       if (c.toLowerCase().equals("none")) {
-        frame.remove(a);
         move(true);
+        frame.remove(a);
         return;
       }
       text.append("Please input a valid quality of first aid kit that you own. \n");
-      frame.remove(a);
       getMedQual();
+      frame.remove(a);
     });
   }
 
@@ -1134,20 +1136,21 @@ public class Game {
                 }
                 else {
                   text.append("You do not have that many " + q + " first aid kits! \n");
-                  frame.remove(a);
                   getMedQuan(q);
+                  frame.remove(a);
                   return;
                 }
               }
             }
         } catch (NumberFormatException z) {
           if (c.toLowerCase().equals("none")) {
-            frame.remove(a);
             move(true); 
+            frame.remove(a);
             return;
           }
           text.append("Please input a valid integer! \n");
           getMedQuan(q);
+          frame.remove(a);
         }
     });
   }
