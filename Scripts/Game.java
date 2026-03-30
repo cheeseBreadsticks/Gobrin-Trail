@@ -32,9 +32,9 @@ public class Game {
   private static Person g = new Person("Genly");
   private static Person es = new Person("Estraven");
   private static DecimalFormat df = new DecimalFormat("#.####");
+  private static boolean starve = false;
 
   private static double dtrav = 12.0;
-  private static final double distance = 840.0;
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
@@ -179,7 +179,6 @@ public class Game {
     text.append("Other: First Aid, Map, Backpack, Skis \n");
     text.append("Continue \n");
     text.append("Money: " + money + "\n");
-    text.append("Food: " + foodUnits + "\n");
     if (valid) {
       text.append("What would you like to buy?\n");
     } else {
@@ -272,8 +271,8 @@ public class Game {
   }
   
   public static void getQuant(Item i, String q, int p) {
-    text.append("\n");
     if (i.m()) {
+      text.append("\n");
       text.append("How many " + q + " " + i.getn() + " would you like to buy? \n");
       JTextField a = bob();
       a.addActionListener(e -> {
@@ -310,6 +309,7 @@ public class Game {
         purchaseItem(i, q, 1, p, false);
       }
       else {
+        text.append("\n");
         text.append("You do not have enough money to purchase that! \n");
         displayShop(true);
       }
@@ -726,10 +726,10 @@ public class Game {
   public static double terrain() {
     text.append("\n");
     double e = Math.random();
-    if (dtrav < 100) {
+    if (distanceleft > 740) {
       biome = "o";
     }
-    else if (dtrav < 640) {
+    else if (dtrav > 140) {
       if (biome.equals("o")) {
         text.append("You have made it onto the Gobrin Ice! \n");
       }
@@ -821,27 +821,36 @@ public class Game {
       if (c.toLowerCase().equals("food")) { 
         food();
         frame.remove(a);
+        return;
       }
       if (c.toLowerCase().equals("distance")) {
         distance();
         frame.remove(a);
+        return;
       }
       if (c.toLowerCase().equals("inventory")) {
         inventory();
         frame.remove(a);
+        return;
       }
       if (c.toLowerCase().equals("status")) {
         status();
         frame.remove(a);
+        return;
       }
       if (c.toLowerCase().equals("continue")) {
         text.append("You traveled " + Double.parseDouble(df.format(forward())) + " miles \n");
         text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
         foodUnits -= foodUse;
         frame.remove(a);
-        move(true);
         if (g.hp() <= 0 || es.hp() <= 0) {
           text.append("You have lost! One of your group members died. \n");
+        }
+        else if (distanceleft <= 0) {
+          text.append("You have won! You arrived in Kurkurast with both members alive. \n");
+        }
+        else {
+          move(true);
         }
       }
       else {
@@ -1181,9 +1190,18 @@ public class Game {
       }
     }
     else {
-      g.dmg(-10);
-      es.dmg(-10);
-      text.append("You have run out of food! \n");
+      if (!starve) {
+        g.dmg(-10);
+        es.dmg(-10);
+        text.append("You have run out of food! \n");
+        starve = true;
+      }
+      else {
+        text.append("You are starving.");
+        g.dmg((int)(0.5 * dtrav));
+        es.dmg((int)(0.5 * dtrav));
+        dtrav -= 3;
+      }
     }
     return dtrav;
   }
