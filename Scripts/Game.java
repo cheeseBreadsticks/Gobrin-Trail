@@ -342,11 +342,13 @@ public class Game {
     money -= quantity * price;
     if (!steal) {
       text.append("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
+      text.append("Would you like to purchase anything else? \n");
     }
     else {
       text.append("You stole " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
+      go();
+      //TODO: remove action listner? nick idk how to do this stuff pls teach me
     }
-    text.append("Would you like to purchase anything else? \n");
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
