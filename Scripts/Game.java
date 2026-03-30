@@ -33,6 +33,8 @@ public class Game {
   private static Person es = new Person("Estraven");
   private static DecimalFormat df = new DecimalFormat("#.####");
   private static boolean starve = false;
+  private static ImageIcon backe = new ImageIcon("../Assets/back.png");
+  private static JLabel back = new JLabel(backe);
 
   private static double dtrav = 12.0;
   private static double distanceleft = 840.0;
@@ -95,29 +97,6 @@ public class Game {
       count = old.size();
       text.setCaretPosition(text.getDocument().getLength());
     }); 
-    answer.addKeyListener(new KeyAdapter() {
-      public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-          if (count > 0) {
-            count --;
-            answer.setText(old.get(count));
-          }
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-          if (count == old.size() - 1) {
-            count ++;
-            answer.setText("");
-          }
-          if (count < old.size() - 1) {
-              count ++;
-              answer.setText(old.get(count));
-          }
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-          count = old.size();
-        }
-      }
-    });
     frame.add(answer);
     frame.repaint();
     frame.revalidate();
@@ -135,6 +114,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       if (c.toLowerCase().equals("genly")) {
         chara = "Genly";
         text.append(chara + " chosen \n");
@@ -188,6 +168,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       if (c.toLowerCase().equals("continue")) {
         shteal();
         frame.remove(a);
@@ -251,6 +232,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       if (c.toLowerCase().equals("good")) {
         getQuant(i, "Good", gopr);
         frame.remove(a);
@@ -278,6 +260,7 @@ public class Game {
       JTextField a = bob();
       a.addActionListener(e -> {
         c = a.getText();
+        a.setText("");
         int quant = 1;
         try {
           quant = Integer.parseInt(c);
@@ -320,6 +303,9 @@ public class Game {
   public static void purchaseItem(Item i, String quality, int quantity, int price, boolean steal) {
     text.append("\n");
     int coun = 0;
+    if (i.getn().toLowerCase().equals("map")) {
+      frame.setContentPane(back);
+    }
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().equals(i.getn())) {
         if (inventory.get(j).getqual().equals(quality)) {
@@ -347,33 +333,8 @@ public class Game {
     }
     else {
       text.append("You stole " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
-      go();
-      //TODO: remove action listner? nick idk how to do this stuff pls teach me
+      steal();
     }
-    JTextField a = bob();
-    a.addActionListener(e -> {
-      c = a.getText();
-      if (!steal) {
-        if (c.toLowerCase().equals("no")) {
-          shteal();
-          frame.remove(a);
-        }
-        else {
-          displayShop(true);
-          frame.remove(a);
-        }
-      }
-      else {
-        if (c.toLowerCase().equals("no")) {
-          go();
-          frame.remove(a);
-        }
-        else {
-          steal();
-          frame.remove(a);
-        }
-      }
-    });
   }
 
 //TODO: add karma
@@ -460,6 +421,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       if (c.toLowerCase().equals("yes")) {
         text.append("You sneak into the food shop in Turuf. \n");
         steal();
@@ -480,6 +442,7 @@ public class Game {
     a.addActionListener(e -> {
       Item it = null;
       c = a.getText();
+      a.setText("");
       c = c.toLowerCase();
       for (int i = 4; i < 8; i ++) {
         if (c.equals(shop[i].getn().toLowerCase())) {
@@ -518,6 +481,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       try { 
         p = Integer.parseInt(c);
         if (p <= 5 && p > 0) {
@@ -875,6 +839,7 @@ public class Game {
     text.append("Would you like to change how you're rationing? \n");
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       if (c.toLowerCase().equals("yes")) {
         ration(true);
         frame.remove(a);
@@ -896,6 +861,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       try {
         int x = Integer.parseInt(c);
         if (x < 5 && x > 0) {
@@ -924,6 +890,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       if (c.toLowerCase().equals("yes")) {
         dispose();
         frame.remove(a);
@@ -942,6 +909,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       for (int i = 0; i < inventory.size(); i ++) {
         if (inventory.get(i).getn().toLowerCase().equals(c.toLowerCase())) {
           for (int j = i + 1; j < inventory.size(); j ++) {
@@ -984,6 +952,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       for (int i = 0; i < inventory.size(); i ++) {
         if (s.equals(inventory.get(i).getn())) {
           if (c.toLowerCase().equals(inventory.get(i).getqual().toLowerCase())) {
@@ -1019,6 +988,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       if (c.toLowerCase().equals("none")) {
         inventory();
         frame.remove(a);
@@ -1076,7 +1046,7 @@ public class Game {
       text.append("Would you like to use any first aid kits? \n");
       a.addActionListener(e -> {
         c = a.getText();
-
+        a.setText("");
         if (c.toLowerCase().equals("yes")) {
           for (int i = 0; i < inventory.size(); i ++) {
             if (inventory.get(i).getn().equals("First Aid")) {
@@ -1107,6 +1077,7 @@ public class Game {
     text.append("What quality first aid kit would you like to use? \n");
     a.addActionListener(e -> {
       c = a.getText();
+      a.setText("");
       for (int i = 0; i < inventory.size(); i ++) {
         if (inventory.get(i).getn().equals("First Aid") && inventory.get(i).getqual().toLowerCase().equals(c.toLowerCase())) {
           if (inventory.get(i).getq() > 1) {
@@ -1138,6 +1109,7 @@ public class Game {
     JTextField a = bob();
     a.addActionListener(e -> {
         c = a.getText();
+        a.setText("");
         try {
             int amt = Integer.parseInt(c);
             for (int i = 0; i < inventory.size(); i ++) {
