@@ -82,7 +82,8 @@ public class Game {
       }
     });
     // replaced following code with a "lambda expression" (not sure why it works but it does and makes it simpler)
-    /*answer.addActionListener(new ActionListener() {
+    /*
+    answer.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         old.add(answer.getText());
         count = old.size();
@@ -375,6 +376,7 @@ public class Game {
     });
   }
 
+//TODO: add karma
   public static void shteal() {
     System.out.println(Arrays.deepToString(inventory.toArray()));
     int sto = 0;
@@ -846,7 +848,7 @@ public class Game {
         foodUnits -= foodUse;
         frame.remove(a);
         if (g.hp() <= 0 || es.hp() <= 0) {
-          text.append("You have lost! One of your group members died. \n");
+          text.append("\nYou have lost! One of your group members died. \n");
         }
         else if (distanceleft <= 0) {
           text.append("You have won! You arrived in Kurkurast with both members alive. \n");
