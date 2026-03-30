@@ -794,6 +794,7 @@ public class Game {
   //could add a "lost" event in flat light/snowstorm = more interactivity
   //option to start/stop rationing food = hunger pangs hindering decision making = higher lost chance as genly, slighly higer as estraven
   public static void go() {
+    text.append("\n");
     //start of journey, I didn't want to go from stealing right into journey, should be a little bit of in between
     for (int i = 0; i < inventory.size(); i ++) {
       if (inventory.get(i).getn().equals("Skis")) {
@@ -806,6 +807,7 @@ public class Game {
   }
   
   public static void move(boolean valid) {
+    text.append("\n");
     JTextField a = bob();
     if (!valid) {
       text.append("Please input one of the following, enter continue when ready to move on. \n");
@@ -857,6 +859,7 @@ public class Game {
   //can prob change how food works this is just the first system that came to mind
   //units will be easiest but others def possible
   public static void food() { 
+    text.append("\n");
     JTextField a = bob();
     text.append("You are currently consuming " + foodUse + " units  of food everyday. \n");
     text.append("Kadik-germ = 2 units, Gichy-michy = 1 unit, Breadapple = 3 units \n");
@@ -876,6 +879,7 @@ public class Game {
   }
   
   public static void ration(boolean val) {
+    text.append("\n");
     if (!val) {
       text.append("You can use a maximum of 4 food units a day, or a minimum of 1 food unit per day. \n");
       text.append("Using more or less will increase/decrease the distance you travel each day. \n");
@@ -904,6 +908,7 @@ public class Game {
   }
 
   public static void inventory() {
+    text.append("\n");
     text.append("You currently have: " + Arrays.deepToString(inventory.toArray()) + "\n");
     text.append("Would you like to dispose of anything? \n");
     JTextField a = bob();
@@ -916,6 +921,7 @@ public class Game {
   }
 
   public static void dispose() {
+    text.append("\n");
     text.append("What would you like to dispose (this is irreversible)? \n");
     text.append("Enter 'none' if you would not like to dispose of anything. \n");
     JTextField a = bob();
@@ -957,6 +963,7 @@ public class Game {
   }
 
   public static void getDropQual(String s) {
+    text.append("\n");
     text.append("What quality " + s + " would you like to dispose of? \n");
     JTextField a = bob();
     a.addActionListener(e -> {
@@ -991,6 +998,7 @@ public class Game {
   }
 
   public static void getDropQuan(String s, String q) {
+    text.append("\n");
     text.append("How much " + q + " " + s + " would you like to dispose? \n");
     JTextField a = bob();
     a.addActionListener(e -> {
@@ -1032,12 +1040,14 @@ public class Game {
   }
 
   public static void distance() {
+    text.append("\n");
     text.append("You are currenlty " + (840 - distanceleft) + " miles through your journey. \n");
     move(true);
   }
 
   //the if haskit part was originally in the first for loop, but they both had "i" as a counting var so i moved it out
   public static void status() {
+    text.append("\n");
     text.append(g.toString() + ", " + es.toString());
     JTextField a = bob();
     boolean hasKit = false;
@@ -1076,6 +1086,7 @@ public class Game {
   }
 
   public static void getMedQual() {
+    text.append("\n");
     JTextField a = bob();
     text.append("What quality first aid kit would you like to use? \n");
     a.addActionListener(e -> {
@@ -1105,6 +1116,7 @@ public class Game {
   }
 
   public static void getMedQuan(String q) {
+    text.append("\n");
     text.append("What quantity of " + q + " first aid kits would you like to use? \n");
     JTextField a = bob();
     a.addActionListener(e -> {
