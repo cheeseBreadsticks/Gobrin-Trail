@@ -132,18 +132,18 @@ public class Game {
         if (c.toLowerCase().equals("genly")) {
           chara = "Genly";
           text.append(chara + " chosen \n");
-          displayShop(true);
           frame.remove(a);
+          displayShop(true);
         }
         else if (c.toLowerCase().equals("estraven")) {
           chara = "Estraven";
           text.append(chara + " chosen \n");
-          displayShop(true);
           frame.remove(a);
+          displayShop(true);
         }
         else {
-          charSelect(false);
           frame.remove(a);
+          charSelect(false);
           return;
         }
       }
@@ -292,8 +292,8 @@ public class Game {
           }
           if (quant == 0) {
             text.append("You decide not to purchase any " + i.getn() + ". \n");
-            displayShop(true);
             frame.remove(a);
+            displayShop(true);
             return;
           }
           if (money >= (p * quant)) {
@@ -361,8 +361,8 @@ public class Game {
             frame.remove(a);
           }
           else {
-            displayShop(true);
             frame.remove(a);
+            displayShop(true);
           }
         }
         else {
@@ -837,15 +837,22 @@ public class Game {
         if (c.toLowerCase().equals("food")) { 
           food();
           frame.remove(a);
+          return;
         }
         if (c.toLowerCase().equals("distance")) {
           distance();
+          frame.remove(a);
+          return;
         }
         if (c.toLowerCase().equals("inventory")) {
           inventory();
+          frame.remove(a);
+          return;
         }
         if (c.toLowerCase().equals("status")) {
           status();
+          frame.remove(a);
+          return;
         }
         if (c.toLowerCase().equals("continue")) {
           text.append("You traveled " + Double.parseDouble(df.format(Double.toString(forward()))) + " miles \n");
@@ -856,7 +863,6 @@ public class Game {
           if (g.hp() <= 0 || es.hp() <= 0) {
             text.append("You have lost! One of your group members died. \n");
             a.setEditable(false);
-            return;
           }
         }
         else {
