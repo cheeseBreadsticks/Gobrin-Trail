@@ -825,20 +825,23 @@ public class Game {
         a.setEditable(false);
       }
       if (c.toLowerCase().equals("food")) { 
-        food();
         frame.remove(a);
+        food();
       }
       if (c.toLowerCase().equals("distance")) {
+        frame.remove(a);
         distance();
       }
       if (c.toLowerCase().equals("inventory")) {
+        frame.remove(a);
         inventory();
       }
       if (c.toLowerCase().equals("status")) {
+        frame.remove(a);
         status();
       }
       if (c.toLowerCase().equals("continue")) {
-        text.append("You traveled " + Double.parseDouble(df.format(Double.toString(forward()))) + " miles \n");
+        text.append("You traveled " + Double.parseDouble(df.format(forward())) + " miles \n");
         text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
         foodUnits -= foodUse;
         frame.remove(a);
@@ -847,10 +850,6 @@ public class Game {
           text.append("You have lost! One of your group members died. \n");
           a.setEditable(false);
           return;
-        }
-        else {
-          move(false);
-          frame.remove(a);
         }
       }
       else {
@@ -1037,8 +1036,8 @@ public class Game {
           text.append("Soemthing messed up :( \n");
       } catch (NumberFormatException z) {
         text.append("Please input a valid integer. \n");
-        getDropQuan(s, q);
         frame.remove(a);
+        getDropQuan(s, q);
       }
     });
   }
