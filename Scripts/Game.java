@@ -133,7 +133,6 @@ public class Game {
       }
     });
   }
-  //TODO figure out what tent sleeping bags and storage stuff (sledge backpack) will do
     // text.append(" ____________ _____________ ____________ _______________ __________\n");
     // text.append("| Specialty: |    Stove    |    Tent    | Sleeping Bags |  Sledge  |\n");
     // text.append(" ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ‾‾‾‾‾‾‾‾‾‾ \n");
@@ -337,7 +336,8 @@ public class Game {
     }
   }
 
-//TODO: add karma
+//TODO: add karma/
+//broooooo idk abt that like wdym
   public static void shteal() {
     System.out.println(Arrays.deepToString(inventory.toArray()));
     int sto = 0;
@@ -1141,6 +1141,38 @@ public class Game {
   }
 
   public static double forward() { //game forward
+    boolean tent = false;
+    boolean sb = false;
+    for (int i = 0; i < inventory.size(); i ++) {
+      if (inventory.get(i).getn().toLowerCase().equals("sledge")) {
+        if (inventory.get(i).getqual().toLowerCase().equals("good")) {
+          dtrav += 2;
+        }
+        else if (inventory.get(i).getqual().toLowerCase().equals("okay")) {
+          dtrav += 1;
+        }
+        else if (inventory.get(i).getqual().toLowerCase().equals("bad")) {
+          dtrav += 0.5;
+        }
+      }
+      if (inventory.get(i).getn().toLowerCase().equals("backpack")) {
+        if (inventory.get(i).getqual().toLowerCase().equals("good")) {
+          dtrav += inventory.get(i).getq();
+        }
+        else if (inventory.get(i).getqual().toLowerCase().equals("okay")) {
+          dtrav += (inventory.get(i).getq() * 0.5);
+        }
+        else if (inventory.get(i).getqual().toLowerCase().equals("bad")) {
+          dtrav += (inventory.get(i).getq() * 0.25);
+        }
+      }
+      if (inventory.get(i).getn().toLowerCase().equals("tent")) {
+        tent = true;
+      }
+      if (inventory.get(i).getn().toLowerCase().equals("sbags")) {
+        sb = true;
+      }
+    }
     dtrav = standTravel;
     dtrav += terrain();
     g.dmg((int)(dtrav));
@@ -1178,6 +1210,15 @@ public class Game {
         es.dmg((int)(0.5 * dtrav));
         dtrav -= 3;
       }
+    }
+    if (!tent) {
+      text.append("Without a tent, you freeze in the cold night.");
+      es.dmg(50);
+      g.dmg(50);
+    }
+    if (sb) {
+      g.dmg(-10);
+      es.dmg(-10);
     }
     return dtrav;
   }
