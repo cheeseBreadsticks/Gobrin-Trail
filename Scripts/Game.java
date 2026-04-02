@@ -93,8 +93,6 @@ public class Game {
       }
     });  */
     answer.addActionListener(e -> {
-      old.add(answer.getText());
-      count = old.size();
       text.setCaretPosition(text.getDocument().getLength());
     }); 
     frame.add(answer);
@@ -119,18 +117,16 @@ public class Game {
         chara = "Genly";
         text.append(chara + " chosen \n");
         displayShop(true);
-        frame.remove(a);
       }
       else if (c.toLowerCase().equals("estraven")) {
         chara = "Estraven";
         text.append(chara + " chosen \n");
         displayShop(true);
-        frame.remove(a);
       }
       else {
         charSelect(false);
-        frame.remove(a);
       }
+      frame.remove(a);
     });
   }
     // text.append(" ____________ _____________ ____________ _______________ __________\n");
@@ -175,8 +171,8 @@ public class Game {
       }
       if (!c.equals("")) {
         findProduct(c);
-        frame.remove(a);
       }
+      frame.remove(a);
     });
   }
 
@@ -202,7 +198,9 @@ public class Game {
       if (p.equals("continue")) {
         shteal();
       }
-      displayShop(false);
+      else {
+        displayShop(false);
+      }
     }
     else {
       if (!it.m()) {
@@ -214,8 +212,11 @@ public class Game {
             return;
           }
         }
+        dispPrice(it.getc(), it);
       }
-      dispPrice(it.getc(), it);
+      else {
+        dispPrice(it.getc(), it);
+      }
     }
   }
 
@@ -234,21 +235,18 @@ public class Game {
       a.setText("");
       if (c.toLowerCase().equals("good")) {
         getQuant(i, "Good", gopr);
-        frame.remove(a);
       }
       else if (c.toLowerCase().equals("okay")) {
         getQuant(i, "Okay", pric);
-        frame.remove(a);
       }
       else if (c.toLowerCase().equals("bad")) {
         getQuant(i, "Bad", bapr);
-        frame.remove(a);
       }
       else {
         text.append("Please input a valid quality \n");
         dispPrice(price, i);
-        frame.remove(a);
       }
+      frame.remove(a);
     });
   }
   
@@ -306,14 +304,12 @@ public class Game {
       frame.setContentPane(back);
     }
     for (int j = 0; j < inventory.size(); j ++) {
-      if (inventory.get(j).getn().equals(i.getn())) {
+      if (inventory.get(j).getn().toLowerCase().equals(i.getn().toLowerCase())) {
         if (inventory.get(j).getqual().equals(quality)) {
           inventory.get(j).setq(inventory.get(j).getq() + quantity);
         }
         else {
-          inventory.add(i);
-          i.setq(quantity);
-          i.q(quality);
+          coun ++;
         }
       }
       else {
@@ -325,10 +321,10 @@ public class Game {
       i.setq(quantity);
       i.q(quality);
     }
-    money -= quantity * price;
+    money -= (quantity * price);
     if (!steal) {
       text.append("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
-      text.append("Would you like to purchase anything else? \n");
+      displayShop(true);
     }
     else {
       text.append("You stole " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
