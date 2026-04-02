@@ -27,7 +27,7 @@ public class Item {
 		return quality;
 	}
 	public String toString() {
-		return quality + " " + name + ": " + cost;
+		return quantity + "x " + quality + " " + name + ": " + cost;
 	}
 	public void setq(int q) {
 		quantity = q;

@@ -35,6 +35,7 @@ public class Game {
   private static boolean starve = false;
   private static ImageIcon backe = new ImageIcon("../Assets/back.png");
   private static JLabel back = new JLabel(backe);
+  private static JScrollPane hold = new JScrollPane(text);
 
   private static double dtrav = 12.0;
   private static double distanceleft = 840.0;
@@ -43,16 +44,11 @@ public class Game {
 
   public static void start() {
     //vis
-    JScrollPane hold = new JScrollPane(text);
-    // ImageIcon back = new ImageIcon("../Assets/back.png");
-    // JLabel backe = new JLabel(back);
     frame.setSize(1470, 920);
-    //frame.setContentPane(backe);
     frame.setLayout(null);
-    frame.setUndecorated(true);
     frame.setVisible(true);
     text.setEditable(false);
-    hold.setBounds(235, 85, 1000, 650);
+    hold.setBounds(235, 135, 1000, 650);
     text.setFont(font);
     text.setLineWrap(true);
     frame.add(hold);
@@ -68,7 +64,7 @@ public class Game {
 
   public static JTextField bob() {  //this makes the JTextFields and prints them, idk why I named it bob
     JTextField answer = new JTextField();
-    answer.setBounds(232, 730, 1006,35);
+    answer.setBounds(232, 780, 1006,35);
     answer.setFont(font);
     answer.setText("Type responses here: ");
     answer.addFocusListener(new FocusListener() {
@@ -301,7 +297,9 @@ public class Game {
     text.append("\n");
     int coun = 0;
     if (i.getn().toLowerCase().equals("map")) {
+      frame.remove(hold);
       frame.setContentPane(back);
+      frame.add(hold);
     }
     for (int j = 0; j < inventory.size(); j ++) {
       if (inventory.get(j).getn().toLowerCase().equals(i.getn().toLowerCase())) {
@@ -457,7 +455,7 @@ public class Game {
         frame.remove(a);
       }
       else {
-        if (c.equals("continue")) {
+        if (c.toLowerCase().equals("leave")) {
           text.append("Cutting your losses, you leave with your loot. \n");
           go();
           frame.remove(a);
@@ -1064,6 +1062,10 @@ public class Game {
           frame.remove(a);
         }
       });
+    }
+    else {
+      move(true);
+      frame.remove(a);
     }
   }
 
