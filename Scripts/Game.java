@@ -23,7 +23,7 @@ public class Game {
   private static String chara;
   private static int p;
   private static ArrayList<String> old = new ArrayList<String>();
-  private static int count = 0;
+  private static int count, karma = 0;
   private static int mapQuality = -1;
   private static int standTravel = 13; //standard travel amt per day, can change based on how the players ration or their health
   private static int foodUse = 2;
@@ -321,11 +321,23 @@ public class Game {
     }
     money -= (quantity * price);
     if (!steal) {
-      text.append("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
+      text.append("You purchased " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn());
+      if (quantity > 1) {
+        text.append("s. \n");
+      }
+      if (quantity == 1) {
+        text.append(". \n");
+      }
       displayShop(true);
     }
     else {
-      text.append("You stole " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn() + "(s). \n");
+      text.append("You stole " + quantity + " " + UsefulMethods.capitalize(quality) + " " + i.getn());
+      if (quantity > 1) {
+        text.append("s. \n");
+      }
+      if (quantity == 1) {
+        text.append(". \n");
+      }
       steal();
     }
   }
@@ -418,6 +430,7 @@ public class Game {
       a.setText("");
       if (c.toLowerCase().equals("yes")) {
         text.append("You sneak into the food shop in Turuf. \n");
+        karma -= 10;
         steal();
         frame.remove(a);
       }
@@ -479,6 +492,9 @@ public class Game {
       try { 
         p = Integer.parseInt(c);
         if (p <= 5 && p > 0) {
+          for (int j = 0; j < p; j ++) {
+            karma -= ((p - j) * 10 * Math.random());
+          }
           double d = (Math.random() * p);
           if (d <= (Math.pow(1.1, p))) {
             purchaseItem(i,"Okay",p,0, true);
@@ -487,6 +503,7 @@ public class Game {
           else {
             text.append("While trying to steal the " + i.getn() + " you drop some and make a stir. \n");
             text.append("Not wanting to get caught, you cut your losses and ski back to camp. \n");
+            // TODO: only labeled as todo so you might see it, should we add you get some stuff you try to steal (random?)
             go();
             frame.remove(a);
           }
