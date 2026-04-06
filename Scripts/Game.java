@@ -149,7 +149,7 @@ public class Game {
     text.append("Specialties: Stove, Tent, Sleeping Bags, Sledge \n");
     text.append("Food: Gichy-michy, Kadik-germ, Breadapple, Orsh \n");
     text.append("Other: First Aid, Map, Backpack, Skis \n");
-    text.append("Continue \n");
+    text.append("Leave \n");
     text.append("Money: " + money + "\n");
     if (valid) {
       text.append("What would you like to buy?\n");
@@ -160,7 +160,7 @@ public class Game {
     a.addActionListener(e -> {
       c = a.getText();
       a.setText("");
-      if (c.toLowerCase().equals("continue")) {
+      if (c.toLowerCase().equals("leave")) {
         shteal();
         frame.remove(a);
         return;
@@ -191,7 +191,7 @@ public class Game {
       it = shop[8];
     }
     if (it == null) {
-      if (p.equals("continue")) {
+      if (p.equals("leave")) {
         shteal();
       }
       else {
@@ -225,6 +225,7 @@ public class Game {
     text.append("Good Quality: " + gopr + "\n");
     text.append("Okay Quality: " + pric + "\n");
     text.append("Bad Quality: " + bapr + "\n");
+    text.append("Leave \n");
     JTextField a = bob();
     a.addActionListener(e -> {
       c = a.getText();
@@ -237,6 +238,9 @@ public class Game {
       }
       else if (c.toLowerCase().equals("bad")) {
         getQuant(i, "Bad", bapr);
+      }
+      else if (c.toLowerCase().equals("leave")) {
+        displayShop(true);
       }
       else {
         text.append("Please input a valid quality \n");
