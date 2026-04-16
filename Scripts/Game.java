@@ -826,8 +826,18 @@ public class Game {
         text.append("Disasters: " + Arrays.deepToString(activeDisasters.toArray()));
         foodUnits -= foodUse;
         frame.remove(a);
-        if (g.hp() <= 0 || es.hp() <= 0) {
-          text.append("\nYou have lost! One of your group members died. \n");
+        if (g.hp() <= 0 && es.hp() <= 0) {
+          text.append("\nYou have lost! Both members of your party have died. \n");
+        }
+        else if (g.hp() <= 0 && !g.isDead()) {
+          text.append("\nGenly has died. \n");
+          g.changeDeathState(true);
+          move(true);
+        }
+        else if (es.hp() <=0 && !es.isDead()) {
+          text.append("\nEstraven has died. \n");
+          es.changeDeathState(true);
+          move(true);
         }
         else if (distanceleft <= 0) {
           text.append("You have won! You arrived in Kurkurast with both members alive. \n");
@@ -1226,7 +1236,8 @@ public class Game {
       else {
         text.append("You are starving.");
         g.dmg((int)(0.5 * dtrav));
-        es.dmg((int)(0.5 * dtrav));
+        //estraven better at fasting = survives more?
+        es.dmg((int)(0.25 * dtrav));
         dtrav -= 3;
       }
     }
