@@ -832,15 +832,33 @@ public class Game {
         else if (g.hp() <= 0 && !g.isDead()) {
           text.append("\nGenly has died. \n");
           g.changeDeathState(true);
+          karma -= 100;
           move(true);
         }
         else if (es.hp() <=0 && !es.isDead()) {
           text.append("\nEstraven has died. \n");
           es.changeDeathState(true);
+          karma -= 100;
           move(true);
         }
         else if (distanceleft <= 0) {
-          text.append("You have won! You arrived in Kurkurast with both members alive. \n");
+          if (g.isDead() || es.isDead()) {
+            text.append("You have won, but at what cost? ");
+            if (g.isDead()) {
+              text.append("Genly is dead, his mission failed. \n");
+            } else {
+              text.append("Estraven is dead, and it's all your fault. \n");
+            }
+          } else if (karma >= 100) {
+            text.append("You have won! You arrived in Kurkurast with both members alive. \n");
+            text.append("Everyone seems more favorably disposed to you, but you arent sure why. \n");
+          } else if (karma >= 0) {
+            text.append("You have won! You arrived in Kurkurast with both members alive. \n");
+          } else if (karma >= -100) {
+            text.append("You arrived at Kurkurast. Although no one said anything, you sense the locals' animosity towards you through their sidelong glances. \n");
+          } else {
+            text.append("As soon as you entered Kurkurast, you were arrested. Although you were not told why, you remember all of the crimes you committed to complete your journey. \n");
+          }
         }
         else {
           move(true);
