@@ -41,7 +41,7 @@ public class Game {
   private static double distanceleft = 840.0;
   private static String biome = "o"; //o = orgoreyn, i = ice, b = bay of Guthen
   private static ArrayList<String> activeDisasters = new ArrayList<String>();
-
+  //region Setup 
   public static void start() {
     //vis
     frame.setSize(1470, 920);
@@ -96,6 +96,7 @@ public class Game {
     frame.revalidate();
     return answer;
 }
+  //endregion
 
   public static void charSelect(boolean valid) {
     text.append("\n");
@@ -143,6 +144,7 @@ public class Game {
   //in story Estraven bought good qual everything & stole food
   //gichy-michy req 1lb/day
 
+  //region Shop
   public static void displayShop(boolean valid) {
     text.append("\n");
     text.append("Welcome to the shop! Here are the items available for purchase:\n");
@@ -345,9 +347,9 @@ public class Game {
       steal();
     }
   }
-
-//TODO: add karma/
-//broooooo idk abt that like wdym
+  //endregion
+  
+  //region Steal
   public static void shteal() {
     System.out.println(Arrays.deepToString(inventory.toArray()));
     int sto = 0;
@@ -524,7 +526,9 @@ public class Game {
       }
     });
   }
+  //endregion
 
+  //region Travel
   public static double changeDistMult(double disasterMult) {
     text.append("\n");
     //I think this is necessary but should discuss
@@ -761,7 +765,8 @@ public class Game {
     }
     return 0.0;
   }
-
+  //endregion
+  
   public static void main(String[] args) {
     start();
   }
