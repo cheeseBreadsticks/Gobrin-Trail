@@ -9,6 +9,9 @@ import java.util.*;
 import javax.swing.*;
 
 public class Game {
+  // TODO: fix orsh not contributing to food amount
+  // TODO: fix stealing deleting food
+
   //making items so its easier to print stuff out and such just a bunch of variables
   //bool is stackable or not, //i think bags and skis you just auto buy for both, (Gichy-michy) //25 per pound, 80 days, 2000 money for all the food you need, (breadapple) //maybe more expensive but this makes them happy or smth, (first aid kit) //maybe add stack limit?, (map) //good map reduces chance of getting lost, bad map increases it, (orsh) //seems to have like healing properties, so maybe more expensive?
   //i changed it to array to look better
@@ -766,7 +769,7 @@ public class Game {
     return 0.0;
   }
   //endregion
-  
+
   public static void main(String[] args) {
     start();
   }
